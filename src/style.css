@@ -1,0 +1,281 @@
+/* reset - - - -  */
+/* typescale */
+/* @link https://utopia.fyi/type/calculator?c=384,16,1.2,1152,21,1.333,6,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,2xs-m|l-3xl */
+:root {
+  --step--1: clamp(0.98rem, calc(0.76rem + 0.32vw), 0.83rem);
+  --step-0: clamp(1rem, calc(0.84rem + 0.65vw), 1.31rem);
+  --step-1: clamp(1.2rem, calc(0.93rem + 1.14vw), 1.75rem);
+  --step-2: clamp(1.44rem, calc(0.99rem + 1.86vw), 2.33rem);
+  --step-3: clamp(1.73rem, calc(1.04rem + 2.88vw), 3.11rem);
+  --step-4: clamp(2.07rem, calc(1.04rem + 4.31vw), 4.14rem);
+  --step-5: clamp(2.49rem, calc(0.97rem + 6.32vw), 5.52rem);
+  --step-6: clamp(2.99rem, calc(0.8rem + 9.12vw), 7.36rem);
+  --step-7: clamp(3.58rem, calc(0.47rem + 12.98vw), 9.82rem);
+}
+/* space scale */
+/* @link https://utopia.fyi/space/calculator?c=384,16,1.2,1152,21,1.333,4,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,2xs-m|l-3xl */
+:root {
+  --space-3xs: clamp(0.25rem, calc(0.22rem + 0.13vw), 0.31rem);
+  --space-2xs: clamp(0.5rem, calc(0.41rem + 0.39vw), 0.69rem);
+  --space-xs: clamp(0.75rem, calc(0.63rem + 0.52vw), 1rem);
+  --space-s: clamp(1rem, calc(0.84rem + 0.65vw), 1.31rem);
+  --space-m: clamp(1.5rem, calc(1.25rem + 1.04vw), 2rem);
+  --space-l: clamp(2rem, calc(1.69rem + 1.3vw), 2.63rem);
+  --space-xl: clamp(3rem, calc(2.53rem + 1.95vw), 3.94rem);
+  --space-2xl: clamp(4rem, calc(3.38rem + 2.6vw), 5.25rem);
+  --space-3xl: clamp(6rem, calc(5.06rem + 3.91vw), 7.88rem);
+
+  /* One-up pairs */
+  --space-3xs-2xs: clamp(0.25rem, calc(0.03rem + 0.91vw), 0.69rem);
+  --space-2xs-xs: clamp(0.5rem, calc(0.25rem + 1.04vw), 1rem);
+  --space-xs-s: clamp(0.75rem, calc(0.47rem + 1.17vw), 1.31rem);
+  --space-s-m: clamp(1rem, calc(0.5rem + 2.08vw), 2rem);
+  --space-m-l: clamp(1.5rem, calc(0.94rem + 2.34vw), 2.63rem);
+  --space-l-xl: clamp(2rem, calc(1.03rem + 4.04vw), 3.94rem);
+  --space-xl-2xl: clamp(3rem, calc(1.88rem + 4.69vw), 5.25rem);
+  --space-2xl-3xl: clamp(4rem, calc(2.06rem + 8.07vw), 7.88rem);
+
+  /* Custom pairs */
+  --space-2xs-m: clamp(0.5rem, calc(-0.25rem + 3.13vw), 2rem);
+  --space-l-3xl: clamp(2rem, calc(-0.94rem + 12.24vw), 7.88rem);
+}
+/* colors */
+:root {
+  --hue: 30;
+  --hue-offset: 25;
+
+  --col-blk: calc(var(--hue)) 20% 20%;
+  --col-wht: calc(var(--hue)) 20% 97.5%;
+
+  --col-primary: var(--hue) 95% 68%;
+  --col-secondary: calc(var(--hue) - var(--hue-offset) * 0.5) 50% 80%;
+  --col-ternary: calc(var(--hue) - var(--hue-offset) * -2.25) 85% 70%;
+  --col-quadrary: calc(var(--hue) - var(--hue-offset) * 2.2) 55% 50%;
+}
+/* transition */
+:root {
+  --transition-timing-mud: cubic-bezier(0.1, 0, 0.2, 2);
+  --transition-timing-pillow: cubic-bezier(0.2, 2, 0.3, 0.8);
+
+  --page-transition-duration: 175ms;
+}
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+button {
+  cursor: pointer;
+  border-style: solid;
+  border-color: transparent;
+  background-color: transparent;
+}
+ol,
+ul {
+  list-style: none;
+}
+img,
+video,
+svg {
+  max-width: 100%;
+  display: block;
+}
+svg {
+  fill: currentColor;
+}
+a {
+  color: currentColor;
+}
+body,
+html {
+  height: 100%;
+}
+html {
+  background-color: hsl(var(--col-wht));
+  padding: 0.5rem;
+}
+body {
+  display: grid;
+  /* padding: 0.25rem; */
+  border-radius: 6px;
+  color: hsl(var(--col-blk));
+  line-height: 1.5;
+  font-size: var(--step-1);
+
+  font-family: Arial, Helvetica, sans-serif;
+  border-radius: 8px;
+
+  background-color: hsl(var(--col-blk) / 0.02);
+  box-shadow: 0 0 2px 0 inset hsl(var(--col-wht) / 1),
+    0 0 4px 1px inset hsl(var(--col-primary) / 0.1),
+    0 0 8px 3px inset hsl(var(--col-blk) / 0.05);
+}
+
+/* reset - - - -  */
+
+/* prose */
+:where(h1, h2, h3) {
+  line-height: 1;
+}
+.prose:where(h1, h2, h3) {
+  margin-bottom: 0.5em;
+}
+h1 {
+  font-size: var(--step-7);
+}
+h2 {
+  font-size: var(--step-4);
+}
+:where(h1, h2) {
+}
+h3 {
+  font-size: var(--step-2);
+}
+
+hr {
+  --flow-gap: 2rem;
+  margin-top: var(--flow-gap, 1rem);
+  margin-bottom: var(--flow-gap, 1rem);
+}
+
+/* nav - -  */
+site-nav {
+  /* viewport dependent */
+  grid-row: 2;
+  grid-column: 2;
+  align-self: flex-end;
+  justify-self: flex-end;
+
+  z-index: 100;
+  width: max-content;
+  height: max-content;
+
+  margin: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+}
+site-nav ul {
+  padding: 0.75rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  line-height: 1;
+  transition-property: transform, opacity;
+  transition-duration: 125ms;
+  transition-timing-function: var(--transition-timing-mud);
+
+  border-radius: 6px;
+  box-shadow: 0 0 12px 0 hsl(var(--col-blk) / 0.2);
+}
+site-nav button {
+  /* viewport dependent */
+  order: 1;
+  align-self: flex-end;
+}
+site-nav[state="open"] ul {
+  transform: translateY(0);
+  opacity: 1;
+}
+site-nav[state="close"] ul {
+  transform: translateY(4px);
+  opacity: 0;
+  pointer-events: none;
+}
+site-nav[state="open"] + main {
+  pointer-events: none;
+}
+
+site-nav[state="open"] + main {
+  filter: blur(4px) grayscale(0.25) brightness(1.25);
+}
+
+site-nav a[aria-current="page"] {
+  color: hsl(var(--col-primary));
+}
+
+/* main - -  */
+main {
+  grid-row: 1/3;
+  grid-column: 1/3;
+
+  padding: 1rem;
+  padding-top: 3rem;
+
+  height: 100%;
+  width: 100%;
+
+  overflow-y: scroll;
+
+  display: grid;
+
+  grid-template-columns: 1fr auto;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  position: relative;
+
+  contain: layout;
+
+  will-change: opacity, transform;
+}
+
+/* media query */
+@media (min-width: 512px) {
+  /* nav alignment */
+  site-nav {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: flex-start;
+    justify-self: flex-start;
+  }
+
+  site-nav[state="close"] ul {
+    transform: translateY(-4px);
+  }
+  site-nav button {
+    order: 0;
+    align-self: flex-start;
+  }
+}
+
+/* page transition  */
+.slideIn,
+.slideOut {
+  animation-duration: var(--page-transition-duration);
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+}
+.slideIn {
+  transform: translateY(-5%);
+  opacity: 0;
+  animation-name: slideIn;
+  animation-delay: var(--page-transition-duration);
+}
+.slideOut {
+  animation-name: slideOut;
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(-1.5%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    transform: translateX(0%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(3.5%);
+    opacity: 0;
+  }
+}

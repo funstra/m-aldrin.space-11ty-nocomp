@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "dev": "npx @11ty/eleventy --incremental --serve",
+    "build": "NODE_ENV=production npx @11ty/eleventy"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^2.0.0-canary.11",
+    "csso": "^5.0.3",
+    "html-minifier-terser": "^7.0.0-alpha.2",
+    "terser": "^5.13.1"
+  }
+}

@@ -1,0 +1,22 @@
+<site-nav state="close" current-route="{{page.fileSlug}}">
+    <button>
+        <svg width="1rem" viewBox="0 0 16 40" style="pointer-events: none">
+            <g fill="currentColor">
+                <circle cx="8" cy="8" r="4"/>
+                <circle cx="8" cy="20" r="4"/>
+                <circle cx="8" cy="32" r="4"/>
+            </g>
+        </svg>
+    </button>
+    <ul>
+        <li>
+            <a href="/" {{'aria-current=page' if page.fileSlug == ""}}>home</a>
+        </li>
+        <li>
+            <a href="/work/" {{'aria-current=page' if page.fileSlug == "work"}}>work</a>
+        </li>
+        <li>
+            <a href="/about/" {{'aria-current=page' if page.fileSlug == "about"}}>about</a>
+        </li>
+    </ul>
+</site-nav>

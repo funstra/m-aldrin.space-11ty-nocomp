@@ -1,0 +1,80 @@
+<script>
+  const mNav = document.querySelector("site-nav");
+  //   handle button click
+  mNav.querySelector("button").onclick = e => {
+    e.stopPropagation();
+    let state = mNav.getAttribute("state");
+    mNav.setAttribute("state", state === "close" ? "open" : "close");
+  };
+  //   clickoutside callback
+  const clickOutside = e => {
+    if (e.target !== mNav.querySelector("ul")) {
+      mNav.setAttribute("state", "close");
+    }
+  };
+  //   Handle tab focus of nav links
+  let currentFocus = null;
+  const tabFocus = e => {
+    //   on escape set state of mNav and blur current focus
+    if (e.key === "Escape" || e.key === "Enter") {
+      mNav.setAttribute("state", "close");
+      currentFocus.querySelector("a")?.click();
+      currentFocus.querySelector("a")?.blur();
+      currentFocus = null;
+    }
+    if (e.key === "Tab") {
+      e.preventDefault();
+      if (!e.shiftKey) {
+        //   go to next or first
+        if (!currentFocus || !currentFocus.nextElementSibling) {
+          currentFocus = mNav.querySelector("ul li:first-child");
+          currentFocus.querySelector("a").focus();
+        } else {
+          currentFocus = currentFocus.nextElementSibling;
+          currentFocus.querySelector("a").focus();
+        }
+      } else {
+        //   got to previous or last
+        if (!currentFocus || !currentFocus.previousElementSibling) {
+          currentFocus = mNav.querySelector("ul li:last-child");
+          currentFocus.querySelector("a").focus();
+        } else {
+          currentFocus = currentFocus.previousElementSibling;
+          currentFocus.querySelector("a").focus();
+        }
+      }
+    }
+  };
+  const observer = new MutationObserver((mutationlist, observer) => {
+    for (const attr of mutationlist) {
+      //   Watch for attribute change on state attribute
+      switch (attr.attributeName) {
+        case "state":
+          let state = mNav.getAttribute("state");
+          if (state === "open") {
+            document.addEventListener("click", clickOutside);
+            document.addEventListener("keydown", tabFocus);
+          } else {
+            document.removeEventListener("click", clickOutside);
+            document.removeEventListener("keydown", tabFocus);
+          }
+          break;
+        //   Watch for attribute change on current-route attribute
+        case "current-route":
+          mNav.querySelectorAll("ul li a").forEach(a => {
+            console.log(mNav.getAttribute("current-route"));
+            console.log(a.pathname);
+            console.log(mNav.getAttribute("current-route") === a.pathname);
+            if (a.pathname === mNav.getAttribute("current-route")) {
+              a.setAttribute("aria-current", "page");
+              console.log("yes");
+            } else {
+              a.removeAttribute("aria-current");
+            }
+          });
+          break;
+      }
+    }
+  });
+  observer.observe(mNav, { attributeFilter: ["state", "current-route"] });
+</script>
