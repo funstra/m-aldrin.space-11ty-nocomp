@@ -41,16 +41,20 @@
 }
 /* colors */
 :root {
-  --hue: 30;
-  --hue-offset: 25;
+  --hue: 50;
+  --hue-offset: 1.5;
 
-  --col-blk: calc(var(--hue)) 20% 20%;
+  --col-blk: calc(var(--hue)) 30% 20%;
   --col-wht: calc(var(--hue)) 20% 97.5%;
 
-  --col-primary: var(--hue) 95% 68%;
-  --col-secondary: calc(var(--hue) - var(--hue-offset) * 0.5) 50% 80%;
-  --col-ternary: calc(var(--hue) - var(--hue-offset) * -2.25) 85% 70%;
-  --col-quadrary: calc(var(--hue) - var(--hue-offset) * 2.2) 55% 50%;
+  --col-primary: var(--hue) 85% 50%;
+  --col-secondary: calc(var(--hue) * var(--hue-offset)) 85% 70%;
+  --col-ternary: calc(var(--hue) * var(--hue-offset) * var(--hue-offset)) 80%
+    75%;
+  --col-quadrary: calc(
+      var(--hue) * var(--hue-offset) * var(--hue-offset) * var(--hue-offset)
+    )
+    90% 60%;
 }
 /* transition */
 :root {
@@ -69,6 +73,7 @@ button {
   border-style: solid;
   border-color: transparent;
   background-color: transparent;
+  color: currentColor;
 }
 ol,
 ul {
@@ -85,6 +90,40 @@ svg {
 }
 a {
   color: currentColor;
+  text-decoration: none;
+}
+a:focus {
+  outline: none;
+}
+a span {
+  position: relative;
+}
+a:is(:hover, :focus) span::after {
+  height: 30%;
+}
+a span::after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background-color: hsl(var(--col-secondary));
+  z-index: -1;
+}
+button:focus {
+  position: relative;
+  outline: none;
+  color: hsl(var(--col-primary));
+} 
+button::after {
+  position: absolute;
+  content: "";
+  width: 4px;
+  height: 100%;
+  top: 0;
+  right: -4px;
+  background-color: hsl(var(--col-secondary));
 }
 body,
 html {
@@ -189,7 +228,7 @@ site-nav[state="open"] + main {
 }
 
 site-nav[state="open"] + main {
-  filter: blur(4px) grayscale(0.25) brightness(1.25);
+  filter: blur(4px) grayscale(0.25) brightness(1.05);
 }
 
 site-nav a[aria-current="page"] {

@@ -1,5 +1,13 @@
 <script>
   const mNav = document.querySelector("site-nav");
+  mNav.querySelectorAll("ul li").forEach(li => {
+    li.onmouseenter = e => {
+      const { target } = e;
+      target.querySelector("a");
+      currentFocus?.querySelector("a")?.blur();
+      currentFocus = target;
+    };
+  });
   //   handle button click
   mNav.querySelector("button").onclick = e => {
     e.stopPropagation();
@@ -15,15 +23,19 @@
   //   Handle tab focus of nav links
   let currentFocus = null;
   const tabFocus = e => {
+    if (!currentFocus && e.key === "Enter") return;
     //   on escape set state of mNav and blur current focus
     if (e.key === "Escape" || e.key === "Enter") {
       mNav.setAttribute("state", "close");
-      currentFocus.querySelector("a")?.click();
+      if (e.key === "Enter") {
+        currentFocus.querySelector("a")?.click();
+      }
       currentFocus.querySelector("a")?.blur();
       currentFocus = null;
     }
     if (e.key === "Tab") {
       e.preventDefault();
+      currentFocus?.querySelector("a")?.blur();
       if (!e.shiftKey) {
         //   go to next or first
         if (!currentFocus || !currentFocus.nextElementSibling) {
@@ -62,12 +74,8 @@
         //   Watch for attribute change on current-route attribute
         case "current-route":
           mNav.querySelectorAll("ul li a").forEach(a => {
-            console.log(mNav.getAttribute("current-route"));
-            console.log(a.pathname);
-            console.log(mNav.getAttribute("current-route") === a.pathname);
             if (a.pathname === mNav.getAttribute("current-route")) {
               a.setAttribute("aria-current", "page");
-              console.log("yes");
             } else {
               a.removeAttribute("aria-current");
             }
