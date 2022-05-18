@@ -1,24 +1,55 @@
 ---
 layout: base.njk
+grid:
+  align: start
+  gap: 0.5em
+  cramp: cramp
 ---
 
-<h2
-  style="
-    grid-row: 1;
-    grid-column: 1;
-    writing-mode: vertical-lr;
-    margin-top: 2rem;
-  "
->
-  about
-</h2>
-<svg
-  style="grid-row: 1/3; grid-column: 1/3"
-  width="100%"
-  height="100%"
-  viewBox="0 0 256 256"
->
-  <g transform="translate(128 128)">
-    <rect x="-32" y="-32" width="64" height="64" />
-  </g>
+<svg width="0" height="0" style="position: fixed;" hidden>
+  <filter id="filter-tint" x="0" y="0" width="100%" height="100%">
+    <feFlood flood-color="hsl(var(--col-secondary) / 0.5)" ></feFlood>
+    <feBlend in="SourceGraphic" mode="multiply" result="mult"></feBlend>
+    <feFlood flood-color="hsl(var(--col-primary) / 0.75)" ></feFlood>
+    <feBlend in="mult" mode="screen"></feBlend>
+  </filter>
 </svg>
+<article class="cramp about">
+  <figure>
+    <div class="duo-tone">
+      <img
+        src="/static/img/me.jpg"
+        alt="Portrait of me, Marcus Aldrin"
+        style="width: 100%;filter: url(#filter-tint);"
+      />
+    </div>
+    <figcaption style="">This is me in <time>2022</time></figcaption>
+  </figure>
+  <p>
+    <span class="" style="color: hsl(var(--col-primary))">Hello!</span>
+    My name is
+    <span class="spot">Marcus Aldrin</span>
+    and I am a Designer & Developer, Stuff maker &
+    <span>Abstraction tinkerer</span>, I spend my time
+    <span>thinking</span> about
+    <span class="smudge" style="font-style: italic">faces</span> in inter<span
+      class="smudge"
+      style="font-style: italic"
+      >faces</span
+    >
+  </p>
+  <ul class="social">
+    <li class="">
+      <span>email: </span>
+      <span class="mark" style="white-space: nowrap">
+        <a href="mailto:me@m-aldrin.space">me@m-aldrin.space</a>
+      </span>
+    </li>
+    <li class="">
+      <span>github: </span>
+      <span class="mark" style="white-space: nowrap">
+        <a href="https://github.com/funstra">funstra</a>
+      </span>
+    </li>
+  </ul>
+</article>
