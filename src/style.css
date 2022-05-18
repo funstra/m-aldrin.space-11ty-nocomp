@@ -212,11 +212,9 @@ site-nav[state="close"] ul {
   opacity: 0;
   pointer-events: none;
 }
-site-nav[state="open"] + main {
-  pointer-events: none;
-}
 
 site-nav[state="open"] + main {
+  pointer-events: none;
   filter: blur(4px) grayscale(0.25) brightness(1.05);
 }
 
@@ -246,9 +244,9 @@ main {
   display: grid;
   position: relative;
 
-  contain: layout;
+  contain: paint;
 
-  will-change: opacity, transform;
+  will-change: opacity, transform, filter;
 }
 
 /* media query */
@@ -267,6 +265,9 @@ main {
   site-nav button {
     order: 0;
     align-self: flex-start;
+  }
+  #grain {
+    display: block !important;
   }
 }
 
