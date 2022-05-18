@@ -10,7 +10,7 @@
     <script src="/js/router.js" type="module"></script>
 
     {% if page.fileSlug == 'about' %}
-      <style>
+      <style router:resource="/about/">
         .about{
           display: grid;
           align-self: flex-start;

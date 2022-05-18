@@ -43,6 +43,19 @@ const diffPage = async destination => {
   }
   return [null, null];
 };
+/** @param {Document} destination */
+const diffResource = async destination => {
+  const resource = destination.page.querySelector(
+    `[router\\:resource='/${destination.title}/']`
+  );
+  const currentResource = document.querySelector(
+    `[router\\:resource='/${destination.title}/']`
+  );
+  console.log * currentResource;
+  if (currentResource !== null) {
+    document.head.appendChild(resource);
+  }
+};
 
 /**
  * @param {{elm:HTMLElement,val:String}} dest
