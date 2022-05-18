@@ -20,7 +20,12 @@
   };
   //   clickoutside callback
   const clickOutside = e => {
-    if (e.target !== mNav.querySelector("ul")) {
+    if (
+      e.target !== mNav.querySelector("ul") &&
+      !(e.target.tagName === "A" && e.target.closest("site-nav") !== null)
+    ) {
+      console.log(e.target.tagName && e.target.closest("site-nav") !== null);
+
       mNav.setAttribute("state", "close");
     }
   };

@@ -45,15 +45,18 @@ const diffPage = async destination => {
 };
 /** @param {Document} destination */
 const diffResource = async destination => {
-  const resource = destination.page.querySelector(
-    `[router\\:resource='/${destination.title}/']`
-  );
-  const currentResource = document.querySelector(
-    `[router\\:resource='/${destination.title}/']`
-  );
-  if (currentResource === null && resource !== null) {
+  const home = destination.title === "" ? "/" : `/${destination.title}/`;
+  const selectorString = `[router\\:resource='${home}']`;
+  console.log(selectorString);
+
+  const resource = destination.page.querySelector(selectorString);
+
+  const currentResource = document.querySelectorAll("[router\\:resource]");
+
+  if (resource) {
     document.head.appendChild(resource);
   }
+  return () => currentResource.forEach(resource => resource.remove());
 };
 
 /**
@@ -77,10 +80,11 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   const { pathname, href } = target;
 
   document.querySelector("main").classList.add("fetching");
+  document.documentElement.classList.add("navigating");
 
   const destinationDocument = await getHTML(href);
   let [dest, src] = await diffPage(destinationDocument.page);
-  diffResource(destinationDocument);
+  const cleanUpStyles = diffResource(destinationDocument);
 
   if (push) {
     // set scrollTop position on current position at history stack
@@ -101,30 +105,37 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   // src.elm.parentElement.append(dest.elm);
   // dest.elm.style.translate = "0 100%";
 
+  // setTimeout(() => {
+  // Transition - -
+  src.elm.classList.add("slideOut");
+  dest.elm.style.translate = "";
+  dest.elm.classList.add("slideIn");
+  document.documentElement.classList.add("transitioning");
+
+  const pageTransitionDuration = parseFloat(
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--page-transition-duration")
+      .replace("ms", "")
+  );
+
   setTimeout(() => {
-    // Transition - -
-    src.elm.classList.add("slideOut");
-    dest.elm.style.translate = "";
-    dest.elm.classList.add("slideIn");
-
-    const pageTransitionDuration = parseFloat(
-      getComputedStyle(document.documentElement)
-        .getPropertyValue("--page-transition-duration")
-        .replace("ms", "")
-    );
-
+    src.elm.remove();
     setTimeout(() => {
-      src.elm.remove();
-      setTimeout(() => {
-        dest.elm.classList.remove("slideIn");
-        document.documentElement.setAttribute("router:current-page", pathname);
-      }, pageTransitionDuration);
+      dest.elm.classList.remove("slideIn");
+      document.documentElement.setAttribute("router:current-page", pathname);
+      // document.querySelector("site-nav").classList.remove("navigating");
+      document.documentElement.classList.remove("navigating");
+      document.documentElement.classList.remove("transitioning");
+      cleanUpStyles.then(cb => cb());
     }, pageTransitionDuration);
+  }, pageTransitionDuration);
 
-    document.querySelector("title").innerHTML = destinationDocument.title;
-    document.querySelector("site-nav").setAttribute("current-route", dest.val);
-    // document.querySelector("f-nav").setAttribute("route", dest.val);
-  }, 1);
+  document.querySelector("title").innerHTML = destinationDocument.title;
+  document.querySelector("site-nav").setAttribute("current-route", dest.val);
+  document.querySelector("site-nav").setAttribute("state", "close");
+  // document.querySelector("site-nav").classList.add("navigating");
+  // document.querySelector("f-nav").setAttribute("route", dest.val);
+  // }, 1);
 };
 
 // handle click and f-nav events
