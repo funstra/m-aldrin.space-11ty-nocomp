@@ -350,7 +350,6 @@ main {
 @keyframes slideIn {
   from {
     transform: translateX(-1.5%);
-    opacity: 0;
   }
   to {
     transform: translateX(0%);

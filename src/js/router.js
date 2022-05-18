@@ -51,8 +51,7 @@ const diffResource = async destination => {
   const currentResource = document.querySelector(
     `[router\\:resource='/${destination.title}/']`
   );
-  console.log * currentResource;
-  if (currentResource !== null) {
+  if (currentResource === null && resource !== null) {
     document.head.appendChild(resource);
   }
 };
@@ -81,6 +80,7 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 
   const destinationDocument = await getHTML(href);
   let [dest, src] = await diffPage(destinationDocument.page);
+  diffResource(destinationDocument);
 
   if (push) {
     // set scrollTop position on current position at history stack
@@ -99,7 +99,7 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 
   src.elm.parentElement.insertBefore(dest.elm, src.elm.nextSibling);
   // src.elm.parentElement.append(dest.elm);
-  dest.elm.style.translate = "0 100%";
+  // dest.elm.style.translate = "0 100%";
 
   setTimeout(() => {
     // Transition - -
