@@ -47,6 +47,7 @@ module.exports = config => {
     config.addPassthroughCopy("src/style.css");
     config.addPassthroughCopy("src/js/");
   }
+  config.addPassthroughCopy('./static/')
   return {
     dir: {
       input: "src",

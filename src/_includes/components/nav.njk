@@ -1,3 +1,4 @@
+{% import "components/Navicons.njk" as icons %}
 <site-nav state="close" current-route="{{page.fileSlug}}">
     <button>
         <svg width="1rem" viewBox="0 0 16 40" style="pointer-events: none">
@@ -10,15 +11,18 @@
     </button>
     <ul>
         <li>
-            <a href="/" {{'aria-current=page' if page.fileSlug == ""}}>
+            <a tabindex="-1" href="/" {{'aria-current=page' if page.fileSlug == ""}}>
+                {{icons.icon('home')}}
                 <span>home</span></a>
         </li>
         <li>
-            <a href="/work/" {{'aria-current=page' if page.fileSlug == "work"}}>
+            <a tabindex="-1" href="/work/" {{'aria-current=page' if page.fileSlug == "work"}}>
+                {{icons.icon('work')}}
                 <span>work</span></a>
         </li>
         <li>
-            <a href="/about/" {{'aria-current=page' if page.fileSlug == "about"}}>
+            <a tabindex="-1" href="/about/" {{'aria-current=page' if page.fileSlug == "about"}}>
+                {{icons.icon('about')}}
                 <span>about</span></a>
         </li>
     </ul>

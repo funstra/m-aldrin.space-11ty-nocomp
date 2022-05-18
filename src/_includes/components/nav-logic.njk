@@ -8,6 +8,10 @@
       currentFocus = target;
     };
   });
+  function openNav(e) {
+    e.stopPropagation();
+    mNav.setAttribute("state", "open");
+  }
   //   handle button click
   mNav.querySelector("button").onclick = e => {
     e.stopPropagation();
