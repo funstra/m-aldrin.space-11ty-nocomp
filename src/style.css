@@ -138,9 +138,12 @@ html {
   transition-property: padding;
   transition-delay: 0s;
   transition-duration: 300ms;
+  /* will-change: padding; */
 }
-html.transitioning {
-  padding: 0.75rem;
+@media (min-width: 512px) {
+  html.transitioning {
+    padding: 0.75rem;
+  }
 }
 body {
   display: grid;
@@ -328,7 +331,7 @@ main {
   overflow-y: scroll;
 
   display: grid;
-  
+
   contain: paint;
 
   will-change: opacity, transform, filter;

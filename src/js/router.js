@@ -105,37 +105,37 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   // src.elm.parentElement.append(dest.elm);
   // dest.elm.style.translate = "0 100%";
 
-  // setTimeout(() => {
-  // Transition - -
-  src.elm.classList.add("slideOut");
-  dest.elm.style.translate = "";
-  dest.elm.classList.add("slideIn");
-  document.documentElement.classList.add("transitioning");
-
-  const pageTransitionDuration = parseFloat(
-    getComputedStyle(document.documentElement)
-      .getPropertyValue("--page-transition-duration")
-      .replace("ms", "")
-  );
-
   setTimeout(() => {
-    src.elm.remove();
-    setTimeout(() => {
-      dest.elm.classList.remove("slideIn");
-      document.documentElement.setAttribute("router:current-page", pathname);
-      // document.querySelector("site-nav").classList.remove("navigating");
-      document.documentElement.classList.remove("navigating");
-      document.documentElement.classList.remove("transitioning");
-      cleanUpStyles.then(cb => cb());
-    }, pageTransitionDuration);
-  }, pageTransitionDuration);
+    // Transition - -
+    src.elm.classList.add("slideOut");
+    dest.elm.style.translate = "";
+    dest.elm.classList.add("slideIn");
+    document.documentElement.classList.add("transitioning");
 
-  document.querySelector("title").innerHTML = destinationDocument.title;
-  document.querySelector("site-nav").setAttribute("current-route", dest.val);
-  document.querySelector("site-nav").setAttribute("state", "close");
-  // document.querySelector("site-nav").classList.add("navigating");
-  // document.querySelector("f-nav").setAttribute("route", dest.val);
-  // }, 1);
+    const pageTransitionDuration = parseFloat(
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--page-transition-duration")
+        .replace("ms", "")
+    );
+
+    setTimeout(() => {
+      src.elm.remove();
+      setTimeout(() => {
+        dest.elm.classList.remove("slideIn");
+        document.documentElement.setAttribute("router:current-page", pathname);
+        // document.querySelector("site-nav").classList.remove("navigating");
+        document.documentElement.classList.remove("navigating");
+        document.documentElement.classList.remove("transitioning");
+        cleanUpStyles.then(cb => cb());
+      }, pageTransitionDuration);
+    }, pageTransitionDuration);
+
+    document.querySelector("title").innerHTML = destinationDocument.title;
+    document.querySelector("site-nav").setAttribute("current-route", dest.val);
+    document.querySelector("site-nav").setAttribute("state", "close");
+    // document.querySelector("site-nav").classList.add("navigating");
+    // document.querySelector("f-nav").setAttribute("route", dest.val);
+  }, 1);
 };
 
 // handle click and f-nav events
