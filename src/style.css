@@ -41,20 +41,17 @@
 }
 /* colors */
 :root {
-  --hue: 50;
-  --hue-offset: 1.5;
+  --hue: 350;
+  --hue-offset: 75;
+  --offset-mult: -1.75;
 
   --col-blk: calc(var(--hue)) 30% 20%;
   --col-wht: calc(var(--hue)) 20% 97.5%;
 
-  --col-primary: var(--hue) 85% 50%;
-  --col-secondary: calc(var(--hue) * var(--hue-offset)) 85% 70%;
-  --col-ternary: calc(var(--hue) * var(--hue-offset) * var(--hue-offset)) 80%
-    75%;
-  --col-quadrary: calc(
-      var(--hue) * var(--hue-offset) * var(--hue-offset) * var(--hue-offset)
-    )
-    90% 60%;
+  --col-primary: var(--hue) 90% 60%;
+  --col-secondary: calc(var(--hue) + (var(--hue-offset))) 85% 55%;
+  --col-ternary: calc(var(--hue) + (var(--hue-offset) * var(--offset-mult))) 90%
+    50%;
 }
 /* transition */
 :root {
@@ -97,6 +94,7 @@ a:focus {
 }
 a span {
   position: relative;
+  pointer-events: none;
 }
 a:is(:hover, :focus) span::after {
   height: 30%;
@@ -112,19 +110,10 @@ a span::after {
   z-index: -1;
 }
 button:focus {
-  position: relative;
   outline: none;
   color: hsl(var(--col-primary));
-} 
-button::after {
-  position: absolute;
-  content: "";
-  width: 4px;
-  height: 100%;
-  top: 0;
-  right: -4px;
-  background-color: hsl(var(--col-secondary));
 }
+
 body,
 html {
   height: 100%;
