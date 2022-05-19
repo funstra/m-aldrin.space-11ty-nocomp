@@ -1,5 +1,5 @@
 const Image = require("@11ty/eleventy-img");
-module.exports = function (dir, name, alt, outname, dim) {
+module.exports = function (dir, name, alt, outname, dim,attrs) {
   const src = `./assets/${dir}${dir ? "/" : ""}${name}`.toLocaleLowerCase();
   const opt = {
     widths: [512, 1024, 2048, null],
@@ -30,6 +30,7 @@ module.exports = function (dir, name, alt, outname, dim) {
         width="${dim.w ? dim.w : highsrc.width}"
         height="${dim.h ? dim.h : highsrc.height}"
         alt="${alt}"
+        ${attrs}
         loading="lazy"
         decoding="async">`;
 };

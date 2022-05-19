@@ -33,7 +33,10 @@ order: 2
         {% image 'img',
         'mecropbw.jpg',
         "It's me!",
-        '', {h: "100%"} %}
+        '', {
+          h: "100%"
+        },
+        'onload="init()"' %}
       {% else %}
         <img
         src="/assets/img/mecropbw.jpg"
