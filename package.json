@@ -5,6 +5,7 @@
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0-canary.11",
+    "@11ty/eleventy-img": "^2.0.1",
     "csso": "^5.0.3",
     "html-minifier-terser": "^7.0.0-alpha.2",
     "terser": "^5.13.1"

@@ -1,54 +1,68 @@
 ---
 layout: base.njk
+order: 0
 ---
 
 <svg width="100%" height="100%" viewBox="0 0 256 256">
+  <defs>
+    <filter id="filter-scribble">
+      <feTurbulence baseFrequency="0.5" type="fractalNoise" seed="1" />
+      <feDisplacementMap
+        in="SourceGraphic"
+        xChannelSelector="R"
+        yChannelSelector="G"
+        scale="1.5"
+      />
+    </filter>
+  </defs>
   {% set n = 8 %} {% set cls = cycler(false, true, false) %}
-  <g transform="translate(128 0)">
-    <g transform="scale({{ 256 / n }}) translate(0 0.5)">
-      <g>
-        <line
-          x1="0"
-          x2="3"
-          y1="0"
-          y2="0"
-          stroke-width="0.05"
-          stroke="hsl(var(--col-secondary))"
-        />
-        <circle cx="3" cy="0" r="0.1" />
-        <line
-          x1="0"
-          x2="0"
-          y1="4"
-          y2="7"
-          stroke-width="0.025"
-          stroke="hsl(var(--col-ternary))"
-        />
-        <circle
-          cx="0"
-          cy="7"
-          r="0.2"
-          fill="transparent"
-          stroke-width="0.125"
-          stroke="hsl(var(--col-ternary))"
-        />
+  <g transform="translate(128 0)" >
+    <g transform="scale({{ 256 / n }}) translate(0 0.5)" >
+      <g >
+        <g>
+          <line
+            x1="0"
+            x2="3"
+            y1="0"
+            y2="0"
+            stroke-width="0.05"
+            stroke="hsl(var(--col-secondary))"
+          />
+          <circle cx="3" cy="0" r="0.1" />
+          <line
+            x1="0"
+            x2="0"
+            y1="4"
+            y2="7"
+            stroke-width="0.025"
+            stroke="hsl(var(--col-ternary))"
+          />
+          <circle
+            cx="0"
+            cy="7"
+            r="0.2"
+            fill="transparent"
+            stroke-width="0.125"
+            stroke="hsl(var(--col-ternary))"
+          />
+        </g>
+        {% for y in range(0, n) %}
+        <g transform="translate({{ 0 }} {{ y }})">
+          <g></g>
+          <circle cx="0" cy="0" r="{{ 0.05 }}" />
+          {% if cls.next() %}
+          <circle
+            cx="0"
+            cy="0"
+            r="{{ 0.4 }}"
+            fill="transparent"
+            stroke-width="0.025"
+            stroke="currentColor"
+          />
+          {% endif %}
+        </g>
+        {% endfor %}
       </g>
-      {% for y in range(0, n) %}
-      <g transform="translate({{ 0 }} {{ y }})">
-        <g></g>
-        <circle cx="0" cy="0" r="{{ 0.05 }}" />
-        {% if cls.next() %}
-        <circle
-          cx="0"
-          cy="0"
-          r="{{ 0.4 }}"
-          fill="transparent"
-          stroke-width="0.025"
-          stroke="currentColor"
-        />
-        {% endif %}
-      </g>
-      {% endfor %}
     </g>
   </g>
 </svg>

@@ -1,9 +1,11 @@
 const { minify } = require("html-minifier-terser");
 const { minify: terser } = require("terser");
 const { minify: csso } = require("csso");
+const image = require("./11ty/img");
 
 /** @param {import('@11ty/eleventy/src/UserConfig')} config */
 module.exports = config => {
+  config.addNunjucksShortcode("image", image);
   if (process.env.NODE_ENV === "production") {
     config.addTransform("htmlmin", async function (content, outputPath) {
       if (outputPath && outputPath.endsWith(".html")) {
@@ -46,8 +48,9 @@ module.exports = config => {
   } else {
     config.addPassthroughCopy("src/style.css");
     config.addPassthroughCopy("src/js/");
+    config.addPassthroughCopy({ "./assets/img": "assets/img" });
   }
-  config.addPassthroughCopy('./static/')
+  config.addPassthroughCopy({ "./static/": "assets" });
   return {
     dir: {
       input: "src",

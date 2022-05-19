@@ -47,15 +47,24 @@ const diffPage = async destination => {
 const diffResource = async destination => {
   const home = destination.title === "" ? "/" : `/${destination.title}/`;
   const selectorString = `[router\\:resource='${home}']`;
-  console.log(selectorString);
 
-  const resource = destination.page.querySelector(selectorString);
+  const resource = destination.page.querySelectorAll(selectorString);
 
   const currentResource = document.querySelectorAll("[router\\:resource]");
 
-  if (resource) {
-    document.head.appendChild(resource);
-  }
+  resource.forEach(r => {
+    // console.log(r);
+    if (r.tagName === "STYLE") {
+      document.head.appendChild(r);
+    }
+    if (r.tagName === "SCRIPT") {
+      // r.onload = e => console.log(e);
+      const s = document.createElement("script");
+      s.onload = e => console.log(e);
+      s.textContent = r.textContent;
+      document.body.appendChild(s);
+    }
+  });
   return () => currentResource.forEach(resource => resource.remove());
 };
 
@@ -101,51 +110,82 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 
   // prepend destination document to source parent
 
+  const srcDir = parseInt(src.elm.getAttribute("router:order"));
+  const destDir = parseInt(dest.elm.getAttribute("router:order"));
+  let outDir = "";
+  let inDir = "";
+  if (srcDir - destDir < 0) {
+    // console.log("going forward");
+    outDir = "1%";
+    inDir = "-1%";
+  } else {
+    // console.log("going backwards");
+    outDir = "-1%";
+    inDir = "1%";
+  }
+
+  dest.elm.style.setProperty("--in-dir", inDir);
+  src.elm.style.setProperty("--out-dir", outDir);
+
+  dest.elm.style.opacity = "0";
+  dest.elm.style.transform = `translate(${inDir})`;
   src.elm.parentElement.insertBefore(dest.elm, src.elm.nextSibling);
   // src.elm.parentElement.append(dest.elm);
   // dest.elm.style.translate = "0 100%";
 
+  // setTimeout(() => {
+  // Transition - -
+  dest.elm.style.removeProperty("opacity");
+  dest.elm.style.removeProperty("transform");
+  src.elm.classList.add("slideOut");
+  dest.elm.style.translate = "";
+  dest.elm.classList.add("slideIn");
+  document.documentElement.classList.add("transitioning");
+
+  const pageTransitionDuration = parseFloat(
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--page-transition-duration")
+      .replace("ms", "")
+  );
+
   setTimeout(() => {
-    // Transition - -
-    src.elm.classList.add("slideOut");
-    dest.elm.style.translate = "";
-    dest.elm.classList.add("slideIn");
-    document.documentElement.classList.add("transitioning");
-
-    const pageTransitionDuration = parseFloat(
-      getComputedStyle(document.documentElement)
-        .getPropertyValue("--page-transition-duration")
-        .replace("ms", "")
-    );
-
+    src.elm.remove();
     setTimeout(() => {
-      src.elm.remove();
-      setTimeout(() => {
-        dest.elm.classList.remove("slideIn");
-        document.documentElement.setAttribute("router:current-page", pathname);
-        // document.querySelector("site-nav").classList.remove("navigating");
-        document.documentElement.classList.remove("navigating");
-        document.documentElement.classList.remove("transitioning");
-        cleanUpStyles.then(cb => cb());
-      }, pageTransitionDuration);
-    }, pageTransitionDuration);
+      document.documentElement.focus();
 
-    document.querySelector("title").innerHTML = destinationDocument.title;
-    document.querySelector("site-nav").setAttribute("current-route", dest.val);
-    document.querySelector("site-nav").setAttribute("state", "close");
-    // document.querySelector("site-nav").classList.add("navigating");
-    // document.querySelector("f-nav").setAttribute("route", dest.val);
-  }, 1);
+      dest.elm.style.removeProperty("--in-dir");
+      src.elm.style.removeProperty("--out-dir");
+
+      dest.elm.classList.remove("slideIn");
+      document.documentElement.setAttribute("router:current-page", pathname);
+      // document.querySelector("site-nav").classList.remove("navigating");
+      document.documentElement.classList.remove("navigating");
+      document.documentElement.classList.remove("transitioning");
+      cleanUpStyles.then(cb => cb());
+    }, pageTransitionDuration);
+  }, pageTransitionDuration);
+
+  document.querySelector("title").innerHTML = destinationDocument.title;
+  document.querySelector("site-nav").setAttribute("current-route", dest.val);
+  document.querySelector("site-nav").setAttribute("state", "close");
+  // document.querySelector("site-nav").classList.add("navigating");
+  // document.querySelector("f-nav").setAttribute("route", dest.val);
+  // }, 1);
 };
 
 // handle click and f-nav events
 const handle = async e => {
   let { target } = e;
-  if (
-    target.tagName === "A" &&
-    target.origin === location.origin &&
-    target.pathname !== location.pathname
-  ) {
+  console.log(target);
+  if (target.pathname === location.pathname) {
+    e.preventDefault();
+    target.classList.add("err");
+    setTimeout(() => {
+      target.classList.remove("err");
+    }, 100);
+    return;
+  }
+  if (target.tagName === "A" && target.origin === location.origin) {
     e.preventDefault();
     setPage(target, true);
   }

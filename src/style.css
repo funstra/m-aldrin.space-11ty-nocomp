@@ -41,21 +41,21 @@
 }
 /* colors */
 :root {
-  --hue: 350;
-  --hue-offset: 75;
-  --offset-mult: -1.75;
+  --hue: 15;
+  --hue-offset: 43;
+  --offset-mult: 3.75;
 
   --col-blk: calc(var(--hue)) 30% 20%;
   --col-wht: calc(var(--hue)) 20% 97.5%;
 
-  --col-primary: var(--hue) 90% 60%;
-  --col-secondary: calc(var(--hue) + (var(--hue-offset))) 85% 55%;
-  --col-ternary: calc(var(--hue) + (var(--hue-offset) * var(--offset-mult))) 90%
-    50%;
+  --col-primary: var(--hue) 95% 65%;
+  --col-secondary: calc(var(--hue) + (var(--hue-offset))) 90% 60%;
+  --col-ternary: calc(var(--hue) + (var(--hue-offset) * var(--offset-mult))) 85%
+    45%;
 }
 /* transition */
 :root {
-  --transition-timing-mud: cubic-bezier(0.1, 0, 0.2, 2);
+  --transition-timing-mud: cubic-bezier(0.1, 0, 0.2, 1);
   --transition-timing-pillow: cubic-bezier(0.2, 2, 0.3, 0.8);
 
   --page-transition-duration: 175ms;
@@ -99,17 +99,28 @@ svg {
 }
 a {
   color: currentColor;
-  /* text-decoration: none; */
   position: relative;
 }
+
 a:focus {
   outline: none;
+}
+a:not([href^="/"]):focus {
+  text-decoration-color: hsl(var(--col-ternary));
+  font-variation-settings: "wght" 400;
+  text-decoration-thickness: 3px;
+  text-decoration-skip-ink: none;
 }
 a span {
   position: relative;
   pointer-events: none;
 }
-a:is(:hover, :focus) span::after {
+a span::after {
+  transition-property: height;
+  transition-duration: 25ms;
+  transition-timing-function: ease-out;
+}
+a:not(.under-construction):is(:hover, :focus) span::after {
   height: 50%;
 }
 a span::after {
@@ -122,9 +133,15 @@ a span::after {
   background-color: hsl(var(--col-secondary));
   z-index: -1;
 }
-site-nav button:focus {
-  /* outline: none; */
+:where(button:focus) {
   color: hsl(var(--col-primary));
+  outline: none;
+  --focus-shadow: 0 0 0 2px currentColor;
+  /* box-shadow: 0 0 0 2px currentColor; */
+  border-radius: 2px;
+}
+button {
+  box-shadow: var(--focus-shadow);
 }
 
 body,
@@ -156,7 +173,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   border-radius: 8px;
 
-  /* background-color: hsl(var(--col-blk) / 0.02); */
+  background-color: hsl(var(--col-blk) / 0.01);
+  /* background-color: hsl(var(--col-primary) / 0.005); */
   box-shadow: 0 0 2px 0 inset hsl(var(--col-wht) / 1),
     0 0 4px 1px inset hsl(var(--col-primary) / 0.1),
     0 0 8px 3px inset hsl(var(--col-blk) / 0.05);
@@ -167,12 +185,12 @@ body {
 /* prose */
 @font-face {
   font-family: SCPVariable;
-  src: url("/static/fonts/SCPVariable.ttf");
+  src: url("/assets/fonts/SCPVariable.ttf");
   font-display: fallback;
 }
 @font-face {
   font-family: VollkornVariable;
-  src: url("/static/fonts/VollkornVariable.ttf");
+  src: url("/assets/fonts/VollkornVariable.ttf");
   font-display: fallback;
 }
 
@@ -259,6 +277,7 @@ site-nav button {
   pointer-events: all;
   order: 1;
   align-self: flex-end;
+  padding: 0.25rem;
 }
 site-nav[state="open"] ul {
   transform: translateY(0);
@@ -301,6 +320,21 @@ site-nav ul a {
   display: flex;
   gap: 0.5em;
   text-decoration: none;
+}
+site-nav ul a[aria-current="page"] span::after {
+  /* transition-property: height; */
+}
+site-nav ul a.err {
+  color: white;
+}
+site-nav ul a.err span::after {
+  height: 100% !important;
+  background-color: red;
+}
+site-nav ul a.under-construction {
+  cursor: progress;
+  text-decoration: line-through;
+  opacity: 0.25;
 }
 site-nav ul svg {
   fill: transparent;
@@ -360,6 +394,7 @@ main {
   #grain {
     pointer-events: none;
     display: block !important;
+    opacity: 0.35;
   }
 }
 
@@ -367,21 +402,23 @@ main {
 .slideIn,
 .slideOut {
   animation-duration: var(--page-transition-duration);
-  animation-fill-mode: forwards;
+  /* animation-fill-mode: forwards; */
   animation-timing-function: ease-out;
 }
 .slideIn {
-  transform: translateY(-5%);
   opacity: 0;
   animation-name: slideIn;
   animation-delay: var(--page-transition-duration);
+  --in-dir: -1%;
 }
 .slideOut {
+  --out-dir: 1%;
   animation-name: slideOut;
 }
 @keyframes slideIn {
   from {
-    transform: translateX(-1.5%);
+    transform: translateX(var(--in-dir));
+    opacity: 0;
   }
   to {
     transform: translateX(0%);
@@ -395,7 +432,7 @@ main {
     opacity: 1;
   }
   100% {
-    transform: translateX(3.5%);
+    transform: translateX(var(--out-dir));
     opacity: 0;
   }
 }
@@ -409,7 +446,7 @@ main {
   padding-inline: 0.75em;
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 2px 10px -2px var(--bg-col);
+  box-shadow: 0 2px 10px -2px var(--bg-col), var(--focus-shadow);
   transition-property: background-color, box-shadow;
   transition-duration: 125ms;
   transition-timing-function: ease-out;

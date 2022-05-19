@@ -16,7 +16,38 @@
           align-self: flex-start;
           gap: 1rem;
         }
-        [router\:page="/about/"].about figure {}
+        [router\:page="/about/"] .about figure {
+          overflow: visible;
+        }
+        [router\:page="/about/"] .about .duo-tone {
+          overflow: hidden;
+          box-shadow: 0 0 24px 4px hsl(var(--col-primary) / 0.2);
+        }
+        [router\:page="/about/"] .about .duo-tone img {
+          position: relative;
+          mix-blend-mode: multiply;
+        }
+        [router\:page="/about/"] .duo-tone {
+          overflow: visible;
+          position: relative;
+        }
+        [router\:page="/about/"] .duo-tone::before,
+        [router\:page="/about/"] .duo-tone::after {
+          content: '';
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          opacity: 0.65;
+        }
+        [router\:page="/about/"] .duo-tone::before {
+          background-color: hsl(var(--col-secondary));
+        }
+        [router\:page="/about/"] .duo-tone::after {
+          background-color: hsl(var(--col-primary));
+          mix-blend-mode: screen;
+        }
         [router\:page="/about/"] .spot {
           white-space: nowrap;
           background-color: hsl(var(--col-blk));
@@ -29,24 +60,98 @@
           text-shadow: 0 0 8px hsl(var(--col-blk) / 0.5);
         }
 
+        [router\:page="/about/"] article > svg {
+          display: none;
+        }
+
+        @keyframes point {
+          from{
+            stroke-dashoffset: 330;
+          }
+          to{
+            stroke-dashoffset: 660;
+          }
+        }
+        @keyframes drop {
+          from{
+            transform:  translateY(-10px) ;
+          }
+          to{
+            transform:  translateY(0px) ;
+            opacity: 1;
+          }
+        }
+        @keyframes hint {
+          0%{
+            box-shadow: 0 0  0 0px hsl(var(--col-ternary)/0.05);
+          }
+          15%{
+            box-shadow: 0 0  0 2px hsl(var(--col-ternary)/0.05),0 0 16px 2px hsl(var(--col-ternary)/0.2);
+            color: hsl(var(--col-ternary));
+          }
+          75%{
+            box-shadow: 0 0  0 2px hsl(var(--col-ternary)/0.05),0 0 16px 2px hsl(var(--col-ternary)/0.2);
+            color: hsl(var(--col-ternary));
+            transform: translateX(2px) rotate(-1deg);
+          }
+          100%{
+            box-shadow: 0 0  0 0px hsl(var(--col-ternary)/0.05);
+          }
+        }
         @media (min-width:512px) {
+          [router\:page="/about/"] article {
+            grid-template-columns: minmax(auto,128px) minmax(auto,256px) repeat(3,1fr);
+          }
+          [router\:page="/about/"] article > .path-illu path {
+            stroke-dasharray: 330;
+            stroke-dashoffset: 330;
+            animation-name: point;
+            animation-duration: 350ms;
+            animation-timing-function: ease-out;
+            animation-fill-mode: forwards;
+          }
+        [router\:page="/about/"] article > svg {
+            display: block;
+          }
           [router\:page="/about/"] .about figure {
-            grid-column: 1;
+            grid-column: 1/3;
             grid-row: 1/5;
           }
+          [router\:page="/about/"] .about :where(p,.social) {
+            animation-name: drop;
+            animation-duration: 1s;
+            animation-fill-mode: forwards;
+            animation-timing-function: var(--transition-timing-mud);
+
+          }
           [router\:page="/about/"] .about p {
-            grid-column: 2;
-            grid-row: 1/3;
+            grid-column: 3/6;
+            grid-row: 5/6;
+            opacity: 0;
+            animation-delay: 340ms;
           }
           [router\:page="/about/"] .about .social {
-            grid-column: 2;
-            grid-row: 3;
+            grid-column: 2/4;
+            width:max-content;
+            margin-top: 2rem;
+            grid-row: 6;
+            opacity: 0;
+            animation-delay: 500ms,1500ms;
+            animation-name: drop,hint;
+            animation-timing-function: ease-out;
+            border-radius: 6px;
+            animation-duration: 1s,2000ms;
+            
+
+            padding: 1rem;
+
           }
         }
       </style>
     {% endif %}
     {% if page.fileSlug == ""%}
       <style router:resource="/">
+
         [router\:page="/"] .mkj {
           color: hsl(var(--col-primary));
         }
@@ -88,12 +193,57 @@
     {% endif %}
 
   </head>
-  <body>
+  <body >
     {% include "components/nav.njk" %}
-    <main router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" >
+    <main router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}" >
       {{ content | safe }}
     </main>
     {% include "components/grain.njk" %}
     {% include "components/nav-logic.njk" %}
+
+    {% if page.fileSlug == 'about' %}
+
+      <script router:resource="/about/">
+        init = () => {
+          setTimeout(() => {
+          
+          const doc = document.querySelector('main[router\\:page="/about/"]')
+        const article = doc.querySelector('.about')
+        const hello = doc
+          .querySelector('.hello')
+          .parentElement
+        const circle = doc.querySelector('.about .path-illu g')
+        const pathIllu = doc.querySelector('.about .path-illu')
+        const faceIllu = doc.querySelector('.about .face-illu')
+        const path = pathIllu.querySelector('path')
+        const endPoint = faceIllu.querySelector('circle')
+        const getCoord = e => {
+          const endPointRect = endPoint.getBBox()
+          const edgeX = hello.offsetLeft - faceIllu.clientWidth
+          const edgeY = hello.offsetTop - faceIllu
+            .clientHeight
+            path
+            .setAttribute('d', `
+            M${hello.offsetLeft + 20}, ${hello.offsetTop} 
+            m0,-8
+            a1,1 0 0 0 0,8
+            a1,1 0 0 0 0,-8 
+            m-3,-4
+            Q${endPointRect.x * 1.5} ${endPointRect.y * 1.2} ${endPointRect.x} ${endPointRect.y}
+`)
+            
+            
+        }
+        getCoord()
+        window.addEventListener('resize', getCoord)
+      }, 5);
+      }
+      
+      init()
+      
+      </script>
+
+    {% endif %}
+
   </body>
 </html>

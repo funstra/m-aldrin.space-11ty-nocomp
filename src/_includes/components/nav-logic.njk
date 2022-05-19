@@ -7,6 +7,7 @@
       currentFocus?.querySelector("a")?.blur();
       currentFocus = target;
     };
+    // make sure that the click is not accepted when current route === location.pathname
   });
   function openNav(e) {
     e.stopPropagation();
@@ -34,11 +35,19 @@
   const tabFocus = e => {
     if (!currentFocus && e.key === "Enter") return;
     //   on escape set state of mNav and blur current focus
-    if (e.key === "Escape" || e.key === "Enter") {
+    if (e.key === "Escape") {
       mNav.setAttribute("state", "close");
-      if (e.key === "Enter") {
-        currentFocus.querySelector("a")?.click();
+      currentFocus.querySelector("a")?.blur();
+      currentFocus = null;
+    }
+
+    if (e.key === "Enter") {
+      if (e.target.pathname === location.pathname) {
+        console.log('same')
+        return null;
       }
+      // mNav.setAttribute("state", "close");
+      currentFocus.querySelector("a")?.click();
       currentFocus.querySelector("a")?.blur();
       currentFocus = null;
     }
@@ -46,23 +55,49 @@
       e.preventDefault();
       currentFocus?.querySelector("a")?.blur();
       if (!e.shiftKey) {
-        //   go to next or first
-        if (!currentFocus || !currentFocus.nextElementSibling) {
-          currentFocus = mNav.querySelector("ul li:first-child");
-          currentFocus.querySelector("a").focus();
-        } else {
-          currentFocus = currentFocus.nextElementSibling;
-          currentFocus.querySelector("a").focus();
-        }
+        const next = () => {
+          //   go to next or first
+          if (!currentFocus || !currentFocus.nextElementSibling) {
+            currentFocus = mNav.querySelector("ul li:first-child");
+            currentFocus.querySelector("a").focus();
+          } else {
+            const sibling = currentFocus.nextElementSibling;
+            if (
+              sibling
+                .querySelector("a")
+                .classList.contains("under-construction")
+            ) {
+              currentFocus = sibling;
+              next();
+            } else {
+              currentFocus = sibling;
+              currentFocus.querySelector("a").focus();
+            }
+          }
+        };
+        next();
       } else {
-        //   got to previous or last
-        if (!currentFocus || !currentFocus.previousElementSibling) {
-          currentFocus = mNav.querySelector("ul li:last-child");
-          currentFocus.querySelector("a").focus();
-        } else {
-          currentFocus = currentFocus.previousElementSibling;
-          currentFocus.querySelector("a").focus();
-        }
+        const prev = () => {
+          //   got to previous or last
+          if (!currentFocus || !currentFocus.previousElementSibling) {
+            currentFocus = mNav.querySelector("ul li:last-child");
+            currentFocus.querySelector("a").focus();
+          } else {
+            const sibling = currentFocus.previousElementSibling;
+            if (
+              sibling
+                .querySelector("a")
+                .classList.contains("under-construction")
+            ) {
+              currentFocus = sibling;
+              prev();
+            } else {
+              currentFocus = sibling;
+              currentFocus.querySelector("a").focus();
+            }
+          }
+        };
+        prev();
       }
     }
   };
