@@ -24,18 +24,23 @@ order: 2
       position: relative;
     "
   >
-    <circle cx="64%" cy="62%" r="1" opacity="0" />
+    <circle cx="64%" cy="62%" r="1" opacity="0"/>
   </svg>
   <figure>
     <div class="duo-tone">
       {% if env == 'production' %}
-      {{ env | log }}
-      {% image 'img', 'mecropbw.jpg', "It's me!",'',{h:"100%"} %} {% else %}
-      <img
+        {{ env | log }}
+        {% image 'img',
+        'mecropbw.jpg',
+        "It's me!",
+        '', {h: "100%"} %}
+      {% else %}
+        <img
         src="/assets/img/mecropbw.jpg"
         alt="Portrait of me, Marcus Aldrin"
         style="width: 100%"
-      />
+        onload="init()"
+/>
       {% endif %}
     </div>
     <figcaption style="white-space: nowrap">
