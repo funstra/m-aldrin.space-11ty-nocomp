@@ -133,12 +133,12 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   // src.elm.parentElement.append(dest.elm);
   // dest.elm.style.translate = "0 100%";
 
-  // setTimeout(() => {
+  setTimeout(() => {
   // Transition - -
   dest.elm.style.removeProperty("opacity");
   dest.elm.style.removeProperty("transform");
   src.elm.classList.add("slideOut");
-  dest.elm.style.translate = "";
+  // dest.elm.style.translate = "";
   dest.elm.classList.add("slideIn");
   document.documentElement.classList.add("transitioning");
 
@@ -173,7 +173,7 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   document.querySelector("site-nav").setAttribute("state", "close");
   // document.querySelector("site-nav").classList.add("navigating");
   // document.querySelector("f-nav").setAttribute("route", dest.val);
-  // }, 1);
+  }, 1);
 };
 
 // handle click and f-nav events

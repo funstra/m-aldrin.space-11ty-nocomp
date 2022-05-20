@@ -170,7 +170,7 @@ html {
   opacity: 1;
 }
 html.transitioning #gridlines{
-  opacity: 0;
+  opacity: 0.5;
 }
 body {
   display: grid;
@@ -360,11 +360,11 @@ site-nav ul svg {
 }
 
 site-nav[state="open"] ~ svg {
-  filter: blur(2px) grayscale(0.5);
+  /* filter: blur(2px); */
 }
-site-nav[state="open"] + main {
+site-nav[state="open"] ~ main {
   pointer-events: none;
-  filter: blur(4px) grayscale(0.25) brightness(1.05);
+  filter: blur(4px);
 }
 
 site-nav a[aria-current="page"] svg {
