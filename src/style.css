@@ -105,7 +105,7 @@ a {
 a:focus {
   outline: none;
 }
-a:not([href^="/"]):focus {
+a:not([href^="/"]):not([aria-disabled="true"]):where(:focus, :hover) {
   text-decoration-color: hsl(var(--col-ternary));
   font-variation-settings: "wght" 400;
   text-decoration-thickness: 3px;
@@ -133,8 +133,10 @@ a span::after {
   background-color: hsl(var(--col-secondary));
   z-index: -1;
 }
-:where(button:focus) {
+:where(button:where(:focus, :hover)) {
   color: hsl(var(--col-primary));
+}
+:where(button:where(:focus)) {
   outline: none;
   --focus-shadow: 0 0 0 2px hsl(var(--col-primary));
   /* box-shadow: 0 0 0 2px currentColor; */
@@ -159,8 +161,16 @@ html {
 }
 @media (min-width: 512px) {
   html.transitioning {
-    padding: 0.75rem;
+    /* padding: 0.75rem; */
   }
+}
+#gridlines{
+  transition-property: opacity;
+  transition-duration: 500ms;
+  opacity: 1;
+}
+html.transitioning #gridlines{
+  opacity: 0;
 }
 body {
   display: grid;
@@ -173,7 +183,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   border-radius: 8px;
 
-  background-color: hsl(var(--col-blk) / 0.01);
+  background-color: hsl(var(--col-blk) / 0.03);
   /* background-color: hsl(var(--col-primary) / 0.005); */
   box-shadow: 0 0 2px 0 inset hsl(var(--col-wht) / 1),
     0 0 4px 1px inset hsl(var(--col-primary) / 0.1),
@@ -311,6 +321,12 @@ site-nav[state="open"] button svg circle:nth-child(1) {
 site-nav[state="open"] button svg circle:nth-child(3) {
   transform: translateY(-2px);
 }
+site-nav button:where(hover svg circle:nth-child(1)) {
+  transform: translateY(-1px);
+}
+site-nav button:where(hover svg circle:nth-child(3)) {
+  transform: translateY(1px);
+}
 site-nav[state="close"] ul {
   transform: translateY(4px);
   opacity: 0;
@@ -343,6 +359,9 @@ site-nav ul svg {
   pointer-events: none;
 }
 
+site-nav[state="open"] ~ svg {
+  filter: blur(2px) grayscale(0.5);
+}
 site-nav[state="open"] + main {
   pointer-events: none;
   filter: blur(4px) grayscale(0.25) brightness(1.05);
@@ -394,7 +413,8 @@ main {
   #grain {
     pointer-events: none;
     display: block !important;
-    opacity: 0.35;
+    opacity: 0.45;
+    mix-blend-mode: hard-light;
   }
 }
 
@@ -410,10 +430,12 @@ main {
   animation-name: slideIn;
   animation-delay: var(--page-transition-duration);
   --in-dir: -1%;
+  z-index: 5;
 }
 .slideOut {
   --out-dir: 1%;
   animation-name: slideOut;
+  z-index: 10;
 }
 @keyframes slideIn {
   from {
@@ -446,7 +468,7 @@ main {
   padding-inline: 0.75em;
   border-radius: 6px;
   cursor: pointer;
-  box-shadow: 0 0 12px 0 var(--bg-col), var(--focus-shadow,0 0 0 0 black);
+  box-shadow: 0 0 12px 0 var(--bg-col), var(--focus-shadow, 0 0 0 0 black);
   transition-property: background-color, box-shadow;
   transition-duration: 125ms;
   transition-timing-function: ease-out;

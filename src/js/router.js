@@ -45,7 +45,7 @@ const diffPage = async destination => {
 };
 /** @param {Document} destination */
 const diffResource = async destination => {
-  const home = destination.title === "" ? "/" : `/${destination.title}/`;
+  const home = destination.title === "home" ? "/" : `/${destination.title}/`;
   const selectorString = `[router\\:resource='${home}']`;
 
   const resource = destination.page.querySelectorAll(selectorString);
@@ -148,10 +148,13 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
       .replace("ms", "")
   );
 
+  // document.querySelector("#gridlines animateTransform").beginElement();
   setTimeout(() => {
     src.elm.remove();
     setTimeout(() => {
-      document.documentElement.focus();
+      // document.body.focus();
+      document.documentElement.focus()
+      // document.activeElement.blur()
 
       dest.elm.style.removeProperty("--in-dir");
       src.elm.style.removeProperty("--out-dir");

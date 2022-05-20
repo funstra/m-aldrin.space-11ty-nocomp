@@ -4,7 +4,7 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>{{page.fileSlug}}</title>
+    <title>{{"home" if page.fileSlug == '' else page.fileSlug}}</title>
 
     <link rel="stylesheet" href="/style.css">
     <script src="/js/router.js" type="module"></script>
@@ -65,59 +65,74 @@
         }
 
         @keyframes point {
-          from{
+          from {
             stroke-dashoffset: 330;
           }
-          to{
+          to {
             stroke-dashoffset: 660;
           }
         }
         @keyframes drop {
-          from{
-            transform:  translateY(-10px) ;
+          from {
+            transform: translateY(-10px);
           }
-          to{
-            transform:  translateY(0px) ;
+          to {
+            transform: translateY(0px);
             opacity: 1;
           }
         }
         @keyframes hint {
-          0%{
-            box-shadow: 0 0  0 0px hsl(var(--col-ternary)/0.05);
+          0% {
+            box-shadow: 0 0 0 0 hsl(var(--col-ternary)/0.05);
           }
-          15%{
-            box-shadow: 0 0  0 2px hsl(var(--col-ternary)/0.05),0 0 16px 2px hsl(var(--col-ternary)/0.2);
+          15% {
+            box-shadow: 0 0 0 2px hsl(var(--col-ternary)/0.05),0 0 16px 2px hsl(var(--col-ternary)/0.1);
             color: hsl(var(--col-ternary));
           }
-          75%{
-            box-shadow: 0 0  0 2px hsl(var(--col-ternary)/0.05),0 0 16px 2px hsl(var(--col-ternary)/0.2);
+          75% {
+            box-shadow: 0 0 0 2px hsl(var(--col-ternary)/0.05),0 0 16px 2px hsl(var(--col-ternary)/0.1);
             color: hsl(var(--col-ternary));
             transform: translateX(2px) rotate(-1deg);
           }
-          100%{
-            box-shadow: 0 0  0 0px hsl(var(--col-ternary)/0.05);
+          100% {
+            box-shadow: 0 0 0 0 hsl(var(--col-ternary)/0.05);
+          }
+        }
+        @keyframes fade {
+          from{
+            opacity: 0;
+          }
+          to{
+            opacity: 1;
           }
         }
         @media (min-width:512px) {
           [router\:page="/about/"] article {
             grid-template-columns: minmax(auto,128px) minmax(auto,256px) repeat(3,1fr);
+            grid-template-rows: 128px 128px;
           }
           [router\:page="/about/"] article > .path-illu path {
             stroke-dasharray: 330;
             stroke-dashoffset: 330;
             animation-name: point;
             animation-duration: 350ms;
+            animation-delay: 200ms;
             animation-timing-function: ease-out;
             animation-fill-mode: forwards;
           }
-        [router\:page="/about/"] article > svg {
+          [router\:page="/about/"] article > svg {
             display: block;
           }
           [router\:page="/about/"] .about figure {
             grid-column: 1/3;
             grid-row: 1/5;
+            /* opacity: 0; */
+            animation-delay: 500ms;
+            /* animation-name: fade; */
+            animation-duration: 500ms;
+            animation-fill-mode: forwards;
           }
-          [router\:page="/about/"] .about :where(p,.social) {
+          [router\:page="/about/"] .about :where(p, .social) {
             animation-name: drop;
             animation-duration: 1s;
             animation-fill-mode: forwards;
@@ -128,20 +143,19 @@
             grid-column: 3/6;
             grid-row: 5/6;
             opacity: 0;
-            animation-delay: 340ms;
+            animation-delay: 440ms;
           }
           [router\:page="/about/"] .about .social {
             grid-column: 2/4;
-            width:max-content;
+            width: max-content;
             margin-top: 2rem;
             grid-row: 6;
             opacity: 0;
-            animation-delay: 500ms,1500ms;
+            animation-delay: 700ms,1500ms;
             animation-name: drop,hint;
             animation-timing-function: ease-out;
             border-radius: 6px;
             animation-duration: 1s,2000ms;
-            
 
             padding: 1rem;
 
@@ -194,10 +208,30 @@
 
   </head>
   <body >
+
     {% include "components/nav.njk" %}
-    <main router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}" >
+    <main router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}"  >
       {{ content | safe }}
     </main>
+    <svg id="gridlines" width="100%" height="100%" style="grid-column: 1/3;grid-row: 1/3; z-index: 0;" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid slice">
+      <pattern
+    id="pattern-grid"
+    viewBox="0 0 16 16"
+    width="16"
+    height="16"
+    patternUnits="userSpaceOnUse"
+    patternTransform="rotate(45)"
+  > 
+        <g stroke="hsl(var(--col-primary))" stroke-width="0.45" vector-effect="">
+          <line x1="8" x2="8" y1="0" y2="16"/>
+          <line x1="0" x2="16" y1="8" y2="8"/>
+          {# <rect x="4" y="4" width="8" height="8" fill="transparent" stroke="hsl(var(--col-ternary))" stroke-opacity="0.3" /> #}
+        </g>
+        
+      </pattern>
+      {# <rect width="100%" height="100%" fill="white" /> #}
+      <rect width="100%" height="100%" fill="url(#pattern-grid)" fill-opacity="0.04"/>
+    </svg>
     {% include "components/grain.njk" %}
     {% include "components/nav-logic.njk" %}
 
@@ -206,24 +240,24 @@
       <script router:resource="/about/">
         init = () => {
           setTimeout(() => {
-          
-          const doc = document.querySelector('main[router\\:page="/about/"]')
-        const article = doc.querySelector('.about')
-        const hello = doc
-          .querySelector('.hello')
-          .parentElement
-        const circle = doc.querySelector('.about .path-illu g')
-        const pathIllu = doc.querySelector('.about .path-illu')
-        const faceIllu = doc.querySelector('.about .face-illu')
-        const path = pathIllu.querySelector('path')
-        const endPoint = faceIllu.querySelector('circle')
-        const getCoord = e => {
-          const endPointRect = endPoint.getBBox()
-          const edgeX = hello.offsetLeft - faceIllu.clientWidth
-          const edgeY = hello.offsetTop - faceIllu
-            .clientHeight
-            path
-            .setAttribute('d', `
+
+            const doc = document.querySelector('main[router\\:page="/about/"]')
+            const article = doc.querySelector('.about')
+            const hello = doc
+              .querySelector('.hello')
+              .parentElement
+            const circle = doc.querySelector('.about .path-illu g')
+            const pathIllu = doc.querySelector('.about .path-illu')
+            const faceIllu = doc.querySelector('.about .face-illu')
+            const path = pathIllu.querySelector('path')
+            const endPoint = faceIllu.querySelector('circle')
+            const getCoord = e => {
+              const endPointRect = endPoint.getBBox()
+              const edgeX = hello.offsetLeft - faceIllu.clientWidth
+              const edgeY = hello.offsetTop - faceIllu
+                .clientHeight
+                path
+                .setAttribute('d', `
             M${hello.offsetLeft + 20}, ${hello.offsetTop} 
             m0,-8
             a1,1 0 0 0 0,8
@@ -231,15 +265,12 @@
             m-3,-4
             Q${endPointRect.x * 1.5} ${endPointRect.y * 1.2} ${endPointRect.x} ${endPointRect.y}
 `)
-            
-            
+
+            }
+            getCoord()
+            window.addEventListener('resize', getCoord)
+          }, 5);
         }
-        getCoord()
-        window.addEventListener('resize', getCoord)
-      }, 5);
-      }
-      
-      
       </script>
 
     {% endif %}
