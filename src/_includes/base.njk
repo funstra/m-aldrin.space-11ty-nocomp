@@ -208,11 +208,6 @@
 
   </head>
   <body >
-
-    {% include "components/nav.njk" %}
-    <main router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}"  >
-      {{ content | safe }}
-    </main>
     <svg id="gridlines" width="100%" height="100%" style="grid-column: 1/3;grid-row: 1/3; z-index: 0;" viewBox="0 0 256 256" preserveAspectRatio="xMidYMid slice">
       <pattern
     id="pattern-grid"
@@ -225,13 +220,16 @@
         <g stroke="hsl(var(--col-primary))" stroke-width="0.45" vector-effect="">
           <line x1="8" x2="8" y1="0" y2="16"/>
           <line x1="0" x2="16" y1="8" y2="8"/>
-          {# <rect x="4" y="4" width="8" height="8" fill="transparent" stroke="hsl(var(--col-ternary))" stroke-opacity="0.3" /> #}
         </g>
         
       </pattern>
-      {# <rect width="100%" height="100%" fill="white" /> #}
       <rect width="100%" height="100%" fill="url(#pattern-grid)" fill-opacity="0.04"/>
     </svg>
+    {% include "components/nav.njk" %}
+    <main router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}"  >
+      {{ content | safe }}
+    </main>
+
     {% include "components/grain.njk" %}
     {% include "components/nav-logic.njk" %}
 
