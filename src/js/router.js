@@ -61,7 +61,10 @@ const diffResource = async destination => {
       // r.onload = e => console.log(e);
       const s = document.createElement("script");
       s.onload = e => console.log(e);
+      console.log(r.getAttribute('router:resource'))
+      s.setAttribute('router:resource',r.getAttribute('router:resource'))
       s.textContent = r.textContent;
+      // s.setAttribute(`[router\:resource]`,`${r.getAttribute('[router\:resource]')}`)
       document.body.appendChild(s);
     }
   });

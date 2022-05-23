@@ -6,7 +6,7 @@ const image = require("./11ty/img");
 /** @param {import('@11ty/eleventy/src/UserConfig')} config */
 module.exports = config => {
   config.addNunjucksShortcode("image", image);
-  if (process.env.NODE_ENV === "production") {
+  if (process.env.NODE_ENV !== "dev") {
     config.addTransform("htmlmin", async function (content, outputPath) {
       if (outputPath && outputPath.endsWith(".html")) {
         let minified = await minify(content, {
@@ -26,8 +26,11 @@ module.exports = config => {
     config.addTemplateFormats("js");
     config.addExtension("js", {
       outputFileExtension: "js",
-      compile: async inputContent => {
-        // Replace any instances of cloud with butt
+      compile: async (inputContent,outPutPath) => {
+        // ignore /pages/ files
+        if(outPutPath.includes('/pages/')){
+          return
+        }
         let output = terser(inputContent);
         return async () => {
           return (await output).code;
@@ -37,8 +40,11 @@ module.exports = config => {
     config.addTemplateFormats("css");
     config.addExtension("css", {
       outputFileExtension: "css",
-      compile: async inputContent => {
-        // Replace any instances of cloud with butt
+      compile: async (inputContent,outPutPath) => {
+        // ignore /pages/ files
+        if(outPutPath.includes('/pages/')){
+          return
+        }
         let output = csso(inputContent);
         return async () => {
           return output.css;
@@ -46,7 +52,7 @@ module.exports = config => {
       },
     });
   } else {
-    config.addPassthroughCopy("src/style.css");
+    config.addPassthroughCopy("src/css");
     config.addPassthroughCopy("src/js/");
     config.addPassthroughCopy({ "./assets/img": "assets/img" });
   }

@@ -1,209 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" router:current-page="/{{page.fileSlug}}/">
   <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{"home" if page.fileSlug == '' else page.fileSlug}}</title>
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/main.css">
     <script src="/js/router.js" type="module"></script>
 
-    {% if page.fileSlug == 'about' %}
-      <style router:resource="/about/">
-        [router\:page="/about/"] .about {
-          display: grid;
-          align-self: flex-start;
-          gap: 1rem;
-        }
-        [router\:page="/about/"] .about figure {
-          overflow: visible;
-        }
-        [router\:page="/about/"] .about .duo-tone {
-          overflow: hidden;
-          box-shadow: 0 0 24px 4px hsl(var(--col-primary) / 0.2);
-        }
-        [router\:page="/about/"] .about .duo-tone img {
-          position: relative;
-          mix-blend-mode: multiply;
-        }
-        [router\:page="/about/"] .duo-tone {
-          overflow: visible;
-          position: relative;
-        }
-        [router\:page="/about/"] .duo-tone::before,
-        [router\:page="/about/"] .duo-tone::after {
-          content: '';
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          top: 0;
-          left: 0;
-          opacity: 0.65;
-        }
-        [router\:page="/about/"] .duo-tone::before {
-          background-color: hsl(var(--col-secondary));
-        }
-        [router\:page="/about/"] .duo-tone::after {
-          background-color: hsl(var(--col-primary));
-          mix-blend-mode: screen;
-        }
-        [router\:page="/about/"] .spot {
-          white-space: nowrap;
-          background-color: hsl(var(--col-blk));
-          color: hsl(var(--col-wht));
-          padding-inline: 0.5em;
-          padding-block: 0.25ex;
-          border-radius: 3px;
-        }
-        [router\:page="/about/"] .smudge {
-          text-shadow: 0 0 8px hsl(var(--col-blk) / 0.5);
-        }
-
-        [router\:page="/about/"] article > svg {
-          display: none;
-        }
-
-        @keyframes point {
-          from {
-            stroke-dashoffset: 330;
-          }
-          to {
-            stroke-dashoffset: 660;
-          }
-        }
-        @keyframes drop {
-          from {
-            transform: translateY(-10px);
-          }
-          to {
-            transform: translateY(0px);
-            opacity: 1;
-          }
-        }
-        @keyframes hint {
-          0% {
-            box-shadow: 0 0 0 0 hsl(var(--col-ternary)/0.05);
-          }
-          15% {
-            box-shadow: 0 0 0 2px hsl(var(--col-ternary)/0.05),0 0 16px 2px hsl(var(--col-ternary)/0.1);
-            color: hsl(var(--col-ternary));
-          }
-          75% {
-            box-shadow: 0 0 0 2px hsl(var(--col-ternary)/0.05),0 0 16px 2px hsl(var(--col-ternary)/0.1);
-            color: hsl(var(--col-ternary));
-            transform: translateX(2px) rotate(-1deg);
-          }
-          100% {
-            box-shadow: 0 0 0 0 hsl(var(--col-ternary)/0.05);
-          }
-        }
-        @keyframes fade {
-          from{
-            opacity: 0;
-          }
-          to{
-            opacity: 1;
-          }
-        }
-        @media (min-width:512px) {
-          [router\:page="/about/"] article {
-            grid-template-columns: minmax(auto,128px) minmax(auto,256px) repeat(3,1fr);
-            grid-template-rows: 128px 128px;
-          }
-          [router\:page="/about/"] article > .path-illu path {
-            stroke-dasharray: 330;
-            stroke-dashoffset: 330;
-            animation-name: point;
-            animation-duration: 350ms;
-            animation-delay: 200ms;
-            animation-timing-function: ease-out;
-            animation-fill-mode: forwards;
-          }
-          [router\:page="/about/"] article > svg {
-            display: block;
-          }
-          [router\:page="/about/"] .about figure {
-            grid-column: 1/3;
-            grid-row: 1/5;
-            /* opacity: 0; */
-            animation-delay: 500ms;
-            /* animation-name: fade; */
-            animation-duration: 500ms;
-            animation-fill-mode: forwards;
-          }
-          [router\:page="/about/"] .about :where(p, .social) {
-            animation-name: drop;
-            animation-duration: 1s;
-            animation-fill-mode: forwards;
-            animation-timing-function: var(--transition-timing-mud);
-
-          }
-          [router\:page="/about/"] .about p {
-            grid-column: 3/6;
-            grid-row: 5/6;
-            opacity: 0;
-            animation-delay: 440ms;
-          }
-          [router\:page="/about/"] .about .social {
-            grid-column: 2/4;
-            width: max-content;
-            margin-top: 2rem;
-            grid-row: 6;
-            opacity: 0;
-            animation-delay: 700ms,1500ms;
-            animation-name: drop,hint;
-            animation-timing-function: ease-out;
-            border-radius: 6px;
-            animation-duration: 1s,2000ms;
-
-            padding: 1rem;
-
-          }
-        }
-      </style>
-    {% endif %}
-    {% if page.fileSlug == ""%}
-      <style router:resource="/">
-
-        [router\:page="/"] .mkj {
-          color: hsl(var(--col-primary));
-        }
-        [router\:page="/"].catch,
-        [router\:page="/"].mkj {
-          align-self: flex-end;
-        }
-        [router\:page="/"] .mkj {
-          grid-row: 3;
-        }
-        main[router\:page="/"] {
-          grid-template-rows: 1fr auto auto;
-          gap: 1rem;
-        }
-        @media (min-width:512px) {
-          [router\:page="/"] .mkj {
-            grid-row: 5;
-            align-self: flex-start;
-            grid-column: 1/3;
-            /* writing-mode: sideways-lr; */
-          }
-          main[router\:page="/"] {
-            padding: 2rem;
-            grid-template-columns: repeat(6,1fr);
-            grid-template-rows: repeat(4,1fr) auto;
-          }
-          [router\:page="/"] .catch {
-            grid-row: 4;
-            grid-column: 2/5;
-            align-self: flex-end;
-          }
-
-          main[router\:page="/"] > svg {
-            grid-column: 3/6;
-            grid-row: 1/4;
-          }
-        }
-      </style>
+    {% if env.dev %}
+      <link rel="stylesheet" href="/css/pages/home.css">
+      <link rel="stylesheet" href="/css/pages/about.css">
+    {% else %}
+      {# style resources - -  #}
+      {% if page.fileSlug == ""%}
+        <style router:resource="/">
+          {% include "../css/pages/home.css" %}
+        </style>
+      {% endif %}
+      {% if page.fileSlug == 'about' %}
+        <style router:resource="/about/">
+          {% include "../css/pages/about.css" %}
+        </style>
+      {% endif %}
     {% endif %}
 
   </head>
@@ -217,14 +37,14 @@
     height="16"
     patternUnits="userSpaceOnUse"
     patternTransform="rotate(45)"
-  > 
+  >
         <g stroke="hsl(var(--col-primary))" stroke-width="0.45" vector-effect="">
-          <line x1="8" x2="8" y1="0" y2="16"/>
-          <line x1="0" x2="16" y1="8" y2="8"/>
+          <line x1="8" x2="8" y1="0" y2="16" />
+          <line x1="0" x2="16" y1="8" y2="8" />
         </g>
-        
+
       </pattern>
-      <rect width="100%" height="100%" fill="url(#pattern-grid)" fill-opacity="0.04"/>
+      <rect width="100%" height="100%" fill="url(#pattern-grid)" fill-opacity="0.04" />
     </svg>
     <main router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}"  >
       {{ content | safe }}
@@ -233,44 +53,11 @@
     {% include "components/grain.njk" %}
     {% include "components/nav-logic.njk" %}
 
+    {# script resources - -  #}
     {% if page.fileSlug == 'about' %}
-
-      <script router:resource="/about/">
-        init = () => {
-          setTimeout(() => {
-
-            const doc = document.querySelector('main[router\\:page="/about/"]')
-            const article = doc.querySelector('.about')
-            const hello = doc
-              .querySelector('.hello')
-              .parentElement
-            const circle = doc.querySelector('.about .path-illu g')
-            const pathIllu = doc.querySelector('.about .path-illu')
-            const faceIllu = doc.querySelector('.about .face-illu')
-            const path = pathIllu.querySelector('path')
-            const endPoint = faceIllu.querySelector('circle')
-            const getCoord = e => {
-              const endPointRect = endPoint.getBBox()
-              const edgeX = hello.offsetLeft - faceIllu.clientWidth
-              const edgeY = hello.offsetTop - faceIllu
-                .clientHeight
-                path
-                .setAttribute('d', `
-            M${hello.offsetLeft + 20}, ${hello.offsetTop} 
-            m0,-8
-            a1,1 0 0 0 0,8
-            a1,1 0 0 0 0,-8 
-            m-3,-4
-            Q${endPointRect.x * 1.5} ${endPointRect.y * 1.2} ${endPointRect.x} ${endPointRect.y}
-`)
-
-            }
-            getCoord()
-            window.addEventListener('resize', getCoord)
-          }, 5);
-        }
+      <script router:resource="/about/" class="test test">
+        {% include "../js/pages/about.js" %}
       </script>
-
     {% endif %}
 
   </body>

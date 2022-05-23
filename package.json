@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "npx @11ty/eleventy --incremental --serve",
+    "dev": "NODE_ENV=dev npx @11ty/eleventy --incremental --serve",
     "build": "NODE_ENV=production npx @11ty/eleventy"
   },
   "devDependencies": {

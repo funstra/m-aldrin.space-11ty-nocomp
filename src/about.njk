@@ -17,35 +17,35 @@ order: 2
     width="100%"
     height="100%"
     style="
-      pointer-events: none;
-      grid-row: 1/5;
-      grid-column: 1/3;
-      z-index: 1;
-      position: relative;
+
     "
   >
-    <circle cx="64%" cy="62%" r="1" opacity="0" />
+    <circle cx="58%" cy="61%" r="1" opacity="0" />
   </svg>
   <figure>
     <div class="duo-tone">
-      {% if env == 'production' %}
-      {{ env | log }}
-      {% image 'img', 'mecropbw.jpg', "It's me!", '', { h: "100%" },
-      'onload="init()"' %} {% else %}
+    {% if env.dev %}
       <img
         src="/assets/img/mecropbw.jpg"
         alt="Portrait of me, Marcus Aldrin"
         style="width: 100%"
-        onload="init()"
-      />
-      {% endif %}
-    </div>
-    <figcaption style="white-space: nowrap">
+        onload="_initPath()"
+    {% else %}
+      {% image 'img',
+      'mecropbw.jpg',
+      "It's me!",
+      '', {
+        h: "100%"
+      },
+      'onload="_initPath()"' %}
+    {% endif %}
+  </div>
+  <figcaption style="white-space: nowrap">
       This is me in <time>2022</time>
     </figcaption>
   </figure>
   <p>
-    <span class="hello" style="color: hsl(var(--col-primary))">Hello!</span>
+    <span class="hello" style="">Hello!</span>
     My name is
     <span class="spot">Marcus Aldrin</span>
     and I am a Designer & Developer, Stuff maker &
@@ -95,42 +95,39 @@ order: 2
     </g>
   </svg>
   {# <svg width="100%" height="100%" viewBox="0 0 256 256" style="grid-column: 4/-1; grid-row: 1/span 2;">
-    <g
+        <g
       transform="translate(128 128)"
       stroke="hsl(var(--col-primary))"
       fill="transparent"
       stroke-width="0.25"
     >
-      <g transform="translate(-50 -32)">
-        <g transform="scale(8)">
-          <g transform="rotate(45)" s>
-            <rect
+          <g transform="translate(-50 -32)">
+            <g transform="scale(8)">
+              <g transform="rotate(45)" s>
+                <rect
               x="3"
               y="0"
               width="8"
               height="8"
               stroke="hsl(var(--col-primary))"
-            />
-          </g>
-          <g transform="rotate(45)">
-            <rect x="20.5" y="-14" width="4" height="4" />
-          </g>
-          <path
+            </g>
+            <g transform="rotate(45)">
+              <rect x="20.5" y="-14" width="4" height="4" />
+            </g>
+            <path
             d="
           M5,11
           l8,8
           l10,-10
           "
-          />
-          <circle
+            <circle
             cx="2.2"
             cy="-1"
             r="1.5"
             stroke="transparent"
             fill="hsl(var(--col-ternary))"
-          />
+          </g>
         </g>
       </g>
-    </g>
-  </svg> #}
+    </svg> #}
 </article>
