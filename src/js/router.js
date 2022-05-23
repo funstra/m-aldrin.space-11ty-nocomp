@@ -53,15 +53,11 @@ const diffResource = async destination => {
   const currentResource = document.querySelectorAll("[router\\:resource]");
 
   resource.forEach(r => {
-    // console.log(r);
     if (r.tagName === "STYLE") {
       document.head.appendChild(r);
     }
     if (r.tagName === "SCRIPT") {
-      // r.onload = e => console.log(e);
       const s = document.createElement("script");
-      s.onload = e => console.log(e);
-      console.log(r.getAttribute('router:resource'))
       s.setAttribute('router:resource',r.getAttribute('router:resource'))
       s.textContent = r.textContent;
       // s.setAttribute(`[router\:resource]`,`${r.getAttribute('[router\:resource]')}`)
@@ -118,11 +114,9 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   let outDir = "";
   let inDir = "";
   if (srcDir - destDir < 0) {
-    // console.log("going forward");
     outDir = "1%";
     inDir = "-1%";
   } else {
-    // console.log("going backwards");
     outDir = "-1%";
     inDir = "1%";
   }
@@ -182,7 +176,6 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 // handle click and f-nav events
 const handle = async e => {
   let { target } = e;
-  console.log(target);
   if (target.pathname === location.pathname) {
     e.preventDefault();
     target.classList.add("err");

@@ -1,6 +1,6 @@
 {% import "components/Navicons.njk" as icons %}
 <site-nav state="close" current-route="{{page.fileSlug}}">
-    <button>
+    <button aria-label="navigation toggle">
         <svg width="16" viewBox="0 0 16 40" style="pointer-events: none">
             <g fill="currentColor">
                 <circle style="--a-d:0ms" cx="8" cy="8" r="4"/>
@@ -16,9 +16,9 @@
                 <span>home</span></a>
         </li>
         <li>
-            <a tabindex="-1" class="under-construction" aria-disabled="true" {{'aria-current=page' if page.fileSlug == "work"}} router:order="1">
+            <p tabindex="-1" class="under-construction" aria-disabled="true" {{'aria-current=page' if page.fileSlug == "work"}} router:order="1">
                 {{icons.icon('work')}}
-                <span>work</span></a>
+                <span>work</span></p>
         </li>
         <li>
             <a tabindex="-1" href="/about/" {{'aria-current=page' if page.fileSlug == "about"}} router:order="2">

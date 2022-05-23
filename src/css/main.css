@@ -42,13 +42,13 @@
 /* colors */
 :root {
   --hue: 15;
-  --hue-offset: 43;
+  --hue-offset: 40;
   --offset-mult: 3.75;
 
   --col-blk: calc(var(--hue)) 30% 20%;
   --col-wht: calc(var(--hue)) 20% 97.5%;
 
-  --col-primary: var(--hue) 95% 65%;
+  --col-primary: var(--hue) 95% 55%;
   --col-secondary: calc(var(--hue) + (var(--hue-offset))) 90% 60%;
   --col-ternary: calc(var(--hue) + (var(--hue-offset) * var(--offset-mult))) 85%
     45%;
@@ -183,7 +183,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   border-radius: 8px;
 
-  background-color: hsl(var(--col-blk) / 0.03);
+  background-color: hsl(var(--col-blk) / 0.01);
   /* background-color: hsl(var(--col-primary) / 0.005); */
   box-shadow: 0 0 2px 0 inset hsl(var(--col-wht) / 1),
     0 0 4px 1px inset hsl(var(--col-primary) / 0.1),
@@ -193,7 +193,10 @@ body {
 /* reset - - - -  */
 
 /* prose */
-@font-face {
+
+/* FONTS  */
+
+/* @font-face {
   font-family: SCPVariable;
   src: url("/assets/fonts/SCPVariable.ttf");
   font-display: fallback;
@@ -202,14 +205,57 @@ body {
   font-family: VollkornVariable;
   src: url("/assets/fonts/VollkornVariable.ttf");
   font-display: fallback;
+} */
+
+/* vollkorn-regular - latin */
+@font-face {
+  font-family: "Vollkorn";
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: local(""),
+    url("/assets/fonts/vollkorn/vollkorn-v20-latin-regular.woff2")
+      format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("/assets/fonts/vollkorn/vollkorn-v20-latin-regular.woff")
+      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
+/* source-code-pro-300 - latin */
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 300;
+  font-display: fallback;
+  src: local(""),
+    url("/assets/fonts/scp/source-code-pro-v21-latin-300.woff2") format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("/assets/fonts/scp/source-code-pro-v21-latin-300.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* source-code-pro-regular - latin */
+@font-face {
+  font-family: "Source Code Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  src: local(""),
+    url("/assets/fonts/scp/source-code-pro-v21-latin-regular.woff2")
+      format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("/assets/fonts/scp/source-code-pro-v21-latin-regular.woff")
+      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* FONTS  */
+
 body {
-  font-family: SCPVariable, Arial, Helvetica, sans-serif;
+  font-family: Source Code Pro, sans-serif;
+  font-weight: 300;
   line-height: 1.5;
   color: hsl(var(--col-blk));
   font-size: var(--step-0);
-  font-variation-settings: "wght" 300;
+  /* font-variation-settings: "wght" 300; */
 }
 strong {
   font-variation-settings: "wght" 400;
@@ -219,7 +265,7 @@ strong {
   line-height: 1;
   transition-property: font-size;
 
-  font-family: VollkornVariable;
+  font-family: Vollkorn, sans-serif;
   transition-duration: 200ms;
   transition-timing-function: ease-out;
   transition-delay: 175ms;
@@ -232,6 +278,7 @@ strong {
 }
 h1 {
   font-size: var(--step-7);
+  font-weight: 500;
 }
 h2 {
   font-size: var(--step-4);
@@ -332,13 +379,13 @@ site-nav[state="close"] ul {
   opacity: 0;
   pointer-events: none;
 }
-site-nav ul a {
+site-nav > ul li > * {
   display: flex;
   gap: 0.5em;
   text-decoration: none;
 }
 site-nav ul a[aria-current="page"] span::after {
-  /* transition-property: height; */
+  transition-property: height;
 }
 site-nav ul a.err {
   color: white;
@@ -347,7 +394,7 @@ site-nav ul a.err span::after {
   height: 100% !important;
   background-color: red;
 }
-site-nav ul a.under-construction {
+site-nav ul .under-construction {
   cursor: progress;
   text-decoration: line-through;
   opacity: 0.25;

@@ -3,8 +3,8 @@
   mNav.querySelectorAll("ul li").forEach(li => {
     li.onmouseenter = e => {
       const { target } = e;
-      target.querySelector("a");
-      currentFocus?.querySelector("a")?.blur();
+      target.querySelector(":is(a,p)");
+      currentFocus?.querySelector(":is(a,p)")?.blur();
       currentFocus = target;
     };
     // make sure that the click is not accepted when current route === location.pathname
@@ -25,8 +25,6 @@
       e.target !== mNav.querySelector("ul") &&
       !(e.target.tagName === "A" && e.target.closest("site-nav") !== null)
     ) {
-      console.log(e.target.tagName && e.target.closest("site-nav") !== null);
-
       mNav.setAttribute("state", "close");
     }
   };
@@ -37,41 +35,40 @@
     //   on escape set state of mNav and blur current focus
     if (e.key === "Escape") {
       mNav.setAttribute("state", "close");
-      currentFocus.querySelector("a")?.blur();
+      currentFocus.querySelector(":is(a,p)")?.blur();
       currentFocus = null;
     }
 
     if (e.key === "Enter") {
       if (e.target.pathname === location.pathname) {
-        console.log('same')
         return null;
       }
       // mNav.setAttribute("state", "close");
-      currentFocus.querySelector("a")?.click();
-      currentFocus.querySelector("a")?.blur();
+      currentFocus.querySelector(":is(a,p)")?.click();
+      currentFocus.querySelector(":is(a,p)")?.blur();
       currentFocus = null;
     }
     if (e.key === "Tab") {
       e.preventDefault();
-      currentFocus?.querySelector("a")?.blur();
+      currentFocus?.querySelector(":is(a,p)")?.blur();
       if (!e.shiftKey) {
         const next = () => {
           //   go to next or first
           if (!currentFocus || !currentFocus.nextElementSibling) {
             currentFocus = mNav.querySelector("ul li:first-child");
-            currentFocus.querySelector("a").focus();
+            currentFocus.querySelector(":is(a,p)").focus();
           } else {
             const sibling = currentFocus.nextElementSibling;
             if (
               sibling
-                .querySelector("a")
+                .querySelector(":is(a,p)")
                 .classList.contains("under-construction")
             ) {
               currentFocus = sibling;
               next();
             } else {
               currentFocus = sibling;
-              currentFocus.querySelector("a").focus();
+              currentFocus.querySelector(":is(a,p)").focus();
             }
           }
         };
@@ -81,19 +78,19 @@
           //   got to previous or last
           if (!currentFocus || !currentFocus.previousElementSibling) {
             currentFocus = mNav.querySelector("ul li:last-child");
-            currentFocus.querySelector("a").focus();
+            currentFocus.querySelector(":is(a,p)").focus();
           } else {
             const sibling = currentFocus.previousElementSibling;
             if (
               sibling
-                .querySelector("a")
+                .querySelector(":is(a,p)")
                 .classList.contains("under-construction")
             ) {
               currentFocus = sibling;
               prev();
             } else {
               currentFocus = sibling;
-              currentFocus.querySelector("a").focus();
+              currentFocus.querySelector(":is(a,p)").focus();
             }
           }
         };
@@ -118,7 +115,7 @@
           break;
         //   Watch for attribute change on current-route attribute
         case "current-route":
-          mNav.querySelectorAll("ul li a").forEach(a => {
+          mNav.querySelectorAll("ul li :is(a,p)").forEach(a => {
             if (a.pathname === mNav.getAttribute("current-route")) {
               a.setAttribute("aria-current", "page");
             } else {
