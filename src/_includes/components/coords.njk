@@ -1,31 +1,98 @@
-<svg width="100%" height="100%" viewBox="0 0 256 256">
-  <defs>
-    <filter id="filter-scribble">
-      <feTurbulence baseFrequency="0.5" type="fractalNoise" seed="1" />
-      <feDisplacementMap in="SourceGraphic" xChannelSelector="R" yChannelSelector="G" scale="1.5" />
-    </filter>
-  </defs>
+<svg width="100%" height="100%" viewBox="0 0 256 256" style="overflow: visible;">
   {% set n = 8 %}
   {% set cls = cycler(false, true, false) %}
-  <g transform="translate(128 0)" >
-    <g transform="scale({{ 256 / n }}) translate(0 0.5)" >
-      <g >
-        <g>
-          <line x1="0" x2="3" y1="0" y2="0" stroke-width="0.05" stroke="hsl(var(--col-secondary))" />
-          <circle cx="3" cy="0" r="0.1" />
-          <line x1="0" x2="0" y1="4" y2="7" stroke-width="0.025" stroke="hsl(var(--col-ternary))" />
-          <circle cx="0" cy="7" r="0.2" fill="transparent" stroke-width="0.125" stroke="hsl(var(--col-ternary))" />
+  {% set l = 160 %}
+  <defs>
+    <filter id="filter-scribble">
+      <feTurbulence baseFrequency="0.1" type="fractalNoise" seed="1" />
+      <feDisplacementMap in="SourceGraphic" xChannelSelector="R" yChannelSelector="G" scale="7" />
+      <feGaussianBlur stdDeviation="0.01" />
+      <feColorMatrix type="matrix" 
+      values="
+      1 0 0 0 0
+      0 1 0 0 0
+      0 0 1 0 0
+      0 0 0 2 -0.25
+      " />
+    </filter>
+    <linearGradient id="coords-lgradient-0" gradientTransform="rotate(90)">
+      <stop stop-color="black" offset="13%" />
+      <stop stop-color="white" offset="20%" />
+      <stop stop-color="white" offset="80%" />
+      <stop stop-color="black" offset="95%" />
+    </linearGradient>
+    <mask id="coords-mask-fadeout">
+      <rect x="-32" width="64" height="{{l}}" fill="url(#coords-lgradient-0)" />
+    </mask>
+    {% set patternSize = 4 %}
+    <pattern width="{{patternSize}}" height="{{patternSize}}" patternTransform="rotate(45)" id="coords-pattern-cross" patternUnits="userSpaceOnUse">
+      <g stroke="red" stroke-width="1">
+        <path d="M{{patternSize}},0 v{{patternSize}}" />
+        <path d="M0,{{patternSize}} h{{patternSize}}" />
+      </g>
+    </pattern>
+  </defs>
+
+  <g transform="translate(128 8)" >
+    <g transform="translate(0 0)" >
+      <g fill="hsl(var(--col-primary)">
+        <rect x="2" y="2" width="30" height="30" />
+        <rect x="2" y="-132" width="30" height="128" fill="url(#coords-pattern-cross)" />
+      </g>
+      <g>
+        <g stroke-width="2">
+          <line x1="0" x2="64" y1="0" y2="0" stroke-width="2" stroke="hsl(var(--col-secondary))" />
+          <circle cx="64" cy="0" r="2" />
+          <g>
+            {% set crestSize = 1 %}
+            {% set pathString = "" %}
+            {% set waveFrq = 2 %}
+            {% for p in range(1, (n * waveFrq)) %}
+              {% set sign = 1 - ((p%2)*2) %}
+              {% set pathPart = "t0" + "," + l / n / waveFrq + " " %}
+              {% set pathString = pathString + pathPart %}
+            {% endfor %}
+            <path  id="coords-path-0" d="M0,0 q{{crestSize}},{{(l/n/waveFrq)/2}} 0,{{l/n/waveFrq}} {{ pathString }}" fill="none" stroke-width="0.5" stroke="hsl(var(--col-ternary))" />
+          </g>
         </g>
+
         {% for y in range(0, n) %}
-          <g transform="translate({{ 0 }} {{ y }})">
-            <g></g>
-            <circle cx="0" cy="0" r="{{ 0.05 }}" />
+          <g transform="translate({{ 0 }} {{ (y/(n-1)) * l }})">
+            <circle cx="0" cy="0" r="{{ 1 + (( y / n ) * 0) }}" />
             {% if cls.next() %}
-              <circle cx="0" cy="0" r="{{ 0.4 }}" fill="transparent" stroke-width="0.025" stroke="currentColor" />
+              <circle cx="0" cy="0" r="{{ 10 }}" fill="transparent" stroke-width="0.5" stroke="currentColor" />
+            {% endif %}
+          </g>
+        {% endfor %}
+
+        {% set nMovers = 32 %}
+        <g mask="url(#coords-mask-fadeout)" fill="hsl(var(--col-secondary))" filter="" >
+          {% for c in range(0, nMovers) %}
+            <g transform="translate({{ [-3,3] | frand }} 0)">
+              {% if[0, 1] | frand > 0.5 %}
+              {% set rectSize = 1 + ((c / nMovers) * 1) %}
+              <rect  height="{{ rectSize * 0.5 }}" width="{{ rectSize * [1,2] | frand }}" fill="{{ 'hsl(var(--col-primary)' if [0,1] | frand > 0.25  }}">
+                <animateMotion rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear" begin="-{{c}}"  dur="{{8 + (c/nMovers)}}s"  repeatCount="indefinite">
+                  <mpath xlink:href="#coords-path-0" />
+                </animateMotion>
+              </rect>
+            {% else %}
+              <circle  r="{{ 1 + ((c/nMovers) * 1 ) }}" fill="{{ 'hsl(var(--col-primary)' if [0,1] | frand > 0.85  }}">
+                <animateMotion rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear" begin="-{{c}}"  dur="{{8 + (c/nMovers)}}s"  repeatCount="indefinite">
+                  <mpath xlink:href="#coords-path-0" />
+                </animateMotion>
+              </circle>
             {% endif %}
           </g>
         {% endfor %}
       </g>
+      <g transform="translate(0 {{l}})">
+        <circle  r="7" fill="transparent" stroke-width="3" stroke="hsl(var(--col-ternary))" />
+      </g>
+      <g transform="translate(0 {{ (l / (n-1)) * 3 }})">
+        <circle  r="4" fill="hsl(var(--col-primary))" fill-opacity="0.25" stroke-width="0.5" stroke="hsl(var(--col-primary))" />
+      </g>
     </g>
   </g>
+</g>
 </svg>

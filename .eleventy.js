@@ -3,8 +3,17 @@ const { minify: terser } = require("terser");
 const { minify: csso } = require("csso");
 const image = require("./11ty/img");
 
+// filters - -
+const { irand, frand, angleToV } = require("./11ty/filters.js");
+
 /** @param {import('@11ty/eleventy/src/UserConfig')} config */
 module.exports = config => {
+
+  // gen design filters 
+  config.addNunjucksFilter("irand", irand);
+  config.addNunjucksFilter("frand", frand);
+  config.addNunjucksFilter("angleToV", angleToV);
+  
   config.addNunjucksShortcode("image", image);
   if (process.env.NODE_ENV !== "dev") {
     config.addTransform("htmlmin", async function (content, outputPath) {

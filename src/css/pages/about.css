@@ -2,7 +2,7 @@
   display: grid;
   align-self: flex-start;
   gap: 1rem;
-  --m-width:45rem;
+  --m-width: 45rem;
 }
 [router\:page="/about/"] .about figure {
   overflow: visible;
@@ -70,7 +70,7 @@
 }
 @keyframes drop {
   from {
-    transform: translateY(-10px) rotate(var(--r,0deg));
+    transform: translateY(-10px) rotate(var(--r, 0deg));
   }
   to {
     transform: translateY(0px) rotate(0);
@@ -108,16 +108,20 @@
   50% {
     color: var(--col);
   }
-  100%{
+  100% {
     color: hsl(var(--col-blk));
   }
 }
 @keyframes n {
-  50% {
+  25% {
     background-color: var(--col);
     color: hsl(var(--col-wht));
   }
-  100%{
+  75% {
+    background-color: var(--col);
+    color: hsl(var(--col-wht));
+  }
+  100% {
     color: hsl(var(--col-blk));
     background-color: transparent;
   }
@@ -155,8 +159,8 @@
   [router\:page="/about/"] .spot {
     white-space: nowrap;
     animation-name: n;
-    animation-delay: 1900ms;
-    animation-duration: 1600ms;
+    animation-delay: 2200ms;
+    animation-duration: 2200ms;
     animation-fill-mode: forwards;
     --col: hsl(var(--col-ternary));
     /* background-color: hsl(var(--col-blk)); */
@@ -201,7 +205,7 @@
     margin-top: 2rem;
     grid-row: 6;
     opacity: 0;
-    animation-delay: 1200ms, 2800ms;
+    animation-delay: 1200ms, 6000ms;
     animation-name: drop, hint;
     animation-timing-function: ease-out;
     border-radius: 6px;
