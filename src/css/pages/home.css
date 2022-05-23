@@ -1,3 +1,6 @@
+[router\:page="/"] {
+  overflow: hidden;
+}
 [router\:page="/"] .mkj {
   grid-row: 3;
   color: hsl(var(--col-wht) / 0.9);
