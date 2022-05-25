@@ -1,7 +1,7 @@
 <svg width="100%" height="100%" viewBox="0 0 256 256" style="overflow: visible;">
   {% set n = 8 %}
   {% set cls = cycler(false, true, false) %}
-  {% set l = 160 %}
+  {% set l = 192 %}
   <defs>
     <filter id="filter-scribble">
       <feTurbulence baseFrequency="0.1" type="fractalNoise" seed="1" />
@@ -43,6 +43,19 @@
         <g stroke-width="2">
           <line x1="0" x2="64" y1="0" y2="0" stroke-width="2" stroke="hsl(var(--col-secondary))" />
           <circle cx="64" cy="0" r="2" />
+          <g transform="translate(64 0)">
+            <circle  r="4" fill="none" stroke-width="0.5" stroke-opacity="0.25" stroke="hsl(var(--col-ternary)"></circle>
+            <g>
+              {% for mini in range(0, 6) %}
+                <g transform="rotate({{ mini * 360/6}})">
+                  <circle cx="8" r="0.5" fill="hsl(var(--col-primary))" opacity="0.25" />
+                  <animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="8s" repeatCount="indefinite" values="0;360" additive="sum" />
+                  <animateTransform attributeName="transform" attributeType="XML" type="scale" dur="{{ 10 + [0,1] | frand * 6 }}s" repeatCount="indefinite" values="1;{{1+(mini/6)*0.2}};1" additive="sum" />
+                </g>
+              {% endfor %}
+              <animateTransform attributeName="transform" attributeType="XML" type="scale" dur="16s" repeatCount="indefinite" values="1;1.2;1" additive="sum" />
+            </g>
+          </g>
           <g>
             {% set crestSize = 1 %}
             {% set pathString = "" %}
@@ -78,7 +91,7 @@
               </rect>
             {% else %}
               <circle  r="{{ 1 + ((c/nMovers) * 1 ) }}" fill="{{ 'hsl(var(--col-primary)' if [0,1] | frand > 0.85  }}">
-                <animateMotion rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear" begin="-{{c}}"  dur="{{8 + (c/nMovers)}}s"  repeatCount="indefinite">
+                <animateMotion rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear" begin="-{{c}}"  dur="{{8 + (c/nMovers) + [0,1] | frand * 2}}s"  repeatCount="indefinite">
                   <mpath xlink:href="#coords-path-0" />
                 </animateMotion>
               </circle>

@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{"home" if page.fileSlug == '' else page.fileSlug}}</title>
 
-    <meta name="description" content="{{page.description if page.description else "Marcus Aldrins personal website"}}">
+    <meta name="description" content="{{description if description else "Marcus Aldrins personal website"}}">
 
     <link rel="stylesheet" href="/css/main.css">
 
-    <link rel="preload" href="/assets/fonts/vollkorn/vollkorn-v20-latin-regular.woff2" as="font" type="font/woff2">
+    {# <link rel="preload" href="/assets/fonts/vollkorn/vollkorn-v20-latin-regular.woff2" as="font" type="font/woff2"> #}
     <link rel="preload" href="/assets/fonts/scp/source-code-pro-v21-latin-300.woff2" as="font" type="font/woff2">
     <link rel="preload" href="/assets/fonts/scp/source-code-pro-v21-latin-regular.woff2" as="font" type="font/woff2">
 

@@ -206,7 +206,7 @@ body {
 } */
 
 /* vollkorn-regular - latin */
-@font-face {
+/* @font-face {
   font-family: "Vollkorn";
   font-style: normal;
   font-weight: 400;
@@ -214,10 +214,9 @@ body {
   src: local(""),
     url("/assets/fonts/vollkorn/vollkorn-v20-latin-regular.woff2")
       format("woff2"),
-    /* Chrome 26+, Opera 23+, Firefox 39+ */
       url("/assets/fonts/vollkorn/vollkorn-v20-latin-regular.woff")
-      format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-}
+      format("woff"); 
+} */
 
 /* source-code-pro-300 - latin */
 @font-face {
@@ -252,7 +251,7 @@ body {
   font-weight: 300;
   line-height: 1.5;
   color: hsl(var(--col-blk));
-  font-size: var(--step-0);
+  font-size: var(--step-1);
   /* font-variation-settings: "wght" 300; */
 }
 strong {
