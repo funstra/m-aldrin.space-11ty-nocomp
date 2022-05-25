@@ -1,0 +1,16 @@
+<svg width="0" height="0" style="display:none">
+    <filter id="filter-inset">
+        <feGaussianBlur stdDeviation="1" result="blur" />
+        <feOffset dx="-2"  dy="-1"/>
+        {# <feMorphology radius="2" operator="dilate" /> #}
+        <feComposite in2="SourceAlpha" operator="xor" />
+        <feComposite in2="SourceAlpha" operator="in" />
+        <feGaussianBlur stdDeviation="0.5" />
+        <feComposite in2="SourceAlpha" operator="in" />
+        <feMerge>
+            <feMergeNode in="SourceGraphic" />
+            <feMergeNode />
+        </feMerge>
+
+    </filter>
+</svg>
