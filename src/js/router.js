@@ -119,6 +119,8 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   const destDir = parseInt(dest.elm.getAttribute("router:order"));
   let outDir = "";
   let inDir = "";
+  console.log(srcDir,destDir);
+  console.log(srcDir - destDir);
   if (srcDir - destDir < 0) {
     outDir = "1%";
     inDir = "-1%";

@@ -171,6 +171,7 @@ html.transitioning #gridlines {
   opacity: 0.5;
 }
 body {
+  overflow: hidden;
   display: grid;
   /* padding: 0.25rem; */
   border-radius: 6px;

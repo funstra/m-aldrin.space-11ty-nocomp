@@ -3,9 +3,9 @@
     <button aria-label="navigation toggle">
         <svg width="16" viewBox="0 0 16 40" style="pointer-events: none">
             <g fill="currentColor">
-                <circle style="--a-d:0ms" cx="8" cy="8" r="4"/>
-                <circle style="--a-d:100ms" cx="8" cy="20" r="4"/>
-                <circle style="--a-d:200ms" cx="8" cy="32" r="4"/>
+                <circle style="--a-d:0ms" cx="8" cy="8" r="4" />
+                <circle style="--a-d:100ms" cx="8" cy="20" r="4" />
+                <circle style="--a-d:200ms" cx="8" cy="32" r="4" />
             </g>
         </svg>
     </button>
@@ -16,9 +16,9 @@
                 <span>home</span></a>
         </li>
         <li>
-            <p tabindex="-1" class="under-construction" aria-disabled="true" {{'aria-current=page' if page.fileSlug == "work"}} router:order="1">
+            <a tabindex="-1" href="/work/" class="" {{'aria-current=page' if page.fileSlug == "work"}} router:order="1">
                 {{icons.icon('work')}}
-                <span>work</span></p>
+                <span>works</span></a>
         </li>
         <li>
             <a tabindex="-1" href="/about/" {{'aria-current=page' if page.fileSlug == "about"}} router:order="2">
