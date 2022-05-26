@@ -1,5 +1,5 @@
 const Image = require("@11ty/eleventy-img");
-module.exports = function (dir, name, alt, outname, dim,attrs) {
+module.exports = function (dir, name, alt, outname, dim, attrs) {
   const src = `./assets/${dir}${dir ? "/" : ""}${name}`.toLocaleLowerCase();
   const opt = {
     widths: [512, 1024, 2048, null],
@@ -26,9 +26,9 @@ module.exports = function (dir, name, alt, outname, dim,attrs) {
         srcset="
         ${metadata.webp.map(entry => entry.srcset).join(", ")}
         ${metadata.jpeg.map(entry => entry.srcset).join(", ")}"
-        sizes="50vw"
-        width="${dim.w ? dim.w : highsrc.width}"
-        height="${dim.h ? dim.h : highsrc.height}"
+        sizes="${dim?.s ? dim.s : "50vw"}"
+        width="${dim?.w ? dim.w : highsrc.width}"
+        height="${dim?.h ? dim.h : highsrc.height}"
         alt="${alt}"
         ${attrs}
         loading="lazy"

@@ -8,12 +8,18 @@ const { irand, frand, angleToV } = require("./11ty/filters.js");
 
 /** @param {import('@11ty/eleventy/src/UserConfig')} config */
 module.exports = config => {
-
-  // gen design filters 
+  // gen design filters
   config.addNunjucksFilter("irand", irand);
   config.addNunjucksFilter("frand", frand);
   config.addNunjucksFilter("angleToV", angleToV);
-  
+
+  // date
+  config.addNunjucksFilter("daatee", d => {
+    const _d = new Date(d);
+    console.log(_d.getFullYear());
+    return _d;
+  });
+
   config.addNunjucksShortcode("image", image);
   if (process.env.NODE_ENV !== "dev") {
     config.addTransform("htmlmin", async function (content, outputPath) {
@@ -35,10 +41,10 @@ module.exports = config => {
     config.addTemplateFormats("js");
     config.addExtension("js", {
       outputFileExtension: "js",
-      compile: async (inputContent,outPutPath) => {
+      compile: async (inputContent, outPutPath) => {
         // ignore /pages/ files
-        if(outPutPath.includes('/pages/')){
-          return
+        if (outPutPath.includes("/pages/")) {
+          return;
         }
         let output = terser(inputContent);
         return async () => {
@@ -49,10 +55,10 @@ module.exports = config => {
     config.addTemplateFormats("css");
     config.addExtension("css", {
       outputFileExtension: "css",
-      compile: async (inputContent,outPutPath) => {
+      compile: async (inputContent, outPutPath) => {
         // ignore /pages/ files
-        if(outPutPath.includes('/pages/')){
-          return
+        if (outPutPath.includes("/pages/")) {
+          return;
         }
         let output = csso(inputContent);
         return async () => {

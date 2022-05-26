@@ -1,0 +1,86 @@
+---
+title: Algoritmic Design with 11ty & Nunjucks
+date: 2022-05-26
+---
+
+{#
+<h2>11ty 2.0 Canary</h2>
+#}
+
+<p>
+    <a href="https://www.11ty.dev/">11ty</a> recently released the canary version
+  of 2.0 which came with a bunch of new exiting features. Most notably,
+  <i>atleast for me</i>, was the new
+  <a href="https://github.com/11ty/eleventy-server-browsersync">dev server</a>.
+</p>
+
+<p>
+  Instead of using browsersync which reloaded the browser on change, the new
+  server <i>morphs</i> the DOM on change, this combined with a bunch of
+  optimization to the build process, the changes are near instant! 🤯
+</p>
+
+<p>
+  This put me on the path of returing to the <span>joy</span> of simple 2D
+  <a href="https://en.wikipedia.org/wiki/Generative_design"
+    >generative design</a
+  >
+</p>
+
+<p>
+  Bellow are some of works using the
+  <a href="https://mozilla.github.io/nunjucks/">Nunjucks</a> templating language
+  to create SVG graphics
+</p>
+
+<div class="row">
+    <h3>Recursive Split</h3>
+    <figure>
+        {% if env.dev %}
+            <img src="/assets/img/works/11ty-njk-svg-thumb.png" alt="Spliting" />
+        {% else %}
+            {% image 'img/works', '/11ty-njk-svg-thumb.png', "Splits", '' , {w:"100%",h:"auto",s:"100vw"}%}
+        {% endif %}
+        <figcaption>
+      The plane is recursivly split on x and y axis dependent on some
+      probability
+    </figcaption>
+    </figure>
+</div>
+
+<p>
+  In terms of algoritm there is nothing new here, a simple recursive function,
+  spliting each cell along vertical/horisontal axis. Try the <a target="_blank" href="https://11ty-svg-recursivesplit.netlify.app">live demo</a>
+</p>
+
+<div class="row">
+    <h3>Crystals</h3>
+    <figure>
+        {% if env.dev %}
+            <img src="/assets/img/works/11ty-njk-svg-crystals.png" alt="Crystals" />
+        {% else %}
+            {% image 'img/works/', '11ty-njk-svg-crystals.png', "Crystals", '', {w:"100%",h:"auto",s:"100vw"}
+      %}
+        {% endif %}
+        {# <figcaption></figcaption> #}
+    </figure>
+</div>
+
+<p>Some simple crystal shapes. Try the <a target="_blank" href="https://11ty-svg-crystals.netlify.app">demo</a>
+</p>
+
+<div class="row">
+    <h3>Folds</h3>
+    <figure>
+        {% if env.dev %}
+            <img src="/assets/img/works/11ty-njk-svg-folds.png" alt="Crystals" />
+        {% else %}
+            {% image 'img/works/', '/11ty-njk-svg-folds.png', "Crystals", '', {w:"100%",h:"auto",s:"100vw"}
+      %}
+        {% endif %}
+        {# <figcaption></figcaption> #}
+    </figure>
+</div>
+
+<p>A path is created with varying step length in the x axis, with an arc across the length between the vertical lines creating <i>folds</i>. Try the <a target="_blank" href="https://11ty-svg-folds.netlify.app">demo</a>
+</p>

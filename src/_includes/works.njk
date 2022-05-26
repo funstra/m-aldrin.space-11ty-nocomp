@@ -1,0 +1,17 @@
+---
+layout: base.njk
+---
+
+{% import "components/date.njk" as d %}
+<header>
+  <h1>{{ title }}</h1>
+  <ul class="meta-info">
+    {{
+      d.date(date)
+    }}
+    <svg width="64" height="32">
+      <path d="M0,4 h64" stroke="hsl(var(--col-secondary))" stroke-width="8" />
+    </svg>
+  </ul>
+</header>
+<article class="cramp">{{ content | safe }}</article>

@@ -26,6 +26,7 @@ const routerAttr = doc => {
   return Array.from(doc.querySelectorAll("[router\\:page]")).map(elm => ({
     elm,
     val: elm.getAttribute("router:page"),
+    layout: elm.getAttribute("router:layout"),
   }));
 };
 
@@ -51,8 +52,12 @@ const diffPage = async destination => {
  *  @returns {Promise<()=>void>} cleanup function
  */
 const diffResource = async destination => {
-  const home = destination.title === "home" ? "/" : `/${destination.title}/`;
-  const selectorString = `[router\\:resource='${home}']`;
+  // const home = destination.title === "home" ? "/" : `/${destination.title}/`;
+  const route = destination.page.querySelector("[router\\:page]").getAttribute('router:page');
+  const layout = destination.page.querySelector("[router\\:layout]").getAttribute('router:layout');
+
+  const selectorString = `:is([router\\:resource='${route}'],[router\\:resource='${layout}'])`;
+  console.log(selectorString)
 
   const resource = destination.page.querySelectorAll(selectorString);
 
@@ -117,16 +122,39 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 
   const srcDir = parseInt(src.elm.getAttribute("router:order"));
   const destDir = parseInt(dest.elm.getAttribute("router:order"));
-  let outDir = "";
-  let inDir = "";
-  console.log(srcDir,destDir);
-  console.log(srcDir - destDir);
-  if (srcDir - destDir < 0) {
-    outDir = "1%";
-    inDir = "-1%";
+  let outDir = "0%,0%";
+  let inDir = "0%,0%";
+  // console.log(srcDir,destDir);
+  // console.log(srcDir - destDir);
+  if (isNaN(destDir)) {
+    // console.log("dest nope");
   } else {
-    outDir = "-1%";
-    inDir = "1%";
+    if (srcDir - destDir < 0) {
+      outDir = "1%";
+    } else {
+      outDir = "-1%";
+    }
+  }
+  if (isNaN(srcDir)) {
+    // console.log("src nope");
+  } else {
+    if (srcDir - destDir < 0) {
+      // outDir = "1%";
+      inDir = "-1%";
+    } else {
+      // outDir = "-1%";
+      inDir = "1%";
+    }
+  }
+  // console.log("out: ", outDir);
+  // console.log("in: ", inDir);
+  const srcDirection = src.elm.getAttribute("router:direction");
+  if (srcDirection === "vertical") {
+    outDir = `0 , ${outDir}`;
+  }
+  const destDirection = dest.elm.getAttribute("router:direction");
+  if (destDirection === "vertical") {
+    inDir = `0 , ${inDir}`;
   }
 
   dest.elm.style.setProperty("--in-dir", inDir);
@@ -160,6 +188,7 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 
         dest.elm.classList.remove("slideIn");
         document.documentElement.setAttribute("router:current-page", pathname);
+        document.documentElement.setAttribute("router:current-layout", dest.elm.getAttribute('router:layout'));
         document.documentElement.classList.remove("navigating");
         document.documentElement.classList.remove("transitioning");
         cleanUpStyles.then(cb => cb());

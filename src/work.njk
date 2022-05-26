@@ -1,5 +1,16 @@
 ---
-layout: base.njk
 order: 1
+layout: base.njk
 ---
-<h1>hello</h1>
+
+{% import "components/date.njk" as d %}
+
+{% for work in works %}
+    <article data-work-index="{{loop.index0}}" class="cramp">
+        {{d.date(work.date,as="div")}}
+        <h2>{{work.title}}</h2>
+        <p>{{work.preamble}}</p>
+        <a href="{{work.path}}">read more</a>
+        <img src="{{work.thumb}}" alt="">
+    </article>
+{% endfor %}

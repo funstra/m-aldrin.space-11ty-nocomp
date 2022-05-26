@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" router:current-page="/{{page.fileSlug}}/">
+<html lang="en" router:current-page="/{{page.fileSlug}}/" router:current-layout="{{layout}}">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -18,12 +18,24 @@
 
     {% if env.dev %}
       <link rel="stylesheet" href="/css/pages/home.css">
+      <link rel="stylesheet" href="/css/pages/work.css">
       <link rel="stylesheet" href="/css/pages/about.css">
+      <link rel="stylesheet" href="/css/layouts/works.css">
     {% else %}
       {# style resources - -  #}
       {% if page.fileSlug == ""%}
         <style router:resource="/">
           {% include "../css/pages/home.css" %}
+        </style>
+      {% endif %}
+      {% if page.fileSlug == 'work' %}
+        <style router:resource="/work/">
+          {% include "../css/pages/work.css" %}
+        </style>
+      {% endif %}
+      {% if layout == 'works.njk' %}
+        <style router:resource="works.njk">
+          {% include "../css/layouts/works.css" %}
         </style>
       {% endif %}
       {% if page.fileSlug == 'about' %}
@@ -37,7 +49,8 @@
   <body >
     {% include "components/nav.njk" %}
     {% include "components/gridlines.njk" %}
-    <main router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}"  >
+
+    <main tabindex="-1" router:layout="{{layout}}" router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}" router:direction="{{transitionDirection}}" >
       {{ content | safe }}
     </main>
 

@@ -1,0 +1,74 @@
+html[router\:current-layout="works.njk"] #gridlines {
+  opacity: 0;
+}
+[router\:layout="works.njk"] {
+  grid-template-rows: min-content;
+}
+
+[router\:layout="works.njk"] .meta-info {
+  margin-top: 0.5em;
+  margin-left: 0.5em;
+}
+[router\:layout="works.njk"] h1 {
+  font-weight: 400;
+  line-height: 0.9;
+}
+[router\:layout="works.njk"] header {
+  overflow: hidden;
+}
+[router\:layout="works.njk"] article > :where(:not(:first-child)) {
+  margin-top: 1em;
+}
+[router\:layout="works.njk"] article {
+  margin-top: 5rem;
+  --m-width: 100rem;
+  /* background-color: red; */
+}
+[router\:layout="works.njk"] article p + .row {
+  margin-top: 8rem;
+}
+[router\:layout="works.njk"] article p {
+  /* columns: 2 300px; */
+  /* background-color: yellow; */
+}
+
+[router\:layout="works.njk"] article figure img {
+  /* width: 100%; */
+  /* height: 100%; */
+}
+[router\:layout="works.njk"] article figure {
+  display: flex;
+  flex-direction: column;
+  /* aspect-ratio: 1/1; */
+  /* width: 100%; */
+  /* width: 75%; */
+  /* max-width: 300px; */
+  /* float: left; */
+  /* margin-top: 1rem; */
+  /* margin-right: 1rem; */
+  /* width: auto; */
+  /* margin: 0 auto; */
+  /* aspect-ratio: 1/3; */
+}
+.row {
+
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.row > h3 {
+}
+@media (min-width: 512px) {
+  .row > h3 {
+    writing-mode: vertical-lr;
+    align-self: flex-start;
+    transform: rotate(180deg);
+  }
+  .row > figure {
+    flex-basis: 0;
+    flex-grow: 1;
+  }
+  [router\:layout="works.njk"] article p {
+    margin-left: 3rem;
+  } 
+}

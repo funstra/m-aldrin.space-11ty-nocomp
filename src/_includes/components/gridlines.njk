@@ -1,30 +1,16 @@
-
-<svg id="gridlines" width="100%" height="100%" style="position: fixed;width: 100%; height: 100%; top: 0; left: 0; z-index: -1; contain: paint; " viewBox="0 0 256 256" preserveAspectRatio="xMidYMid slice">
+<svg id="gridlines" width="100%" height="100%" style="
+grid-row: 1/3;grid-column: 1/3; z-index: -1; contain: paint; pointer-events: none;"
+ viewBox="0 0 256 256" preserveAspectRatio="xMidYMid slice">
   <defs>
-    {% set patternSize = 12 %}
+    {% set patternSize = 16 %}
     <pattern id="pattern-grid" viewBox="0 0 {{patternSize}} {{patternSize}}" width="{{patternSize}}" height="{{patternSize}}" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <g stroke="hsl(var(--col-primary))" stroke-width="0.1" vector-effect="">
+      {% set sWidth = 0.2 %}
+      <g fill="none" stroke="hsl(var(--col-primary))" stroke-width="{{sWidth}}" vector-effect="">
         <line x1="{{patternSize/2}}" x2="{{patternSize/2}}" y1="0" y2="{{patternSize}}" />
         <line x1="0" x2="{{patternSize}}" y1="{{patternSize/2}}" y2="{{patternSize/2}}" />
+        <circle cx="{{patternSize/2}}" cy="{{patternSize/2}}" fill="hsl(var(--col-primary))" r="{{sWidth * 1.5}}" opacity="0.5" />
       </g>
     </pattern>
-    <filter id="filter-grid-smudge">
-      <feTurbulence  seed="{{[1,64] | irand}}" type="fractalNoise" baseFrequency="0.01"/>
-      <feColorMatrix type="luminanceToAlpha" />
-      <feComponentTransfer>
-        <feFuncA type="linear" slope="0.75" intercept="0.45" />
-      </feComponentTransfer>
-      <feComponentTransfer result="mask">
-        <feFuncA type="gamma" exponent="2" />
-      </feComponentTransfer>
-      <feMorphology in="SourceGraphic" operator="erode" radius="0.2" />
-      <feComposite in2="mask" operator="in" result="eroded" />
-      <feComposite in="SourceGraphic" in2="mask" operator="out" />
-      <feMerge>
-        <feMergeNode />
-        <feMergeNode in="eroded" />
-      </feMerge>
-    </filter>
   </defs>
-  <rect width="100%" height="100%" fill="url(#pattern-grid)" fill-opacity="0.5"  filter="url(#filter-grid-smudge)"  />
+  <rect width="100%" height="100%" fill="url(#pattern-grid)" fill-opacity="0.1"  />
 </svg>
