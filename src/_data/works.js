@@ -6,7 +6,7 @@ module.exports = [
     tags: ["11ty", "Design", "SVG"],
     preamble:
       "Creating algoritmic designs with SVG using 11ty 2.0 with the Nunjucks templating language",
-    thumb: "/assets/img/works/11ty-njk-svg-thumb.png",
+    thumb: "/11ty-njk-svg-thumb.png",
   },
   // {
   //   path: "touchdesigner-looping",

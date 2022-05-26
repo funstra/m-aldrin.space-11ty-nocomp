@@ -11,6 +11,10 @@ layout: base.njk
         <h2>{{work.title}}</h2>
         <p>{{work.preamble}}</p>
         <a href="{{work.path}}">read more</a>
-        <img src="{{work.thumb}}" alt="">
+        {% if env.dev %}
+            <img src="/assets/img/works{{work.thumb}}" alt="Spliting" />
+        {% else %}
+            {% image 'img/works', work.thumb, "Splits", '' , {w:"100%",h:"auto",s:"100vw"}%}
+        {% endif %}
     </article>
 {% endfor %}
