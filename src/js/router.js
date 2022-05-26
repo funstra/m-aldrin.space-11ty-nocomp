@@ -53,11 +53,15 @@ const diffPage = async destination => {
  */
 const diffResource = async destination => {
   // const home = destination.title === "home" ? "/" : `/${destination.title}/`;
-  const route = destination.page.querySelector("[router\\:page]").getAttribute('router:page');
-  const layout = destination.page.querySelector("[router\\:layout]").getAttribute('router:layout');
+  const route = destination.page
+    .querySelector("[router\\:page]")
+    .getAttribute("router:page");
+  const layout = destination.page
+    .querySelector("[router\\:layout]")
+    .getAttribute("router:layout");
 
   const selectorString = `:is([router\\:resource='${route}'],[router\\:resource='${layout}'])`;
-  console.log(selectorString)
+  console.log(selectorString);
 
   const resource = destination.page.querySelectorAll(selectorString);
 
@@ -160,17 +164,17 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   dest.elm.style.setProperty("--in-dir", inDir);
   src.elm.style.setProperty("--out-dir", outDir);
 
-  dest.elm.style.opacity = "0";
-  dest.elm.style.transform = `translate(${inDir})`;
+  // dest.elm.style.opacity = "0";
+  // dest.elm.style.transform = `translate(${inDir})`;
   src.elm.parentElement.insertBefore(dest.elm, src.elm.nextSibling);
 
+  src.elm.classList.add("slideOut");
+  dest.elm.classList.add("slideIn");
   setTimeout(() => {
     // Transition - -
-    dest.elm.style.removeProperty("opacity");
-    dest.elm.style.removeProperty("transform");
-    src.elm.classList.add("slideOut");
-    dest.elm.classList.add("slideIn");
-    document.documentElement.classList.add("transitioning");
+    // dest.elm.style.removeProperty("opacity");
+    // dest.elm.style.removeProperty("transform");
+    // document.documentElement.classList.add("transitioning");
 
     const pageTransitionDuration = parseFloat(
       getComputedStyle(document.documentElement)
@@ -188,7 +192,10 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 
         dest.elm.classList.remove("slideIn");
         document.documentElement.setAttribute("router:current-page", pathname);
-        document.documentElement.setAttribute("router:current-layout", dest.elm.getAttribute('router:layout'));
+        document.documentElement.setAttribute(
+          "router:current-layout",
+          dest.elm.getAttribute("router:layout")
+        );
         document.documentElement.classList.remove("navigating");
         document.documentElement.classList.remove("transitioning");
         cleanUpStyles.then(cb => cb());

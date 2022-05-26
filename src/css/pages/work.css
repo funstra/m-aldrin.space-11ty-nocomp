@@ -14,8 +14,11 @@
   column-gap: 1rem;
   /* grid-auto-rows: min-content; */
   height: 75%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   /* overflow: hidden; */
+  border-radius: 6px;
+  background-color: hsl(var(--col-wht) / 0.2);
+  box-shadow: 0 0 16px 0 hsl(var(--col-blk) / 0.05);
 }
 [router\:page="/work/"] article img {
   width: 100%;

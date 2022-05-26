@@ -1,3 +1,6 @@
+* {
+  -webkit-backface-visibility: hidden;
+  }
 /* reset - - - -  */
 /* typescale */
 /* @link https://utopia.fyi/type/calculator?c=384,16,1.2,1152,21,1.333,6,1,&s=0.75|0.5|0.25,1.5|2|3|4|6,2xs-m|l-3xl */
@@ -170,12 +173,14 @@ html {
   }
 }
 #gridlines {
+  z-index: -1;
+  contain: paint;
   transition-property: opacity;
   transition-duration: 500ms;
-  opacity: 1;
+  /* opacity: 1; */
 }
 html.transitioning #gridlines {
-  opacity: 0.5;
+  /* opacity: 0.5; */
 }
 body {
   overflow: hidden;
@@ -478,7 +483,7 @@ p {
   #grain {
     pointer-events: none;
     display: block !important;
-    opacity: 0.45;
+    opacity: 0.55;
     mix-blend-mode: hard-light;
   }
 }
@@ -503,18 +508,19 @@ html[router\:current-page="/work/"] main[router\:page="/work/"] {
 .slideOut {
   animation-duration: var(--page-transition-duration);
   animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
 }
 .slideIn {
   opacity: 0;
   animation-name: slideIn;
   animation-delay: var(--page-transition-duration);
   --in-dir: 0%;
-  z-index: 5;
+  /* z-index: 5; */
 }
 .slideOut {
   --out-dir: 0%;
   animation-name: slideOut;
-  z-index: 10;
+  /* z-index: 10; */
 }
 @keyframes slideIn {
   from {
