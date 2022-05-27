@@ -100,22 +100,31 @@ svg {
 svg {
   fill: currentColor;
 }
+input,select{
+  font-size: inherit;
+  color: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+}
 a {
   color: currentColor;
   position: relative;
+  /* text-decoration-color: hsl(var(--col-ternary)); */
+  text-decoration-thickness: 3px;
+
+  text-decoration-color: hsl(var(--col-ternary));
+  text-decoration-skip-ink: none;
 }
 
 [data-date] {
-  font-size: var(--step-0);
+  /* font-size: var(--step-0); */
 }
 
 a:focus {
   outline: none;
 }
 a:not([href^="/"]):not([aria-disabled="true"]) {
-  text-decoration-thickness: 3px;
-  text-decoration-color: hsl(var(--col-ternary));
-  text-decoration-skip-ink: none;
+  text-decoration-style: dashed;
 }
 a:not([href^="/"]):not([aria-disabled="true"]):where(:focus, :hover) {
   /* text-decoration-thickness: 3px; */
@@ -203,33 +212,7 @@ body {
 
 /* reset - - - -  */
 
-/* prose */
 
-/* FONTS  */
-
-/* @font-face {
-  font-family: SCPVariable;
-  src: url("/assets/fonts/SCPVariable.ttf");
-  font-display: fallback;
-}
-@font-face {
-  font-family: VollkornVariable;
-  src: url("/assets/fonts/VollkornVariable.ttf");
-  font-display: fallback;
-} */
-
-/* vollkorn-regular - latin */
-/* @font-face {
-  font-family: "Vollkorn";
-  font-style: normal;
-  font-weight: 400;
-  font-display: fallback;
-  src: local(""),
-    url("/assets/fonts/vollkorn/vollkorn-v20-latin-regular.woff2")
-      format("woff2"),
-      url("/assets/fonts/vollkorn/vollkorn-v20-latin-regular.woff")
-      format("woff"); 
-} */
 
 /* source-code-pro-300 - latin */
 @font-face {
@@ -276,10 +259,7 @@ strong {
   line-height: 1;
   /* transition-property: font-size; */
   font-weight: 100;
-  /* font-family: Vollkorn, sans-serif; */
-  /* transition-duration: 200ms;
-  transition-timing-function: ease-out;
-  transition-delay: 175ms; */
+  /* font-fam5ms; */
 }
 :where(h1, h2, h3) {
   line-height: 1;

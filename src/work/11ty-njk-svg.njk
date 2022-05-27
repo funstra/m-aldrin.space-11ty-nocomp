@@ -1,5 +1,11 @@
 ---
 title: Algoritmic Design with 11ty & Nunjucks
+thumb: "/11ty-njk-svg-thumb.png"
+worktags:
+  - web
+  - design
+  - svg
+  - njk
 date: 2022-05-26
 ---
 
@@ -28,7 +34,7 @@ date: 2022-05-26
 </p>
 
 <p>
-  Bellow are some of works using the
+  Below are some of works using the
   <a target="_blank" href="https://mozilla.github.io/nunjucks/">Nunjucks</a> templating language
   to create SVG graphics
 </p>
@@ -39,7 +45,7 @@ date: 2022-05-26
         {% if env.dev %}
             <img src="/assets/img/works/11ty-njk-svg-thumb.png" alt="Spliting" />
         {% else %}
-            {% image 'img/works', '/11ty-njk-svg-thumb.png', "Splits", '' , {w:"100%",h:"auto",s:"100vw"}%}
+            {% image 'works', '/11ty-njk-svg-thumb.png', "Splits", '' , {w:"100%",h:"auto",s:"100vw"}%}
         {% endif %}
         <figcaption>
       The plane is recursivly split on x and y axis dependent on some
@@ -59,7 +65,7 @@ date: 2022-05-26
         {% if env.dev %}
             <img src="/assets/img/works/11ty-njk-svg-crystals.png" alt="Crystals" />
         {% else %}
-            {% image 'img/works/', '11ty-njk-svg-crystals.png', "Crystals", '', {w:"100%",h:"auto",s:"100vw"}
+            {% image 'works', '11ty-njk-svg-crystals.png', "Crystals", '', {w:"100%",h:"auto",s:"100vw"}
       %}
         {% endif %}
         {# <figcaption></figcaption> #}
@@ -75,7 +81,7 @@ date: 2022-05-26
         {% if env.dev %}
             <img src="/assets/img/works/11ty-njk-svg-folds.png" alt="Crystals" />
         {% else %}
-            {% image 'img/works/', '/11ty-njk-svg-folds.png', "Crystals", '', {w:"100%",h:"auto",s:"100vw"}
+            {% image 'works', '/11ty-njk-svg-folds.png', "Crystals", '', {w:"100%",h:"auto",s:"100vw"}
       %}
         {% endif %}
         {# <figcaption></figcaption> #}

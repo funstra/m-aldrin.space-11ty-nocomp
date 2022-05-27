@@ -1,7 +1,7 @@
 const { minify } = require("html-minifier-terser");
 const { minify: terser } = require("terser");
 const { minify: csso } = require("csso");
-const image = require("./11ty/img");
+const { tag, path } = require("./11ty/img");
 
 // filters - -
 const { irand, frand, angleToV } = require("./11ty/filters.js");
@@ -20,7 +20,8 @@ module.exports = config => {
     return _d;
   });
 
-  config.addNunjucksShortcode("image", image);
+  config.addNunjucksShortcode("image", tag);
+  config.addNunjucksFilter("imgPath", path);
   if (process.env.NODE_ENV !== "dev") {
     config.addTransform("htmlmin", async function (content, outputPath) {
       if (outputPath && outputPath.endsWith(".html")) {
@@ -69,8 +70,11 @@ module.exports = config => {
   } else {
     config.addPassthroughCopy("src/css");
     config.addPassthroughCopy("src/js/");
-    config.addPassthroughCopy({ "./assets/img": "assets/img" });
+    // config.addPassthroughCopy({ "./assets/img": "assets/img" });
+    config.addPassthroughCopy("./assets/img");
   }
+  // config.addPassthroughCopy({ "./assets/vid": "assets/vid" });
+  config.addPassthroughCopy("./assets/vid");
   config.addPassthroughCopy({ "./static/": "assets" });
   return {
     dir: {

@@ -1,4 +1,5 @@
 {
     "layout": "works.njk",
-    "transitionDirection": "vertical"
+    "transitionDirection": "vertical",
+    "tags": ["works"]
 }
