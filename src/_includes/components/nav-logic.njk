@@ -13,6 +13,9 @@
     e.stopPropagation();
     mNav.setAttribute("state", "open");
   }
+
+  const backButton = mNav.querySelector('[data-nav-role] button')
+  backButton.onclick = e => history.back()
   //   handle button click
   mNav.querySelector("button").onclick = e => {
     e.stopPropagation();

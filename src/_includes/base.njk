@@ -21,8 +21,12 @@
       <link rel="stylesheet" href="/css/pages/work.css">
       <link rel="stylesheet" href="/css/pages/about.css">
       <link rel="stylesheet" href="/css/layouts/works.css">
+      <link rel="stylesheet" href="/css/components/nav.css">
     {% else %}
       {# style resources - -  #}
+      <style>
+        {% include "../css/components/nav.css" %}
+      </style>
       {% if page.fileSlug == ""%}
         <style router:resource="/">
           {% include "../css/pages/home.css" %}

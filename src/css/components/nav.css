@@ -1,0 +1,154 @@
+/* nav - -  */
+site-nav {
+  /* viewport dependent */
+  grid-row: 2;
+  grid-column: 2;
+  align-self: flex-end;
+  justify-self: flex-end;
+
+  z-index: 100;
+  width: max-content;
+  height: max-content;
+
+  margin: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+
+  pointer-events: none;
+}
+site-nav ul {
+  padding: 1rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  line-height: 1;
+  transition-property: transform, opacity;
+  transition-duration: 125ms;
+  transition-timing-function: var(--transition-timing-mud);
+
+  border-radius: 6px;
+  box-shadow: 0 0 12px 0 hsl(var(--col-blk) / 0.2);
+}
+html[router\:current-layout="works.njk"]
+  :is(site-nav [data-nav-role="back"], site-nav .function-separator) {
+  display: block;
+}
+html[router\:current-layout="works.njk"] site-nav [data-nav-role="back"] {
+  pointer-events: all;
+}
+site-nav .function-separator {
+  margin: 0;
+  display: none;
+}
+site-nav [data-nav-role="back"] {
+  display: none;
+}
+site-nav button[aria-label="navigation toggle"] {
+  /* viewport dependent */
+  pointer-events: all;
+  order: 1;
+  align-self: flex-end;
+  padding: 0.25rem;
+}
+site-nav[state="open"] ul {
+  transform: translateY(0);
+  opacity: 1;
+}
+site-nav[state="open"] {
+  pointer-events: all;
+}
+@keyframes thinking {
+  from {
+    fill: hsl(var(--col-secondary));
+  }
+  to {
+    fill: hsl(var(--col-ternary));
+  }
+}
+html.navigating site-nav button svg circle {
+  animation-name: thinking;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  animation-delay: var(--a-d);
+}
+site-nav button svg circle {
+  transition-property: transform;
+  transition-duration: 525ms;
+  transition-timing-function: var(--transition-timing-mud);
+}
+site-nav[state="open"] button svg circle:nth-child(1) {
+  transform: translateY(2px);
+}
+site-nav[state="open"] button svg circle:nth-child(3) {
+  transform: translateY(-2px);
+}
+site-nav button:where(hover svg circle:nth-child(1)) {
+  transform: translateY(-1px);
+}
+site-nav button:where(hover svg circle:nth-child(3)) {
+  transform: translateY(1px);
+}
+site-nav[state="close"] ul {
+  transform: translateY(4px);
+  opacity: 0;
+  pointer-events: none;
+}
+site-nav > ul li > * {
+  display: flex;
+  gap: 0.5em;
+  text-decoration: none;
+}
+site-nav ul a[aria-current="page"] span::after {
+  transition-property: height;
+}
+site-nav ul a.err {
+  color: white;
+}
+site-nav ul a.err span::after {
+  height: 100% !important;
+  background-color: red;
+}
+site-nav ul .under-construction {
+  cursor: progress;
+  text-decoration: line-through;
+  opacity: 0.25;
+}
+site-nav ul svg {
+  fill: transparent;
+  stroke: currentColor;
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+site-nav[state="open"] ~ svg {
+  /* filter: blur(2px); */
+}
+site-nav[state="open"] ~ main {
+  pointer-events: none;
+  filter: blur(4px);
+}
+
+site-nav a[aria-current="page"] svg {
+  color: hsl(var(--col-primary));
+}
+
+@media (min-width: 512px) {
+  /* nav alignment */
+  site-nav {
+    grid-row: 1;
+    grid-column: 1;
+    align-self: flex-start;
+    justify-self: flex-start;
+  }
+
+  site-nav[state="close"] ul {
+    transform: translateY(-4px);
+  }
+  site-nav button[aria-label="navigation toggle"] {
+    order: 0;
+    align-self: flex-start;
+  }
+}
