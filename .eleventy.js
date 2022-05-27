@@ -16,7 +16,6 @@ module.exports = config => {
   // date
   config.addNunjucksFilter("daatee", d => {
     const _d = new Date(d);
-    console.log(_d.getFullYear());
     return _d;
   });
 

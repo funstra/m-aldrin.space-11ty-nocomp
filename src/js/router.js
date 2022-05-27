@@ -61,7 +61,6 @@ const diffResource = async destination => {
     .getAttribute("router:layout");
 
   const selectorString = `:is([router\\:resource='${route}'],[router\\:resource='${layout}'])`;
-  console.log(selectorString);
 
   const resource = destination.page.querySelectorAll(selectorString);
 
@@ -166,11 +165,13 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 
   // dest.elm.style.opacity = "0";
   // dest.elm.style.transform = `translate(${inDir})`;
+  dispatchEvent(new Event("navigating:starting"));
   src.elm.parentElement.insertBefore(dest.elm, src.elm.nextSibling);
 
   src.elm.classList.add("slideOut");
   dest.elm.classList.add("slideIn");
   setTimeout(() => {
+    dispatchEvent(new Event("navigating:finish"));
     // Transition - -
     // dest.elm.style.removeProperty("opacity");
     // dest.elm.style.removeProperty("transform");

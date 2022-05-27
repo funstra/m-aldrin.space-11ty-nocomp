@@ -33,6 +33,9 @@ html[router\:current-layout="works.njk"] #gridlines {
   /* background-color: yellow; */
 }
 
+[router\:layout="works.njk"] article figure :where(video) {
+  height: 100%;
+}
 [router\:layout="works.njk"] article figure :where(img) {
   /* width: 100%; */
   /* height: 100%; */
