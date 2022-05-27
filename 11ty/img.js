@@ -56,3 +56,4 @@ module.exports.tag = function (dir, name, alt, outname, dim, attrs) {
         loading="lazy"
         decoding="async">`;
 };
+

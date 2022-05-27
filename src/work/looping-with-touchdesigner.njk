@@ -8,6 +8,14 @@ worktags:
 date: 2022-04-10
 ---
 
+{% macro v(src, poster, caption) %}
+    <figure>
+        {# safari doesnt show controls when the video is dynamicaly added, sets the controls to true on loadedmetadata #}
+        <video poster="{{ ['works',poster] | imgPath }}" src="{{src}}" type='video/mp4' width="1280" preload="metadata" loop muted playsinline onloadedmetadata="this.controls = true"></video>
+        <figcaption>{{caption}}</figcaption>
+    </figure>
+{% endmacro %}
+
 <p>
     <a href="https://derivative.ca/">Touchdesigner</a> was my first
   <span style="color: hsl(var(--col-primary))">love</span> in terms of
@@ -18,22 +26,26 @@ date: 2022-04-10
     Below are some current works involving perfect loops made in Touchdesigner
 </p>
 
-<figure>
-    <video preload="metadata" playsinline width="1280" poster="{{ ['works','/looping-with-touchdesigner-thumb.jpg'] | imgPath }}" src="/assets/vid/works/snok.mp4" controls loop></video>
+{{v('/assets/vid/works/snok.mp4','/looping-with-touchdesigner-thumb.jpg','Creating disks along a offseted lookup of a path')}}
+{{v('/assets/vid/works/flow.mp4','/partiklethumb.0.jpg','GPU instanced cubes, lifetime and position determined by a animated perlin noise')}}
+{{v('/assets/vid/works/softblocks.mp4','/softblocksthumb.jpg','Grid of wedges sampling a perlin noise at each location')}}
+{{v('/assets/vid/works/piston.mp4','/pistonthumb.jpg','A box of pistons pushed by a perlin')}}
+{# <figure>
+    <video poster="{{ ['works','/looping-with-touchdesigner-thumb.jpg'] | imgPath }}" src="/assets/vid/works/snok.mp4" type='video/mp4' width="1280" preload="metadata" controls loop muted playsinline onclick="this.play()"></video>
     <figcaption>Creating disks along a offseted lookup of a path</figcaption>
-</figure>
+</figure> #}
 
-<figure>
-    <video preload="metadata" playsinline width="1280" poster="{{ ['works','/partiklethumb.0.jpg'] | imgPath }}" src="/assets/vid/works/flow.mp4" controls loop></video>
+{# <figure>
+    <video preload="metadata" width="1280" poster="{{ ['works','/partiklethumb.0.jpg'] | imgPath }}" src="/assets/vid/works/flow.mp4" controls loop></video>
     <figcaption>GPU instanced cubes, lifetime and position determined by a animated perlin noise</figcaption>
-</figure>
+</figure> #}
 
-<figure>
-    <video preload="metadata" playsinline width="1280" poster="{{ ['works','/softblocksthumb.jpg'] | imgPath }}" src="/assets/vid/works/softblocks.mp4" controls loop></video>
+{# <figure>
+    <video preload="metadata" width="1280" poster="{{ ['works','/softblocksthumb.jpg'] | imgPath }}" src="/assets/vid/works/softblocks.mp4" controls loop></video>
     <figcaption>Grid of wedges sampling a perlin noise at each location</figcaption>
-</figure>
+</figure> #}
 
 <figure>
-    <video preload="metadata" playsinline width="1280" poster="{{ ['works','/pistonthumb.jpg'] | imgPath }}" src="/assets/vid/works/piston.mp4" controls loop></video>
+    <video preload="metadata" width="1280" poster="{{ ['works','/pistonthumb.jpg'] | imgPath }}" src="/assets/vid/works/piston.mp4" controls loop></video>
     <figcaption>A box of pistons pushed by a perlin</figcaption>
 </figure>
