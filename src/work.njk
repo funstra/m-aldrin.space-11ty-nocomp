@@ -41,7 +41,7 @@ layout: base.njk
                             {% if env.dev %}
                                 <img src="/assets/img/works{{work.thumb}}" alt="Spliting" />
                             {% else %}
-                                {% image 'works', work.thumb, "Splits", '' , {w:"100%",h:"auto",s:"100vw"}%}
+                                {% image 'works', work.thumb, "", '' , {w:"100%",h:"auto",s:"100vw"}%}
                             {% endif %}
                         {% endif %}
                     </a>

@@ -19,7 +19,7 @@ module.exports.path = function ([dir, name]) {
 
   let lowsrc = metadata.jpeg[0];
   let highsrc = metadata.jpeg[metadata.jpeg.length - 1];
-  return `${metadata.jpeg[0].url}`;
+  return `${metadata.jpeg[1].url}`;
 };
 module.exports.tag = function (dir, name, alt, outname, dim, attrs) {
   const src = `./assets/img/${dir}${dir ? "/" : ""}${name}`.toLocaleLowerCase();
