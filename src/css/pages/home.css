@@ -6,16 +6,25 @@ main[router\:page="/"] > svg {
   z-index: -1;
 }
 [router\:page="/"] .catch {
+  text-align: center;
   align-self: flex-end;
   font-size: var(--step-2);
   /* padding: 0.5rem; */
   grid-column: 1;
   grid-row: 2;
-  margin-bottom: 2rem;
+  margin-bottom: 5rem;
 }
 main[router\:page="/"] {
   grid-template-rows: minmax(0, 1fr);
   gap: 1rem;
+}
+.separator {
+  height: 1ex;
+  width: 3em;
+  background-color: hsl(var(--col-secondary));
+  display: block;
+  margin: 0 auto;
+  margin-block: 0.5ex;
 }
 @media (min-width: 512px) {
   main[router\:page="/"] {
@@ -40,6 +49,14 @@ main[router\:page="/"] {
 }
 
 @media (min-width: 512px) {
+
+  main[router\:page="/"] .catch .separator {
+    margin-left: 0;
+  }
+  main[router\:page="/"] > .catch {
+    text-align: left;
+
+  }
   main[router\:page="/"] > svg {
     transform: translate(-30%, 15%) rotate(130deg) scale(1.5);
   }
