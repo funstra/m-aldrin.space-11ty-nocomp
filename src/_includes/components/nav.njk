@@ -9,31 +9,33 @@
             </g>
         </svg>
     </button>
-    <ul>
-        <li>
-            <a tabindex="-1" href="/" {{'aria-current=page' if page.fileSlug == ""}} router:order="0">
-                {{icons.icon('home')}}
-                <span>home</span></a>
-        </li>
-        <li>
-            <a tabindex="-1" href="/work/" class="" {{'aria-current=page' if page.fileSlug == "work"}} router:order="1">
-                {{icons.icon('work')}}
-                <span>works</span></a>
-        </li>
-        <li>
-            <a tabindex="-1" href="/about/" {{'aria-current=page' if page.fileSlug == "about"}} router:order="2">
-                {{icons.icon('about')}}
-                <span>about</span></a>
-        </li>
-        <hr class="function-separator">
-        <li data-nav-role="back">
-            <button  >
-                <svg width="32" height="16">
-                    <g transform="translate(4 8)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                        <path d="M0,0 m4,-4 L0,0 l4,4 M0,0 h28" stroke="currentColor"/>
-                    </g>
-                </svg>
-            </button>
-        </li>
-    </ul>
+    <div class="drop-down">
+        <ul class="links">
+            <li data-nav-link>
+                <a tabindex="-1" href="/" {{'aria-current=page' if page.fileSlug == ""}} router:order="0">
+                    {{icons.icon('home')}}
+                    <span>home</span></a>
+            </li>
+            <li data-nav-link>
+                <a tabindex="-1" href="/work/" class="" {{'aria-current=page' if page.fileSlug == "work"}} router:order="1">
+                    {{icons.icon('work')}}
+                    <span>works</span></a>
+            </li>
+            <li data-nav-link>
+                <a tabindex="-1" href="/about/" {{'aria-current=page' if page.fileSlug == "about"}} router:order="2">
+                    {{icons.icon('about')}}
+                    <span>about</span></a>
+            </li>
+            <hr class="function-separator">
+            <li data-nav-role="back">
+                <button  >
+                    <svg width="32" height="16">
+                        <g transform="translate(4 8)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                            <path d="M0,0 m4,-4 L0,0 l4,4 M0,0 h28" stroke="currentColor" />
+                        </g>
+                    </svg>
+                </button>
+            </li>
+        </ul>
+    </div>
 </site-nav>

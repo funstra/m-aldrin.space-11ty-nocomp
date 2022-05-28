@@ -14,8 +14,9 @@
     mNav.setAttribute("state", "open");
   }
 
-  const backButton = mNav.querySelector('[data-nav-role] button')
-  backButton.onclick = e => history.back()
+  const backButton = mNav.querySelector("[data-nav-role] button");
+  const functions = mNav.querySelector(".functions");
+  backButton.onclick = e => history.back();
   //   handle button click
   mNav.querySelector("button").onclick = e => {
     e.stopPropagation();
@@ -59,19 +60,15 @@
           //   go to next or first
           if (!currentFocus || !currentFocus.nextElementSibling) {
             currentFocus = mNav.querySelector("ul li:first-child");
-            currentFocus.querySelector(":is(a,p)").focus();
+            currentFocus.querySelector(":is(a,button)").focus();
           } else {
             const sibling = currentFocus.nextElementSibling;
-            if (
-              sibling
-                .querySelector(":is(a,p)")
-                .classList.contains("under-construction")
-            ) {
+            if (sibling.tagName === "HR") {
               currentFocus = sibling;
               next();
             } else {
               currentFocus = sibling;
-              currentFocus.querySelector(":is(a,p)").focus();
+              currentFocus.querySelector(":is(a,button)").focus();
             }
           }
         };
@@ -84,11 +81,7 @@
             currentFocus.querySelector(":is(a,p)").focus();
           } else {
             const sibling = currentFocus.previousElementSibling;
-            if (
-              sibling
-                .querySelector(":is(a,p)")
-                .classList.contains("under-construction")
-            ) {
+            if (sibling.tagName === "HR") {
               currentFocus = sibling;
               prev();
             } else {

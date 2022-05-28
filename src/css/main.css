@@ -100,7 +100,8 @@ svg {
 svg {
   fill: currentColor;
 }
-input,select{
+input,
+select {
   font-size: inherit;
   color: inherit;
   font-weight: inherit;
@@ -167,11 +168,21 @@ button {
 body,
 html {
   height: 100%;
+  overflow: hidden;
+}
+body {
+  /* background-color: red !important; */
+  /* height: 100vh; */
+  /* max-height: 100%; */
 }
 html {
   background-color: hsl(var(--col-wht));
   /* padding: 0.5rem; */
-  padding: 0 0.5rem;
+  height: 100%;
+  /* padding: 0 0.5rem; */
+  /* padding-top: 1px; */
+  /* padding-left: 1px; */
+  /* padding: 0; */
 
   /* transition-property: padding;
   transition-delay: 0s;
@@ -211,8 +222,6 @@ body {
 }
 
 /* reset - - - -  */
-
-
 
 /* source-code-pro-300 - latin */
 @font-face {
@@ -301,6 +310,7 @@ main {
   grid-column: 1/3;
 
   /* padding: var(--space-2xs-m); */
+  padding: var(--space-3xs);
 
   height: 100%;
   width: 100%;

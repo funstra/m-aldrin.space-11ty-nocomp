@@ -16,8 +16,71 @@ site-nav {
   flex-direction: column;
 
   pointer-events: none;
+
+  /* font-size: var(--step-2); */
 }
-site-nav ul {
+site-nav[state="open"] {
+  pointer-events: all;
+}
+site-nav[state="open"] ~ svg {
+  /* filter: blur(2px); */
+}
+site-nav[state="open"] ~ main {
+  pointer-events: none;
+  filter: blur(4px);
+}
+@keyframes thinking {
+  from {
+    fill: hsl(var(--col-secondary));
+  }
+  to {
+    fill: hsl(var(--col-ternary));
+  }
+}
+/* navigation toggle */
+site-nav button[aria-label="navigation toggle"] {
+  pointer-events: all;
+  order: 1;
+  align-self: flex-end;
+  padding: 0.25rem;
+
+  border-radius: 6px;
+  background-color: hsl(var(--col-wht) / 0.85);
+  box-shadow: 0 0 16px 4px hsl(var(--col-blk) / 0.075);
+}
+html.navigating site-nav button[aria-label="navigation toggle"] svg circle {
+  animation-name: thinking;
+  animation-duration: 500ms;
+  animation-iteration-count: infinite;
+  animation-delay: var(--a-d);
+}
+site-nav button[aria-label="navigation toggle"] svg circle {
+  transition-property: transform;
+  transition-duration: 525ms;
+  transition-timing-function: var(--transition-timing-mud);
+}
+site-nav[state="open"]
+  button[aria-label="navigation toggle"]
+  svg
+  circle:nth-child(1) {
+  transform: translateY(2px);
+}
+site-nav[state="open"]
+  button[aria-label="navigation toggle"]
+  svg
+  circle:nth-child(3) {
+  transform: translateY(-2px);
+}
+site-nav
+  button[aria-label="navigation toggle"]:where(hover svg circle:nth-child(1)) {
+  transform: translateY(-1px);
+}
+site-nav
+  button[aria-label="navigation toggle"]:where(hover svg circle:nth-child(3)) {
+  transform: translateY(1px);
+}
+/* nav dropdown */
+site-nav .drop-down {
   padding: 1rem;
   background-color: white;
   display: flex;
@@ -32,71 +95,55 @@ site-nav ul {
   border-radius: 6px;
   box-shadow: 0 0 12px 0 hsl(var(--col-blk) / 0.2);
 }
+/* nav links */
+site-nav .links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+site-nav[state="open"] .links {
+  transform: translateY(0);
+  opacity: 1;
+}
+site-nav a[aria-current="page"] svg {
+  color: hsl(var(--col-primary));
+}
+site-nav li[data-nav-link] {
+}
+/* nav functions */
+site-nav .functions {
+  /* display: none;
+  flex-direction: column;
+  gap: 0.75rem; */
+}
+site-nav .function-separator {
+  margin-bottom: -0.125rem;
+  margin-top: 0;
+  display: none;
+}
+site-nav [data-nav-role="back"] {
+  /* display: block; */
+  display: none;
+}
+
 html[router\:current-layout="works.njk"]
-  :is(site-nav [data-nav-role="back"], site-nav .function-separator) {
+  site-nav
+  :is(.function-separator, [data-nav-role="back"]) {
   display: block;
+}
+html[router\:current-layout="works.njk"] site-nav .functions {
+  /* display: flex; */
 }
 html[router\:current-layout="works.njk"] site-nav [data-nav-role="back"] {
   pointer-events: all;
 }
-site-nav .function-separator {
-  margin: 0;
-  display: none;
-}
-site-nav [data-nav-role="back"] {
-  display: none;
-}
-site-nav button[aria-label="navigation toggle"] {
-  /* viewport dependent */
-  pointer-events: all;
-  order: 1;
-  align-self: flex-end;
-  padding: 0.25rem;
-}
-site-nav[state="open"] ul {
-  transform: translateY(0);
-  opacity: 1;
-}
-site-nav[state="open"] {
-  pointer-events: all;
-}
-@keyframes thinking {
-  from {
-    fill: hsl(var(--col-secondary));
-  }
-  to {
-    fill: hsl(var(--col-ternary));
-  }
-}
-html.navigating site-nav button svg circle {
-  animation-name: thinking;
-  animation-duration: 500ms;
-  animation-iteration-count: infinite;
-  animation-delay: var(--a-d);
-}
-site-nav button svg circle {
-  transition-property: transform;
-  transition-duration: 525ms;
-  transition-timing-function: var(--transition-timing-mud);
-}
-site-nav[state="open"] button svg circle:nth-child(1) {
-  transform: translateY(2px);
-}
-site-nav[state="open"] button svg circle:nth-child(3) {
-  transform: translateY(-2px);
-}
-site-nav button:where(hover svg circle:nth-child(1)) {
-  transform: translateY(-1px);
-}
-site-nav button:where(hover svg circle:nth-child(3)) {
-  transform: translateY(1px);
-}
-site-nav[state="close"] ul {
+
+site-nav[state="close"] .drop-down {
   transform: translateY(4px);
   opacity: 0;
   pointer-events: none;
 }
-site-nav > ul li > * {
+site-nav .links li > * {
   display: flex;
   gap: 0.5em;
   text-decoration: none;
@@ -104,39 +151,26 @@ site-nav > ul li > * {
 site-nav ul a[aria-current="page"] span::after {
   transition-property: height;
 }
-site-nav ul a.err {
+site-nav .links a.err {
   color: white;
 }
-site-nav ul a.err span::after {
+site-nav .links a.err span::after {
   height: 100% !important;
   background-color: red;
 }
-site-nav ul .under-construction {
+site-nav .links .under-construction {
   cursor: progress;
   text-decoration: line-through;
   opacity: 0.25;
 }
-site-nav ul svg {
+site-nav .links svg {
   fill: transparent;
   stroke: currentColor;
   stroke-width: 2;
   pointer-events: none;
 }
 
-site-nav[state="open"] ~ svg {
-  /* filter: blur(2px); */
-}
-site-nav[state="open"] ~ main {
-  pointer-events: none;
-  filter: blur(4px);
-}
-
-site-nav a[aria-current="page"] svg {
-  color: hsl(var(--col-primary));
-}
-
 @media (min-width: 512px) {
-  /* nav alignment */
   site-nav {
     grid-row: 1;
     grid-column: 1;
@@ -144,7 +178,7 @@ site-nav a[aria-current="page"] svg {
     justify-self: flex-start;
   }
 
-  site-nav[state="close"] ul {
+  site-nav[state="close"] .drop-down {
     transform: translateY(-4px);
   }
   site-nav button[aria-label="navigation toggle"] {
