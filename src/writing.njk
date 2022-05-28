@@ -1,0 +1,16 @@
+---
+layout: base.njk
+---
+
+<div class="cramp">
+    <ul>
+        {% for post in collections.post %}
+            {% set data = post.data %}
+            <li>
+                <a href="{{post.url}}">
+                    <span>{{ data.title }}</span>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

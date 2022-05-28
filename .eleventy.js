@@ -3,11 +3,26 @@ const { minify: terser } = require("terser");
 const { minify: csso } = require("csso");
 const { tag, path } = require("./11ty/img");
 
+const pluginTOC = require("eleventy-plugin-toc");
+
+const markdownIt = require("markdown-it");
+const markdownItAttrs = require("markdown-it-attrs");
+
 // filters - -
 const { irand, frand, angleToV } = require("./11ty/filters.js");
 
 /** @param {import('@11ty/eleventy/src/UserConfig')} config */
 module.exports = config => {
+  config.addPlugin(pluginTOC);
+  config.setLibrary(
+    "md",
+    markdownIt({
+      html: true,
+      breaks: true,
+      linkify: true,
+    }).use(markdownItAttrs)
+  );
+
   // gen design filters
   config.addNunjucksFilter("irand", irand);
   config.addNunjucksFilter("frand", frand);
@@ -74,6 +89,7 @@ module.exports = config => {
   }
   // config.addPassthroughCopy({ "./assets/vid": "assets/vid" });
   config.addPassthroughCopy("./assets/vid");
+  config.addPassthroughCopy("./assets/touchfiles");
   config.addPassthroughCopy({ "./static/": "assets" });
   return {
     dir: {

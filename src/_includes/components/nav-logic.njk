@@ -14,9 +14,11 @@
     mNav.setAttribute("state", "open");
   }
 
-  const backButton = mNav.querySelector("[data-nav-role] button");
+  const backButton = mNav.querySelector("[data-nav-role='back'] button");
+  const topButton = mNav.querySelector('[data-nav-role="top"]');
   const functions = mNav.querySelector(".functions");
   backButton.onclick = e => history.back();
+  topButton.onclick = e => document.querySelector("main").scrollTo(0,0);
   //   handle button click
   mNav.querySelector("button").onclick = e => {
     e.stopPropagation();
@@ -67,7 +69,13 @@
               currentFocus = sibling;
               next();
             } else {
-              currentFocus = sibling;
+              const nested = sibling.querySelector("ul li");
+              if (nested) {
+                currentFocus = nested;
+              } else {
+                currentFocus = sibling;
+              }
+              console.log(currentFocus);
               currentFocus.querySelector(":is(a,button)").focus();
             }
           }

@@ -87,6 +87,8 @@ site-nav .drop-down {
   flex-direction: column;
   gap: 0.75rem;
 
+  margin-bottom: 0.5rem;
+
   line-height: 1;
   transition-property: transform, opacity;
   transition-duration: 125ms;
@@ -112,9 +114,13 @@ site-nav li[data-nav-link] {
 }
 /* nav functions */
 site-nav .functions {
+  display: none;
   /* display: none;
   flex-direction: column;
   gap: 0.75rem; */
+}
+site-nav .functions li {
+  margin-block: auto;
 }
 site-nav .function-separator {
   margin-bottom: -0.125rem;
@@ -123,14 +129,19 @@ site-nav .function-separator {
 }
 site-nav [data-nav-role="back"] {
   /* display: block; */
-  display: none;
+  /* display: none; */
 }
 
-html[router\:current-layout="works.njk"]
+html:not([router\:current-layout="base.njk"])
+  site-nav
+  :is(.function-separator, .functions) {
+  display: block;
+}
+/* html[router\:current-layout="works.njk"]
   site-nav
   :is(.function-separator, [data-nav-role="back"]) {
   display: block;
-}
+} */
 html[router\:current-layout="works.njk"] site-nav .functions {
   /* display: flex; */
 }
@@ -176,6 +187,11 @@ site-nav .links svg {
     grid-column: 1;
     align-self: flex-start;
     justify-self: flex-start;
+  }
+
+  site-nav .drop-down {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
   }
 
   site-nav[state="close"] .drop-down {

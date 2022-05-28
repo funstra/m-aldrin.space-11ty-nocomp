@@ -1,0 +1,25 @@
+---
+title: Circular sampling of perlin noise
+date: 2022-05-24
+assets: [touchfiles/circular-sampling.toe]
+description: A article about getting started with algoritmic/generative design with 11ty and Nunjucks
+keywords: Algoritmicdesign, perlinnoise
+posttype: algoritmic
+posttags: [algoritmic, design, touchdesigner]
+preamble: You should probably sample your noise in a circle
+---
+
+<p>If your are in the business of creating animation programatacally you might be in need of the circle sampled perlin noise.</p>
+
+<p>By offsetting the axes that are not part of the spatial important axes. For example in the case of a 2D grid, we leave the <i>x</i> & <i>y</i> axes untoched and offsets two aditional axes, lets call them <i>i</i> & <i>j</i>.</p>
+
+<p><i>i</i> & <i>j</i> are in the example file just two ramps that are offset by a sample of <i>cos<sub>x</sub></i> & <i>sin<sub>y</sub></i>. The results are that when we get back to the start of the circle we are at the same location in the perlin noise field, making it possible to animate with randomness that is spatialy and temporally intact.</p>
+
+<figure>
+    {% if env.dev %}
+        <img src="/assets/img/writing/circular-sampling/circularsampling.png" alt="">
+    {% else %}
+        {% image 'writing/circular-sampling','circularsampling.png',"It's me!",'', {h: "100%"} %}
+    {% endif %}
+    <figcaption>Offsetting the i & j axes with cos & sin samples</figcaption>
+</figure>

@@ -1,0 +1,10 @@
+---
+title: Algoritmicdesign with 11ty and Nunjucks 
+date: 2022-06-28
+description: A article about getting started with algoritmic/generative design with 11ty and Nunjucks
+keywords: Nunjucks, 11ty, Algoritmicdesign
+posttype: algoritmic
+posttags: [11ty, njk, design]
+preamble: This post is going to get you up and running with generative design and nunjucks
+---
+<h2 id="first">Hello</h2>

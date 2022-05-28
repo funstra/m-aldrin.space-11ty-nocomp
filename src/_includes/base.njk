@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{"home" if page.fileSlug == '' else page.fileSlug}}</title>
 
+    <meta name="author" content="Marcus Aldrin">
+    <meta name="keywords" content="webdesign,webdevelopment,art,generativedesign">
+    {% if keywords %}
+      <meta name="keywords" content="{{keywords}}">
+    {% endif %}
     <meta name="description" content="{{description if description else "Marcus Aldrins personal website"}}">
 
     <link rel="stylesheet" href="/css/main.css">
@@ -21,8 +26,9 @@
       <link rel="stylesheet" href="/css/pages/work.css">
       <link rel="stylesheet" href="/css/pages/about.css">
       <link rel="stylesheet" href="/css/layouts/works.css">
+      <link rel="stylesheet" href="/css/layouts/writing-post.css">
       <link rel="stylesheet" href="/css/components/nav.css">
-      
+
       <script src="/js/postfilter.js" defer></script>
     {% else %}
       {# style resources - -  #}
@@ -44,6 +50,11 @@
           {% include "../css/layouts/works.css" %}
         </style>
       {% endif %}
+      {% if layout == 'writing-post.njk' %}
+        <style router:resource="writing-post.njk">
+          {% include "../css/layouts/writing-post.css" %}
+        </style>
+      {% endif %}
       {% if page.fileSlug == 'about' %}
         <style router:resource="/about/">
           {% include "../css/pages/about.css" %}
@@ -53,6 +64,9 @@
 
   </head>
   <body >
+
+    {% include "partials/h-card.njk" %}
+
     {% include "components/nav.njk" %}
     {% include "components/gridlines.njk" %}
 

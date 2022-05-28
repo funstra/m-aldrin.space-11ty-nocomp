@@ -110,13 +110,13 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
 
   if (push) {
     // set scrollTop position on current position at history stack
-    history.replaceState(
-      { scrollTop: src.elm.scrollTop },
-      null,
-      location.pathname
-    );
+    // history.replaceState(
+    //   { scrollTop: src.elm.scrollTop },
+    //   null,
+    //   location.pathname
+    // );
     // push destination path to history stack
-    history.pushState(null, null, pathname);
+    history.pushState({ entry: true }, null, pathname);
   } else {
     // TODO, Keep track of scrollTop onpostate
   }
@@ -209,20 +209,34 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
   }, 1);
 };
 
+let prevLoc = null;
+
 // handle click
 const handle = async e => {
   let { target } = e;
-  if (target.pathname === location.pathname) {
-    e.preventDefault();
-    target.classList.add("err");
-    setTimeout(() => {
-      target.classList.remove("err");
-    }, 100);
+  if (target.download) {
     return;
   }
-  if (target.tagName === "A" && target.origin === location.origin) {
+  if (target.hash) {
     e.preventDefault();
-    setPage(target, true);
+    document.querySelector(target.hash).scrollIntoView({
+      block: "start",
+    });
+    return;
+  } else {
+    if (target.pathname === location.pathname) {
+      e.preventDefault();
+      target.classList.add("err");
+      setTimeout(() => {
+        target.classList.remove("err");
+      }, 100);
+      return;
+    }
+    if (target.tagName === "A" && target.origin === location.origin) {
+      prevLoc = target.pathName;
+      e.preventDefault();
+      setPage(target, true);
+    }
   }
 };
 
@@ -230,6 +244,7 @@ const handle = async e => {
 document.addEventListener("click", handle);
 
 // handle history change
+
 onpopstate = e => {
   setPage(location, true, e.state?.scrollTop || 0, false);
 };

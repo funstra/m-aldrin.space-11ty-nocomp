@@ -34,7 +34,6 @@ layout: base.njk
                             </ul>
                         {% endif %}
                     </header>
-                    {# <h3>{{work.title}}</h3> #}
                     <a href="{{workPage.url}}">
                         <span>{{work.title}}</span>
                         {% if work.thumb %}
@@ -45,8 +44,6 @@ layout: base.njk
                             {% endif %}
                         {% endif %}
                     </a>
-                    {# <p>{{work.preamble}}</p> #}
-                    {# <a href="{{work.path}}">read more</a> #}
                 </article>
             </li>
         {% endfor %}

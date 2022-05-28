@@ -22,19 +22,39 @@
                     <span>works</span></a>
             </li>
             <li data-nav-link>
-                <a tabindex="-1" href="/about/" {{'aria-current=page' if page.fileSlug == "about"}} router:order="2">
+                <a tabindex="-1" href="/writing/" {{'aria-current=page' if page.fileSlug == "writing"}} router:order="2">
+                    {{icons.icon('writing')}}
+                    <span>writing</span></a>
+            </li>
+            <li data-nav-link>
+                <a tabindex="-1" href="/about/" {{'aria-current=page' if page.fileSlug == "about"}} router:order="3">
                     {{icons.icon('about')}}
                     <span>about</span></a>
             </li>
             <hr class="function-separator">
-            <li data-nav-role="back">
-                <button  >
-                    <svg width="32" height="16">
-                        <g transform="translate(4 8)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                            <path d="M0,0 m4,-4 L0,0 l4,4 M0,0 h28" stroke="currentColor" />
-                        </g>
-                    </svg>
-                </button>
+            <li class="functions">
+                <ul>
+                    <li data-nav-role="back">
+                        <button tabindex="-1"  >
+                            <svg width="32" height="16">
+                                <g transform="translate(4 8)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M0,0 m4,-4 L0,0 l4,4 M0,0 h28" stroke="currentColor" />
+                                </g>
+                            </svg>
+                        </button>
+                    </li>
+                    <li data-nav-role="top">
+                        <button  tabindex="-1" >
+                            <svg width="16" height="32">
+                                <g transform="translate(8 4)" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                        <g transform="rotate(90)">
+                                            <path d="M0,0 m4,-4 L0,0 l4,4 M0,0 h28" stroke="currentColor" />
+                                        </g>
+                                </g>
+                            </svg>
+                        </button>
+                    </li>
+                </ul>
             </li>
         </ul>
     </div>
