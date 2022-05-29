@@ -1,0 +1,8 @@
+{% macro v(folder, name, caption) %}
+    <figure>
+        {% set folder = "vid/" + folder %}
+        {# safari doesnt show controls when the video is dynamicaly added, sets the controls to true on loadedmetadata #}
+        <video poster="{{ [ folder , name + "-poster" + ".jpg" ] | imgPath }}" src="{{"/assets/"+folder+"/"+name+".mp4"}}" type='video/mp4' width="1280" preload="metadata" loop muted playsinline onloadedmetadata="this.controls = true"></video>
+        <figcaption>{{caption}}</figcaption>
+    </figure>
+{% endmacro %}

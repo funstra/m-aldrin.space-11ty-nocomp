@@ -1,0 +1,11 @@
+[router\:layout="works.njk"] {
+  --m-width: 80rem;
+  .wrapper {
+    grid-template-rows: min-content;
+  }
+  header {
+    overflow: hidden;
+  }
+  @media (min-width: 512px) {
+  }
+}

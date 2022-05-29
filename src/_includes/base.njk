@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="/assets/img/favicon.svg" type="image/x-icon">
     <title>{{"home" if page.fileSlug == '' else page.fileSlug}}</title>
 
     <meta name="author" content="Marcus Aldrin">
@@ -21,79 +22,96 @@
 
     <script src="/js/router.js" type="module"></script>
 
+    {# If we are developing just link it #}
     {% if env.dev %}
-      <link rel="stylesheet" href="/css/reset.css">
-
+      {# style #}
+      {# layouts #}
       <link rel="stylesheet" href="/css/layouts/works.css">
       <link rel="stylesheet" href="/css/layouts/writing-post.css">
 
+      {# pages #}
       <link rel="stylesheet" href="/css/pages/home.css">
       <link rel="stylesheet" href="/css/pages/work.css">
       <link rel="stylesheet" href="/css/pages/writing.css">
       <link rel="stylesheet" href="/css/pages/about.css">
 
-      <link rel="stylesheet" href="/css/components/nav.css">
+      {# components #}
+      <link rel="stylesheet" href="/css/components/site-nav.css">
+      <link rel="stylesheet" href="/css/components/theme-switch.css">
 
+      {# script #}
       <script src="/js/postfilter.js" defer></script>
       <script src="/js/pages/about.js" defer></script>
+      {# else inline it #}
     {% else %}
-      {# reset #}
-      <style>
-        {% include "../css/reset.css" %}
-      </style>
       {# style resources - -  #}
       {# layouts #}
       {% if layout == 'works.njk' %}
         <style router:resource="works.njk">
-          {% include "../css/layouts/works.css" %}
+          {% include "../style/css/layouts/works.css" %}
         </style>
       {% endif %}
       {% if layout == 'writing-post.njk' %}
         <style router:resource="writing-post.njk">
-          {% include "../css/layouts/writing-post.css" %}
+          {% include "../style/css/layouts/writing-post.css" %}
         </style>
       {% endif %}
       {# pages #}
       {% if page.fileSlug == ""%}
         <style router:resource="/">
-          {% include "../css/pages/home.css" %}
+          {% include "../style/css/pages/home.css" %}
         </style>
       {% endif %}
       {% if page.fileSlug == 'work' %}
         <style router:resource="/work/">
-          {% include "../css/pages/work.css" %}
+          {% include "../style/css/pages/work.css" %}
         </style>
       {% endif %}
       {% if page.fileSlug == 'writing' %}
         <style router:resource="/writing/">
-          {% include "../css/pages/writing.css" %}
+          {% include "../style/css/pages/writing.css" %}
         </style>
       {% endif %}
       {% if page.fileSlug == 'about' %}
         <style router:resource="/about/">
-          {% include "../css/pages/about.css" %}
+          {% include "../style/css/pages/about.css" %}
         </style>
       {% endif %}
+
       <style>
-        {% include "../css/components/nav.css" %}
+        {% include "../style/css/components/site-nav.css" %}
+        {% include "../style/css/components/theme-switch.css" %}
       </style>
 
     {% endif %}
+
+    {# theme #}
+    <script>
+      if (localStorage.getItem("theme") != "light" && window.matchMedia("prefers-color-scheme: dark")) {
+        localStorage.setItem("theme", "dark");
+        document
+          .documentElement
+          .classList
+          .add("dark");
+      }
+    </script>
 
   </head>
   <body >
 
     {% include "partials/h-card.njk" %}
 
-    {% include "components/nav.njk" %}
     {% include "components/gridlines.njk" %}
+
+    {% include "components/site-nav.njk" %}
+    {% include "components/theme-switch.njk" %}
 
     <main tabindex="-1" router:layout="{{layout}}" router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}" router:direction="{{transitionDirection}}" >
       <div class="wrapper">{{ content | safe }}</div>
     </main>
 
     {% include "components/grain.njk" %}
-    {% include "components/nav-logic.njk" %}
+    {% include "components/site-nav-logic.njk" %}
 
     {# script resources - -  #}
 

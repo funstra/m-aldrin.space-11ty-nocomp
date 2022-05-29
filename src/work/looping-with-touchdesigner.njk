@@ -2,31 +2,27 @@
 title: Creating loops with Touchdesigner
 thumb: /looping-with-touchdesigner-thumb.jpg
 worktags:
-  - design
-  - animation
   - touchdesigner
+  - animation
+  - design
 date: 2022-04-10
+relatedposts:
+  circular-sampling-of-perlinnoise: "Circular sampling of perlinnoise"
 ---
 
-{% macro v(src, poster, caption) %}
-    <figure>
-        {# safari doesnt show controls when the video is dynamicaly added, sets the controls to true on loadedmetadata #}
-        <video poster="{{ ['works',poster] | imgPath }}" src="{{src}}" type='video/mp4' width="1280" preload="metadata" loop muted playsinline onloadedmetadata="this.controls = true"></video>
-        <figcaption>{{caption}}</figcaption>
-    </figure>
-{% endmacro %}
+{% import "components/video-figure.njk" as v %}
 
 <p>
-    <a href="https://derivative.ca/">Touchdesigner</a> was my first
+  <a href="https://derivative.ca/">Touchdesigner</a> was my first
   <span style="color: hsl(var(--col-primary))">love</span> in terms of
-  programming and in some ways it still is. 
+  programming and in some ways it still is. Below are some current works involving perfect loops made in Touchdesigner
 </p>
 
-<p>
-    Below are some current works involving perfect loops made in Touchdesigner
-</p>
-
-{{v('/assets/vid/works/snok.mp4','/looping-with-touchdesigner-thumb.jpg','Creating disks along a offseted lookup of a path')}}
-{{v('/assets/vid/works/flow.mp4','/partiklethumb.0.jpg','GPU instanced cubes, lifetime and position determined by a animated perlin noise')}}
-{{v('/assets/vid/works/softblocks.mp4','/softblocksthumb.jpg','Grid of wedges sampling a perlin noise at each location')}}
-{{v('/assets/vid/works/piston.mp4','/pistonthumb.jpg','A box of pistons pushed by a perlin')}}
+<div class="grid-wrap">
+  {{v.v('works','snok','Creating disks along a offseted lookup of a path')}}
+  {{v.v('works','flow', 'GPU instanced cubes, lifetime and position determined by a animated perlin noise')}}
+</div>
+<div class="grid-wrap">
+  {{v.v('works','softblocks','Grid of wedges sampling a perlin noise at each location')}}
+  {{v.v('works','piston','A box of pistons pushed by a perlin')}}
+</div>

@@ -5,13 +5,11 @@ class: [cramp]
 
 {% import "components/date.njk" as d %}
 {% import "components/entities.njk" as e %}
-<h2>{{title}}</h2>
+<h1>{{title}}</h1>
 <header>
     <ul class="meta">
         <li class="date">
-            <ul>
-                {{ d.date(date) }}
-            </ul>
+            {{ d.date(date) }}
         </li>
         <li class="posttags">
             <ul class="tags">
@@ -30,16 +28,11 @@ class: [cramp]
             <ul>
                 {% for asset in assets %}
                     <li>
-                        <a style="" download="{{asset}}" href="/assets/{{asset}}">
-                            <span style="margin-right:0.5em;white-space:nowrap">
+                        <a download="{{asset}}" href="/assets/{{asset}}">
+                            {{ e.asset() }}
+                            <span>
                                 {{asset}}
                             </span>
-                            {{ e.asset() }}
-                            {# <svg width="16" height="20" style="align-self: center;">
-                                <g transform="translate(8 2)" stroke="currentColor" stroke-width="1">
-                                    <path d="M0,0 v16 m-4,-4 l4,4 l4,-4" />
-                                </g>
-                            </svg> #}
                         </a>
                     </li>
                 {% endfor %}

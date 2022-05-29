@@ -13,5 +13,18 @@ layout: base.njk
       <path d="M0,4 h64" stroke="hsl(var(--col-secondary))" stroke-width="8" />
     </svg>
   </ul>
+
 </header>
-<article class="cramp">{{ content | safe }}</article>
+<article>{{ content | safe }}</article>
+{% if relatedposts %}
+  <div class="related-posts cta-soft">
+    <p style="display:inline">related posts: </p>
+    <ul style="display:inline-block">
+      {% for pUrl, pTitle in relatedposts %}
+        <li>
+          <a href="/writing/{{pUrl}}/">{{pTitle}}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}

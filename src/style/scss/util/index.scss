@@ -1,0 +1,63 @@
+@forward "grid.scss";
+@forward "cta.scss";
+@forward "text-column.scss";
+
+.buttonish {
+  --bg-col: hsl(var(--col-ternary));
+  background-color: var(--bg-col);
+  color: hsl(var(--col-wht));
+  font-variation-settings: "wght" 400;
+  padding-inline: 0.75em;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 12px 0 var(--bg-col), var(--focus-shadow, 0 0 0 0 black);
+  transition-property: background-color, box-shadow;
+  transition-duration: 125ms;
+  transition-timing-function: ease-out;
+}
+:root.dark .buttonish {
+  filter: brightness(1.3);
+}
+.buttonish:is(:hover, :focus) {
+  --bg-col: hsl(var(--col-primary));
+}
+
+ul.tags {
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+ul.tags > li {
+  padding-inline: 0.35em;
+  border-radius: 4px;
+  background-color: hsl(var(--col-secondary));
+}
+
+a:focus {
+  outline: none;
+}
+a span {
+  position: relative;
+  pointer-events: none;
+}
+a span::after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background-color: hsl(var(--col-secondary));
+  z-index: -1;
+  transition-property: height;
+  transition-duration: 25ms;
+  transition-timing-function: ease-out;
+}
+a:is(:hover, :focus) span::after {
+  height: 50%;
+}
+a:not([href^="/"], [href^="#"]) {
+  text-decoration-style: dashed;
+  text-decoration-color: hsl(var(--col-ternary));
+  text-decoration-thickness: 0.2ex;
+}

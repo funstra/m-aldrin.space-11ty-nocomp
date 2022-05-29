@@ -1,0 +1,11 @@
+[class*="cta"] {
+  padding: var(--space-s);
+  border-radius: var(--space-3xs);
+  max-width: max-content;
+}
+.cta {
+  &-soft {
+    background-color: hsl(var(--col-primary) / 0.15);
+    box-shadow: 0 0 8px 8px hsl(var(--col-primary) / 0.05);
+  }
+}

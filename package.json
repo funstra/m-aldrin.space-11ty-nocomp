@@ -1,14 +1,25 @@
 {
   "scripts": {
-    "dev": "NODE_ENV=dev npx @11ty/eleventy --incremental --serve",
-    "build": "NODE_ENV=production npx @11ty/eleventy"
+    "dev:sass-main": "sass  --no-source-map -w src/style/scss/main.scss src/style/css/main.css",
+    "dev:sass-layouts": "sass --no-source-map -w src/style/scss/_layouts:src/style/css/layouts/",
+    "dev:sass-pages": "sass --no-source-map -w src/style/scss/_pages:src/style/css/pages/",
+    "dev:sass-components": "sass --no-source-map -w src/style/scss/_components:src/style/css/components/",
+    "dev:11ty": "NODE_ENV=dev npx @11ty/eleventy --incremental --serve",
+    "dev": "concurrently npm:dev:*",
+    "build:sass-main": "sass  --no-source-map src/style/scss/main.scss src/style/css/main.css",
+    "build:sass-layouts": "sass --no-source-map src/style/scss/_layouts:src/style/css/layouts/",
+    "build:sass-pages": "sass --no-source-map src/style/scss/_pages:src/style/css/pages/",
+    "build:sass-components": "sass --no-source-map src/style/scss/_components:src/style/css/components/",
+    "build:11ty": "NODE_ENV=production  npx @11ty/eleventy",
+    "build": "concurrently npm:build:*"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.0-canary.11",
     "@11ty/eleventy-img": "^2.0.1",
+    "concurrently": "^7.2.1",
     "csso": "^5.0.3",
     "html-minifier-terser": "^7.0.0-alpha.2",
-    "markdown-it-attrs": "^4.1.4",
+    "sass": "^1.52.1",
     "terser": "^5.13.1"
   },
   "dependencies": {

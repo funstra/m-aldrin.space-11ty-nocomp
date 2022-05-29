@@ -1,0 +1,16 @@
+.toc a {
+  font-size: inherit;
+}
+
+.toc ol {
+  font-size: inherit;
+  counter-reset: chapter;
+  position: relative;
+}
+.toc ol > li {
+  font-size: inherit;
+  counter-increment: chapter;
+}
+.toc ol > li::before {
+  content: counters(chapter, ".") ". ";
+}

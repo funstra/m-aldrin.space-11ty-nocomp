@@ -5,28 +5,22 @@ const { tag, path } = require("./11ty/img");
 
 const pluginTOC = require("eleventy-plugin-toc");
 
-const markdownIt = require("markdown-it");
-const markdownItAttrs = require("markdown-it-attrs");
-
 // filters - -
 const { irand, frand, angleToV } = require("./11ty/filters.js");
 
 /** @param {import('@11ty/eleventy/src/UserConfig')} config */
 module.exports = config => {
   config.addPlugin(pluginTOC);
-  config.setLibrary(
-    "md",
-    markdownIt({
-      html: true,
-      breaks: true,
-      linkify: true,
-    }).use(markdownItAttrs)
-  );
 
   // gen design filters
   config.addNunjucksFilter("irand", irand);
   config.addNunjucksFilter("frand", frand);
   config.addNunjucksFilter("angleToV", angleToV);
+  
+  
+  // config.addNunjucksFilter("compareTags", ([worktags])=>{
+
+  // });
 
   // date
   config.addNunjucksFilter("daatee", d => {
@@ -70,21 +64,34 @@ module.exports = config => {
     config.addTemplateFormats("css");
     config.addExtension("css", {
       outputFileExtension: "css",
+      compileOptions: {
+        permalink: (contents, inputPath) => {
+          if (inputPath.includes("main.css")) {
+            return "css/main.css";
+          }
+          return false;
+        },
+      },
       compile: async (inputContent, outPutPath) => {
-        // ignore /pages/ files
-        if (outPutPath.includes("/pages/")) {
+        if (outPutPath.includes("main.css")) {
+          let output = csso(inputContent);
+          return async () => {
+            return output.css;
+          };
+        } else {
           return;
         }
-        let output = csso(inputContent);
-        return async () => {
-          return output.css;
-        };
       },
     });
   } else {
-    config.addPassthroughCopy("src/css");
-    config.addPassthroughCopy("src/js/");
+    config.addPassthroughCopy({ "src/style/css/main.css": "css/main.css" });
+    config.addPassthroughCopy({ "src/style/css/pages": "css/pages/" });
+    config.addPassthroughCopy({ "src/style/css/layouts": "css/layouts/" });
+    config.addPassthroughCopy({
+      "src/style/css/components": "css/components/",
+    });
     // config.addPassthroughCopy({ "./assets/img": "assets/img" });
+    config.addPassthroughCopy("src/js/");
     config.addPassthroughCopy("./assets/img");
   }
   // config.addPassthroughCopy({ "./assets/vid": "assets/vid" });

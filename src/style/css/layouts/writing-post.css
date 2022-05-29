@@ -1,0 +1,79 @@
+[router\:layout="writing-post.njk"] .wrapper {
+  --m-width: 80rem;
+}
+[router\:layout="writing-post.njk"] .wrapper .assets {
+  font-size: var(--step--1);
+}
+[router\:layout="writing-post.njk"] .wrapper .assets a {
+  display: flex;
+  align-items: center;
+}
+[router\:layout="writing-post.njk"] .wrapper > header {
+  height: max-content;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+}
+[router\:layout="writing-post.njk"] .wrapper > header .meta {
+  display: flex;
+  gap: 1em;
+  font-size: var(--step--1);
+}
+[router\:layout="writing-post.njk"] .wrapper > header .meta .posttags {
+  margin-left: auto;
+}
+[router\:layout="writing-post.njk"] .wrapper > header .meta .posttags ul {
+  display: flex;
+  gap: 0.5em;
+}
+[router\:layout="writing-post.njk"] .wrapper aside {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 4px;
+  height: max-content;
+  background-color: hsl(var(--col-ternary)/0.125);
+  font-size: var(--step--1);
+}
+[router\:layout="writing-post.njk"] .wrapper aside small {
+  display: block;
+}
+[router\:layout="writing-post.njk"] .wrapper > nav {
+  margin-top: 1rem;
+  grid-column: 1/-1;
+  display: flex;
+}
+[router\:layout="writing-post.njk"] .wrapper > nav span {
+  display: block;
+}
+[router\:layout="writing-post.njk"] .wrapper > nav .next-post {
+  margin-left: auto;
+}
+@media (min-width: 1024px) {
+  [router\:layout="writing-post.njk"] .wrapper {
+    grid-template-rows: auto min-content 1fr;
+    grid-template-columns: 1fr 3fr;
+    gap: 1rem;
+  }
+  [router\:layout="writing-post.njk"] .wrapper > h1 {
+    grid-column: 1/-1;
+  }
+  [router\:layout="writing-post.njk"] .wrapper > header {
+    grid-column: 1/2;
+    position: sticky;
+    top: 0;
+  }
+  [router\:layout="writing-post.njk"] .wrapper .assets {
+    width: max-content;
+  }
+  [router\:layout="writing-post.njk"] .wrapper > hr {
+    display: none;
+  }
+  [router\:layout="writing-post.njk"] .wrapper > aside {
+    grid-column: 1/2;
+    position: sticky;
+    top: 0;
+  }
+  [router\:layout="writing-post.njk"] .wrapper > article {
+    grid-column: 2/3;
+  }
+}

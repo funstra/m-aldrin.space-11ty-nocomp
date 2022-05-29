@@ -1,0 +1,48 @@
+:root.dark theme-switch {
+  color: hsl(var(--col-blk));
+}
+:root.dark theme-switch .beams {
+  transform: scale(0.5);
+  opacity: 0;
+}
+:root.dark theme-switch .beams .inner {
+  transform: rotate(30deg);
+}
+:root.dark theme-switch .center {
+  transform: scale(2);
+}
+:root.dark theme-switch .crest {
+  fill: black;
+  transform: translate(1.5px, -0.75px);
+}
+
+theme-switch {
+  color: hsl(var(--col-primary));
+  z-index: 100;
+  grid-row: 1;
+  grid-column: 2;
+  justify-self: flex-end;
+  align-self: flex-start;
+}
+theme-switch .beams {
+  transition-property: transform, opacity;
+  transition-delay: 225ms;
+  transition-duration: 155ms;
+}
+theme-switch .beams .inner {
+  transition-property: transform;
+  transition-timing-function: ease-in-out;
+  transition-duration: 550ms;
+}
+theme-switch .center {
+  transition-property: transform, opacity;
+  transition-delay: 200ms;
+  transition-timing-function: ease-out;
+  transition-duration: 125ms;
+}
+theme-switch .crest {
+  transform: translate(4px, -4px);
+  transition-property: transform, opacity;
+  transition-delay: 200ms;
+  transition-duration: 175ms;
+}

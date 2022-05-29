@@ -1,4 +1,5 @@
 {
     "layout": "writing-post.njk",
+    "transitionDirection": "vertical",
     "tags": "post"
 }

@@ -5,21 +5,22 @@ assets: [touchfiles/circular-sampling.toe]
 description: A article about getting started with algoritmic/generative design with 11ty and Nunjucks
 keywords: Algoritmicdesign, perlinnoise
 posttype: algoritmic
-posttags: [algoritmic, design, touchdesigner]
-preamble: You should probably sample your noise in a circle
+posttags: [touchdesigner,animation, design,algoritmic]
+preamble: You should probably sample your perlin in a circle
 ---
 
-<p>If your are in the business of creating animation programatacally you might be in need of the circle sampled perlin noise.</p>
+{% import "components/video-figure.njk" as v %}
 
-<p>By offsetting the axes that are not part of the spatial important axes. For example in the case of a 2D grid, we leave the <i>x</i> & <i>y</i> axes untoched and offsets two aditional axes, lets call them <i>i</i> & <i>j</i>.</p>
+<p>If your are in the business of creating animation programatacally you might be in need of the circle sampled <a href="https://en.wikipedia.org/wiki/Perlin_noise">perlin</a> noise.</p>
 
-<p><i>i</i> & <i>j</i> are in the example file just two ramps that are offset by a sample of <i>cos<sub>x</sub></i> & <i>sin<sub>y</sub></i>. The results are that when we get back to the start of the circle we are at the same location in the perlin noise field, making it possible to animate with randomness that is spatialy and temporally intact.</p>
+<p>By offsetting the sampling axes that are not spatial important. For example in the case of a 2D grid, we leave the <i>x</i> & <i>y</i> axes untuched and offsets two aditional axes, lets call them <i>i</i> & <i>j</i>.</p>
 
-<figure>
-    {% if env.dev %}
-        <img src="/assets/img/writing/circular-sampling/circularsampling.png" alt="">
-    {% else %}
-        {% image 'writing/circular-sampling','circularsampling.png',"It's me!",'', {h: "100%"} %}
-    {% endif %}
-    <figcaption>Offsetting the i & j axes with cos & sin samples</figcaption>
-</figure>
+<p>
+    <i>i</i> & <i>j</i> are in the example file just two constant values over the sampling range that are offset by a sample of <i>cos<sub>time</sub>
+    </i> & <i>sin<sub>time</sub>
+    </i>. 
+    The results are that when we get back to the start of the circle we are at the same location in the perlin noise field, making it possible to animate with randomness that is spatialy and temporally intact.</p>
+<div class="grid-wrap" style="--wrap-w:256px">
+    {{ v.v("writing/circular-sampling","circular-sampling-range","the sampling range for the perlin noise") }}
+    {{ v.v("writing/circular-sampling","circular-sampling","the offset moves the dot on the outer circle and the perlin value scales the inner grid of circles") }}
+</div>

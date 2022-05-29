@@ -1,6 +1,11 @@
-{% macro date(d,as="li") %}
-    <{{as}} data-date="{{d}}">
-        {% set d = d | daatee %}
-        <span>{{d.getFullYear()}}</span>-<span>{{d.getMonth()+1}}</span>-<span>{{d.getDate()}}</span>
-    </{{as}}>
+{% macro date(d, as = "") %}
+    {% set d = d | daatee %}
+    {% set inner %}
+    <time datetime="{{d}}">{{d.getFullYear()}}</span>-<span>{{d.getMonth()+1}}</span>-<span>{{d.getDate()}}</time>
+    {% endset %}
+    {% if not as %}
+        {{ inner | safe }}
+    {% else %}
+        <{{as}}>{{inner | safe }}</{{as}}>
+    {% endif %}
 {% endmacro %}

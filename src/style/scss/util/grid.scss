@@ -1,0 +1,7 @@
+[class*="grid-"] {
+  display: grid;
+}
+.grid-wrap {
+  grid-template-columns: repeat(auto-fit, minmax(var(--wrap-w, 256px), 1fr));
+  gap: var(--gap, 0);
+}
