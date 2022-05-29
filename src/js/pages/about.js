@@ -2,8 +2,8 @@ if (!window._initPath) {
   window._initPath = () => {
     const doc = document.querySelector('main[router\\:page="/about/"]');
     const hello = doc.querySelector(".hello").parentElement;
-    const pathIllu = doc.querySelector(".about .path-illu");
-    const faceIllu = doc.querySelector(".about .face-illu");
+    const pathIllu = doc.querySelector(".path-illu");
+    const faceIllu = doc.querySelector(".face-illu");
     const path = pathIllu.querySelector("path");
     const endPoint = faceIllu.querySelector("circle");
     const getCoord = e => {

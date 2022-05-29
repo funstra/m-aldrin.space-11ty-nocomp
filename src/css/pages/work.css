@@ -1,30 +1,29 @@
 [router\:page="/work/"] {
-  padding-inline: 0.25rem;
-  padding-block: 1rem;
-  /* display: flex; */
-  /* flex-direction: column; */
-  --m-width: 45rem;
-  /* gap: 2rem; */
+  --m-width: 80rem;
 }
-[router\:page="/work/"] > div > form {
-  margin-bottom: 1rem;
+[router\:page="/work/"] .wrapper {
+  /* grid-template-rows: min-content; */
+  /* grid-template-columns: repeat(auto-fit, minmax(256px, 1fr)); */
+  gap: var(--space-2xs);
+}
+[router\:page="/work/"] .wrapper > form {
+  grid-column: 1/-1;
+  /* margin-bottom: 1rem; */
   font-size: var(--step-0);
 }
-[router\:page="/work/"] > div > ul {
-  display: flex;
+[router\:page="/work/"] .wrapper > ul {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+  gap: var(--space-2xs);
+  /* display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 2rem; */
 }
 [router\:page="/work/"] article {
   background-color: hsl(var(--col-wht) / 0.5);
   box-shadow: 0 0 16px 0 hsl(var(--col-blk) / 0.1);
   border-radius: 6px;
   padding: 0.5rem;
-
-  /* display: grid; */
-  /* display: flex;
-  flex-direction: column;
-  gap: 1rem; */
 }
 [router\:page="/work/"] [data-worktags].filtered {
   display: none;
@@ -41,7 +40,6 @@
   margin-left: auto;
   display: flex;
   gap: 0.5em;
-  /* font-size: var(--step-0); */
 }
 [router\:page="/work/"] article .work-tags li {
   padding-inline: 0.35em;
@@ -49,27 +47,12 @@
   background-color: hsl(var(--col-secondary));
 }
 [router\:page="/work/"] article img {
-  /* grid-column: 2; */
   object-fit: cover;
   pointer-events: none;
-  /* max-height: 128px; */
 }
 
-[router\:page="/work/"] article a span {
-  pointer-events: none;
-  margin-bottom: 0.5em;
-  display: block;
-  /* width: max-content; */
-}
-
-@media (min-width: 512px) {
-  [router\:page="/work/"] article {
-    /* height: min-content; */
-    /* width: fit-content; */
-    /* grid-template-columns: fit-content(30ch); */
-  }
-  [router\:page="/work/"] article h3 {
-    /* flex-basis: 20ch; */
-    /* flex-shrink: 0; */
-  }
+[router\:page="/work/"] article a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
 }

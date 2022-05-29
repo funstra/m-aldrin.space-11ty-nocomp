@@ -22,29 +22,27 @@
     <script src="/js/router.js" type="module"></script>
 
     {% if env.dev %}
-      <link rel="stylesheet" href="/css/pages/home.css">
-      <link rel="stylesheet" href="/css/pages/work.css">
-      <link rel="stylesheet" href="/css/pages/about.css">
+      <link rel="stylesheet" href="/css/reset.css">
+
       <link rel="stylesheet" href="/css/layouts/works.css">
       <link rel="stylesheet" href="/css/layouts/writing-post.css">
+
+      <link rel="stylesheet" href="/css/pages/home.css">
+      <link rel="stylesheet" href="/css/pages/work.css">
+      <link rel="stylesheet" href="/css/pages/writing.css">
+      <link rel="stylesheet" href="/css/pages/about.css">
+
       <link rel="stylesheet" href="/css/components/nav.css">
 
       <script src="/js/postfilter.js" defer></script>
+      <script src="/js/pages/about.js" defer></script>
     {% else %}
-      {# style resources - -  #}
+      {# reset #}
       <style>
-        {% include "../css/components/nav.css" %}
+        {% include "../css/reset.css" %}
       </style>
-      {% if page.fileSlug == ""%}
-        <style router:resource="/">
-          {% include "../css/pages/home.css" %}
-        </style>
-      {% endif %}
-      {% if page.fileSlug == 'work' %}
-        <style router:resource="/work/">
-          {% include "../css/pages/work.css" %}
-        </style>
-      {% endif %}
+      {# style resources - -  #}
+      {# layouts #}
       {% if layout == 'works.njk' %}
         <style router:resource="works.njk">
           {% include "../css/layouts/works.css" %}
@@ -55,11 +53,31 @@
           {% include "../css/layouts/writing-post.css" %}
         </style>
       {% endif %}
+      {# pages #}
+      {% if page.fileSlug == ""%}
+        <style router:resource="/">
+          {% include "../css/pages/home.css" %}
+        </style>
+      {% endif %}
+      {% if page.fileSlug == 'work' %}
+        <style router:resource="/work/">
+          {% include "../css/pages/work.css" %}
+        </style>
+      {% endif %}
+      {% if page.fileSlug == 'writing' %}
+        <style router:resource="/writing/">
+          {% include "../css/pages/writing.css" %}
+        </style>
+      {% endif %}
       {% if page.fileSlug == 'about' %}
         <style router:resource="/about/">
           {% include "../css/pages/about.css" %}
         </style>
       {% endif %}
+      <style>
+        {% include "../css/components/nav.css" %}
+      </style>
+
     {% endif %}
 
   </head>
@@ -71,23 +89,23 @@
     {% include "components/gridlines.njk" %}
 
     <main tabindex="-1" router:layout="{{layout}}" router:page="{{'/' + page.fileSlug + '/' if page.fileSlug != "" else "/"}}" router:order="{{order}}" router:direction="{{transitionDirection}}" >
-      {{ content | safe }}
+      <div class="wrapper">{{ content | safe }}</div>
     </main>
 
     {% include "components/grain.njk" %}
     {% include "components/nav-logic.njk" %}
 
     {# script resources - -  #}
-    {% if page.fileSlug == 'about' %}
-      <script router:resource="/about/" class="test test">
-        {% include "../js/pages/about.js" %}
-      </script>
-    {% endif %}
 
     {% if not env.dev %}
       {% if page.fileSlug == 'work' %}
         <script router:resource="/work/">
           {% include "../js/postfilter.js" %}
+        </script>
+      {% endif %}
+      {% if page.fileSlug == 'about' %}
+        <script router:resource="/about/" class="test test">
+          {% include "../js/pages/about.js" %}
         </script>
       {% endif %}
     {% endif %}

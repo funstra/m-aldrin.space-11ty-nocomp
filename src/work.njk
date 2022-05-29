@@ -4,48 +4,46 @@ layout: base.njk
 ---
 
 {% import "components/date.njk" as d %}
-<div class="cramp">
-    <form id="work-filter">
-        <label>
-            <span>filter by</span>
-            <select name="post-filter">
-                <option value="all">all</option>
-                <option value="design">design</option>
-                <option value="web">web</option>
-                <option value="touchdesigner">touchdesigner</option>
-            </select>
-        </label>
-    </form>
+<form id="work-filter">
+    <label>
+        <span>filter by</span>
+        <select name="post-filter">
+            <option value="all">all</option>
+            <option value="design">design</option>
+            <option value="web">web</option>
+            <option value="touchdesigner">touchdesigner</option>
+        </select>
+    </label>
+</form>
 
-    <ul>
-        {% for workPage in collections.works | sort(true, false, 'data.date') %}
-            {% set work = workPage.data %}
-            <li data-work-index="{{loop.index0}}" data-worktags="{{work.worktags | join(",") }}">
-                <article >
-                    <header>
-                        {{d.date(work.date,as="div")}}
-                        {% if work.worktags %}
-                            <ul class="work-tags">
-                                {% for tag in work.worktags %}
-                                    <li>
-                                        {{tag}}
-                                    </li>
-                                {% endfor %}
-                            </ul>
+<ul>
+    {% for workPage in collections.works | sort(true, false, 'data.date') %}
+        {% set work = workPage.data %}
+        <li data-work-index="{{loop.index0}}" data-worktags="{{work.worktags | join(",") }}">
+            <article >
+                <header>
+                    {{d.date(work.date,as="div")}}
+                    {% if work.worktags %}
+                        <ul class="work-tags">
+                            {% for tag in work.worktags %}
+                                <li>
+                                    {{tag}}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </header>
+                <a href="{{workPage.url}}">
+                    <span>{{work.title}}</span>
+                    {% if work.thumb %}
+                        {% if env.dev %}
+                            <img src="/assets/img/works{{work.thumb}}" alt="Spliting" />
+                        {% else %}
+                            {% image 'works', work.thumb, "", '' , {w:"100%",h:"auto",s:"100vw"}%}
                         {% endif %}
-                    </header>
-                    <a href="{{workPage.url}}">
-                        <span>{{work.title}}</span>
-                        {% if work.thumb %}
-                            {% if env.dev %}
-                                <img src="/assets/img/works{{work.thumb}}" alt="Spliting" />
-                            {% else %}
-                                {% image 'works', work.thumb, "", '' , {w:"100%",h:"auto",s:"100vw"}%}
-                            {% endif %}
-                        {% endif %}
-                    </a>
-                </article>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+                    {% endif %}
+                </a>
+            </article>
+        </li>
+    {% endfor %}
+</ul>

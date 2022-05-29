@@ -1,8 +1,6 @@
-html[router\:current-layout="works.njk"] #gridlines {
-  opacity: 0;
-}
 [router\:layout="works.njk"] {
   grid-template-rows: min-content;
+  --m-width: 80rem;
 }
 
 [router\:layout="works.njk"] .meta-info {
@@ -49,7 +47,7 @@ html[router\:current-layout="works.njk"] #gridlines {
   [router\:layout="works.njk"] header {
     margin-top: 4rem;
   }
-  .row  {
+  .row {
   }
   .row > h3 {
     grid-row: 1;

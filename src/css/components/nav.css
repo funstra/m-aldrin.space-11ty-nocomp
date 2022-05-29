@@ -91,7 +91,7 @@ site-nav .drop-down {
 
   line-height: 1;
   transition-property: transform, opacity;
-  transition-duration: 125ms;
+  transition-duration: 175ms;
   transition-timing-function: var(--transition-timing-mud);
 
   border-radius: 6px;

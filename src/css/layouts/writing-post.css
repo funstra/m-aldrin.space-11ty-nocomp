@@ -1,6 +1,5 @@
-[router\:layout="writing-post.njk"] > div {
-  display: grid;
-  --m-width: 96ch;
+[router\:layout="writing-post.njk"] {
+  --m-width: 80rem;
 }
 [router\:layout="writing-post.njk"] > div h2 {
   margin-block: 0.5em;
@@ -14,7 +13,12 @@
   font-size: var(--step--1);
   width: max-content;
 }
+[router\:layout="writing-post.njk"] .assets a {
+  display: flex;
+  align-items: center;
+}
 [router\:layout="writing-post.njk"] div > header {
+  height: max-content;
   display: flex;
   flex-direction: column;
   gap: 0.5em;
@@ -97,6 +101,10 @@
     max-width: 20ch;
     margin-bottom: 1em;
     grid-column: 1/-1;
+  }
+  [router\:layout="writing-post.njk"] .wrapper > header {
+    position: sticky;
+    top: 0;
   }
   [router\:layout="writing-post.njk"] > div > aside {
     grid-column: 1/2;

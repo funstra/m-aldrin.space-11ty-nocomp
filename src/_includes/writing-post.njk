@@ -4,80 +4,79 @@ class: [cramp]
 ---
 
 {% import "components/date.njk" as d %}
-<div class="cramp" data-scroller>
-    <h2>{{title}}</h2>
-    <header>
-        <ul class="meta">
-            <li class="date">
-                <ul>
-                    {{ d.date(date) }}
-                </ul>
-            </li>
-            <li class="posttags">
-                <ul class="tags">
-                    {% for tag in posttags %}
-                        <li>
-                            {{tag}}
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        </ul>
-        <p class="preamble">{{preamble}}</p>
-        {% if assets %}
-            <div class="assets">
-                <p>assets:</p>
-                <ul>
-                    {% for asset in assets %}
-                        <li>
-                            <a style="display: flex;" download="{{asset}}" href="/assets/{{asset}}">
-                                <span style="margin-right:0.5em;white-space:nowrap">
-                                    {{asset}}
-                                </span>
-                                <svg width="16" height="20" style="align-self: center;">
-                                    <g transform="translate(8 2)" stroke="currentColor" stroke-width="1">
-                                        <path d="M0,0 v16 m-4,-4 l4,4 l4,-4" />
-                                    </g>
-                                </svg>
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-    </header>
-
-    {% set toc %}
-    {{ content | toc | safe }}
-    {% endset %}
-    {{ page.fileSlug | log }}
-    {{ toc | trim | log }}
-    {% if (toc | trim) %}
-        <aside>
-            <small>Table of contents</small>
-            {{ toc | safe }}
-        </aside>
+{% import "components/entities.njk" as e %}
+<h2>{{title}}</h2>
+<header>
+    <ul class="meta">
+        <li class="date">
+            <ul>
+                {{ d.date(date) }}
+            </ul>
+        </li>
+        <li class="posttags">
+            <ul class="tags">
+                {% for tag in posttags %}
+                    <li>
+                        {{tag}}
+                    </li>
+                {% endfor %}
+            </ul>
+        </li>
+    </ul>
+    <p class="preamble">{{preamble}}</p>
+    {% if assets %}
+        <div class="assets">
+            <p>assets:</p>
+            <ul>
+                {% for asset in assets %}
+                    <li>
+                        <a style="" download="{{asset}}" href="/assets/{{asset}}">
+                            <span style="margin-right:0.5em;white-space:nowrap">
+                                {{asset}}
+                            </span>
+                            {{ e.asset() }}
+                            {# <svg width="16" height="20" style="align-self: center;">
+                                <g transform="translate(8 2)" stroke="currentColor" stroke-width="1">
+                                    <path d="M0,0 v16 m-4,-4 l4,4 l4,-4" />
+                                </g>
+                            </svg> #}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     {% endif %}
+</header>
 
-    <hr>
-    <article>{{ content | safe }}</article>
+{% set toc %}
+{{ content | toc | safe }}
+{% endset %}
+{{ page.fileSlug | log }}
+{{ toc | trim | log }}
+{% if (toc | trim) %}
+    <aside>
+        <small>Table of contents</small>
+        {{ toc | safe }}
+    </aside>
+{% endif %}
 
-    {% set previousPost = collections.post | getPreviousCollectionItem(page) %}
-    {% set nextPost = collections.post | getNextCollectionItem(page) %}
+<hr>
+<article>{{ content | safe }}</article>
 
-    <nav>
-        {% if previousPost %}
-            <span class="prev-post">
+{% set previousPost = collections.post | getPreviousCollectionItem(page) %}
+{% set nextPost = collections.post | getNextCollectionItem(page) %}
+
+<nav>
+    {% if previousPost %}
+        <span class="prev-post">
             Previous post: <a  href="{{ previousPost.url }}">
-                    <span>{{ previousPost.data.title }}</span></a>
-            </span>
-        {% endif %}
-        {% if nextPost %}
-            <span class="next-post">
+                <span>{{ previousPost.data.title }}</span></a>
+        </span>
+    {% endif %}
+    {% if nextPost %}
+        <span class="next-post">
             Next post: <a  href="{{ nextPost.url }}">
-                    <span>{{ nextPost.data.title }}</span></a>
-            </span>
-        {% endif %}
-    </nav>
-
-</div>
+                <span>{{ nextPost.data.title }}</span></a>
+        </span>
+    {% endif %}
+</nav>

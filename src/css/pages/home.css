@@ -1,7 +1,10 @@
 [router\:page="/"] {
-  overflow: hidden;
+  /* overflow: hidden; */
 }
-main[router\:page="/"] > svg {
+main[router\:page="/"] .wrapper {
+  height: 100%;
+}
+main[router\:page="/"] .wrapper > svg {
   grid-column: 1;
   z-index: -1;
 }
@@ -14,7 +17,7 @@ main[router\:page="/"] > svg {
   grid-row: 2;
   margin-bottom: 5rem;
 }
-main[router\:page="/"] {
+main[router\:page="/"] .wrapper {
   grid-template-rows: minmax(0, 1fr);
   gap: 1rem;
 }
@@ -27,7 +30,7 @@ main[router\:page="/"] {
   margin-block: 0.5ex;
 }
 @media (min-width: 512px) {
-  main[router\:page="/"] {
+  main[router\:page="/"] .wrapper {
     grid-template-rows: 1fr 1fr;
   }
   [router\:page="/"] .catch span {
@@ -42,31 +45,27 @@ main[router\:page="/"] {
     grid-column: 1 / span 2;
     align-self: flex-end;
   }
-  main[router\:page="/"] > svg {
+  main[router\:page="/"] .wrapper > svg {
     grid-column: 2 / span 2;
     grid-row: 1/-1;
   }
 }
 
 @media (min-width: 512px) {
-
   main[router\:page="/"] .catch .separator {
     margin-left: 0;
   }
-  main[router\:page="/"] > .catch {
+  main[router\:page="/"] .wrapper > .catch {
     text-align: left;
-
   }
-  main[router\:page="/"] > svg {
+  main[router\:page="/"] .wrapper > svg {
     transform: translate(-30%, 15%) rotate(130deg) scale(1.5);
   }
 }
 @media (min-width: 768px) {
   main[router\:page="/"] > svg {
   }
-}
-@media (min-width: 768px) {
-  main[router\:page="/"] > svg {
+  main[router\:page="/"] .wrapper > svg {
     transform: rotate(45deg);
   }
 }
