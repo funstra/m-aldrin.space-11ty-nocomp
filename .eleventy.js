@@ -16,8 +16,7 @@ module.exports = config => {
   config.addNunjucksFilter("irand", irand);
   config.addNunjucksFilter("frand", frand);
   config.addNunjucksFilter("angleToV", angleToV);
-  
-  
+
   // config.addNunjucksFilter("compareTags", ([worktags])=>{
 
   // });
@@ -83,6 +82,7 @@ module.exports = config => {
         }
       },
     });
+    config.addPassthroughCopy("./assets/img/favicon.svg");
   } else {
     config.addPassthroughCopy({ "src/style/css/main.css": "css/main.css" });
     config.addPassthroughCopy({ "src/style/css/pages": "css/pages/" });
@@ -90,12 +90,9 @@ module.exports = config => {
     config.addPassthroughCopy({
       "src/style/css/components": "css/components/",
     });
-    // config.addPassthroughCopy({ "./assets/img": "assets/img" });
     config.addPassthroughCopy("src/js/");
     config.addPassthroughCopy("./assets/img");
   }
-  // config.addPassthroughCopy("./assets/img/favicon.svg")
-  // config.addPassthroughCopy({ "./assets/vid": "assets/vid" });
   config.addPassthroughCopy("./assets/vid");
   config.addPassthroughCopy("./assets/touchfiles");
   config.addPassthroughCopy({ "./static/": "assets" });
