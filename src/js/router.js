@@ -1,68 +1,74 @@
-import zip from "./zip.js";
-
-/*
-  TODO abstract this, use [router:] attributes, example -> router:route="base/section" ( this is the layout ), 
-  router:part="work" ( this could be part of a page that uses the same layout as another )
- */
-
-// Fetch html string and return a new html document
-/**
- * @param {string} href
- * @returns {Promise<{page: Document,title: string}>}
- */
-const getHTML = async href => {
-  const res = await fetch(href);
-  const page = new DOMParser().parseFromString(await res.text(), "text/html");
-  return { page, title: page.querySelector("title").innerHTML };
+// import zip from "./zip.js";
+const zip = (...arrs) => {
+  const _ = arrs.reduce((prev, curr) => {
+    if (curr.length > prev.length) {
+      return curr;
+    }
+    return prev;
+  });
+  return _.map((_, i) => arrs.map(arr => arr[Math.min(i, arr.length - 1)]));
 };
 
-// Query [router:page] elements
+// Fetch document string and return a new DOM
+/**
+ * @param {string} href
+ * @returns {Promise<{document: Document,title: string}>}
+ */
+const fetchDocument = async href => {
+  const res = await fetch(href);
+  const document = new DOMParser().parseFromString(
+    await res.text(),
+    "text/html"
+  );
+  return { document, title: document.querySelector("title").innerHTML };
+};
+
+// Query all [router:document] elements
 /**
  * @param {Document} doc
- * @returns {{elm:HTMLElement,val:String}[]}
+ * @returns {{elm:HTMLElement,document:String}[]}
  */
-const routerAttr = doc => {
+const queryPage = doc => {
   // @ts-ignore
   return Array.from(doc.querySelectorAll("[router\\:page]")).map(elm => ({
     elm,
-    val: elm.getAttribute("router:page"),
+    document: elm.getAttribute("router:page"),
     layout: elm.getAttribute("router:layout"),
   }));
 };
 
-// Get the diff between destination/source page
+// Diff the destination and source document, return the first mismatch( the outermost element that the destionation document is depedent on )
 /**
  *  @param {Document} destination
- * @returns {Promise<[{elm:HTMLElement,val:String},{elm:HTMLElement,val:String}]>}
+ * @returns {Promise<[{elm:HTMLElement,document:String},{elm:HTMLElement,document:String}]>}
  */
-const diffPage = async destination => {
-  const [destrouters, srcrouters] = [destination, document].map(routerAttr);
+const diffDocument = async destination => {
+  const [destrouters, srcrouters] = [destination, document].map(queryPage);
   const zipedrouters = zip(destrouters, srcrouters);
   for (const [dest, src] of zipedrouters) {
-    if (dest.val !== src.val) {
+    if (dest.document !== src.document) {
       return [dest, src];
     }
   }
   return [null, null];
 };
 
-// Get the diff between page resources, css and js
+// Diff document resources(css and js)
 /**
- *  @param {{page:Document,title:String}} destination
+ *  @param {{document:Document,title:String}} destination
  *  @returns {Promise<()=>void>} cleanup function
  */
 const diffResource = async destination => {
-  // const home = destination.title === "home" ? "/" : `/${destination.title}/`;
-  const route = destination.page
+  const route = destination.document
     .querySelector("[router\\:page]")
     .getAttribute("router:page");
-  const layout = destination.page
+  const layout = destination.document
     .querySelector("[router\\:layout]")
     .getAttribute("router:layout");
 
   const selectorString = `:is([router\\:resource='${route}'],[router\\:resource='${layout}'])`;
 
-  const resource = destination.page.querySelectorAll(selectorString);
+  const resource = destination.document.querySelectorAll(selectorString);
 
   const currentResource = document.querySelectorAll("[router\\:resource]");
 
@@ -82,55 +88,16 @@ const diffResource = async destination => {
 };
 
 /**
- * @param {{elm:HTMLElement,val:String}} dest
- * @param {{elm:HTMLElement,val:String}} src
+ * @param {HTMLElement} dest
+ * @param {HTMLElement} src
  */
-const diffParts = (dest, src) => {
-  const [destParts, srcParts] = [dest, src].map(doc => {
-    return Array.from(doc.elm.querySelectorAll("[router\\:part]"));
-  });
-  return [destParts, srcParts];
-};
+const getRouterOrder = (dest, src) => {
+  const srcDir = parseInt(src.getAttribute("router:order"));
+  const destDir = parseInt(dest.getAttribute("router:order"));
 
-// sets the page
-/**
- * @param {object} o
- * @param {string} o.pathname
- * @param {string} o.href
- */
-const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
-  const { pathname, href } = target;
-
-  document.querySelector("main").classList.add("fetching");
-  document.documentElement.classList.add("navigating");
-
-  const destinationDocument = await getHTML(href);
-  let [dest, src] = await diffPage(destinationDocument.page);
-  const cleanUpStyles = diffResource(destinationDocument);
-
-  if (push) {
-    // set scrollTop position on current position at history stack
-    // history.replaceState(
-    //   { scrollTop: src.elm.scrollTop },
-    //   null,
-    //   location.pathname
-    // );
-    // push destination path to history stack
-    history.pushState({ entry: true }, null, pathname);
-  } else {
-    // TODO, Keep track of scrollTop onpostate
-  }
-
-  // prepend destination document to source parent
-
-  const srcDir = parseInt(src.elm.getAttribute("router:order"));
-  const destDir = parseInt(dest.elm.getAttribute("router:order"));
   let outDir = "0%,0%";
   let inDir = "0%,0%";
-  // console.log(srcDir,destDir);
-  // console.log(srcDir - destDir);
   if (isNaN(destDir)) {
-    // console.log("dest nope");
   } else {
     if (srcDir - destDir < 0) {
       outDir = "1%";
@@ -139,43 +106,93 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
     }
   }
   if (isNaN(srcDir)) {
-    // console.log("src nope");
   } else {
     if (srcDir - destDir < 0) {
-      // outDir = "1%";
       inDir = "-1%";
     } else {
-      // outDir = "-1%";
       inDir = "1%";
     }
   }
-  // console.log("out: ", outDir);
-  // console.log("in: ", inDir);
-  const srcDirection = src.elm.getAttribute("router:direction");
+  const srcDirection = src.getAttribute("router:direction");
   if (srcDirection === "vertical") {
     outDir = `0 , ${outDir}`;
   }
-  const destDirection = dest.elm.getAttribute("router:direction");
+  const destDirection = dest.getAttribute("router:direction");
   if (destDirection === "vertical") {
     inDir = `0 , ${inDir}`;
   }
+  dest.style.setProperty("--in-dir", inDir);
+  src.style.setProperty("--out-dir", outDir);
+};
 
-  dest.elm.style.setProperty("--in-dir", inDir);
-  src.elm.style.setProperty("--out-dir", outDir);
+// Keep track of previous scrollTop
+let prevScrollTop = 0;
 
-  // dest.elm.style.opacity = "0";
-  // dest.elm.style.transform = `translate(${inDir})`;
-  dispatchEvent(new Event("navigating:starting"));
+// set attributes and dispatch events in the routers lifecycle
+const lifeCycleEvents = {
+  /** @param {"starting" | "ending"} s */
+  navigating: s => {
+    dispatchEvent(new Event(`navigating:${s}`));
+    document.documentElement.classList[s == "starting" ? "add" : "remove"](
+      "navigating"
+    );
+  },
+  /** @param {"starting" | "ending"} s */
+  transitioning: s => {
+    dispatchEvent(new Event(`transitioning:${s}`));
+    document.documentElement.classList[s == "starting" ? "add" : "remove"](
+      "transitioning"
+    );
+  },
+};
+
+const observerer = new MutationObserver(() => (list, obs) => {
+  list.forEach(mutation => {
+    console.log(mutation.addedNodes[0]);
+  });
+});
+
+// sets the document
+/**
+ * @param {HTMLAnchorElement | Location} target
+ * @param {boolean} push
+ * @param {boolean} scroll
+ */
+const setPage = async ({ pathname, href }, push = true, scroll = false) => {
+  lifeCycleEvents.navigating("starting");
+
+  const destinationDocument = await fetchDocument(href);
+  let [dest, src] = await diffDocument(destinationDocument.document);
+  const cleanUpStyles = diffResource(destinationDocument);
+
+  if (push) {
+    // push destination path to history stack
+    history.pushState(null, null, pathname);
+  }
+
+  // Set css custom props dependent on order and router:direction
+  getRouterOrder(dest.elm, src.elm);
+
+  // What for changes on the body
+  // observerer.observe(document.body, {
+  //   childList: true,
+  // });
+
+  // Insert dest elm before src
   src.elm.parentElement.insertBefore(dest.elm, src.elm.nextSibling);
 
+  // add animation classes
   src.elm.classList.add("slideOut");
   dest.elm.classList.add("slideIn");
+
+  //
   setTimeout(() => {
-    dispatchEvent(new Event("navigating:finish"));
-    // Transition - -
-    // dest.elm.style.removeProperty("opacity");
-    // dest.elm.style.removeProperty("transform");
-    // document.documentElement.classList.add("transitioning");
+    // wait for the document to be inserted before scroll
+
+    if (scroll) dest.elm.scrollTo({ top: prevScrollTop });
+    prevScrollTop = src.elm.scrollTop;
+    // dispatchEvent(new Event("navigating:finish"));
+    lifeCycleEvents.navigating("ending");
 
     const pageTransitionDuration = parseFloat(
       getComputedStyle(document.documentElement)
@@ -183,6 +200,7 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
         .replace("ms", "")
     );
 
+    lifeCycleEvents.transitioning("starting");
     setTimeout(() => {
       src.elm.remove();
       setTimeout(() => {
@@ -197,26 +215,27 @@ const setPage = async (target, outside = false, scrollTop = 0, push = true) => {
           "router:current-layout",
           dest.elm.getAttribute("router:layout")
         );
-        document.documentElement.classList.remove("navigating");
-        document.documentElement.classList.remove("transitioning");
+        lifeCycleEvents.transitioning("ending");
         cleanUpStyles.then(cb => cb());
       }, pageTransitionDuration);
     }, pageTransitionDuration);
 
     document.querySelector("title").innerHTML = destinationDocument.title;
-    document.querySelector("site-nav").setAttribute("current-route", dest.val);
+    document
+      .querySelector("site-nav")
+      .setAttribute("current-route", dest.document);
     document.querySelector("site-nav").setAttribute("state", "close");
   }, 1);
 };
 
-let prevLoc = null;
-
 // handle click
 const handle = async e => {
   let { target } = e;
+  // If it's a download anchor return
   if (target.download) {
     return;
   }
+  // If it's a hash anchor, just scroll href intoView
   if (target.hash) {
     e.preventDefault();
     document.querySelector(target.hash).scrollIntoView({
@@ -224,6 +243,7 @@ const handle = async e => {
     });
     return;
   } else {
+    // If path points to current path add .err and return
     if (target.pathname === location.pathname) {
       e.preventDefault();
       target.classList.add("err");
@@ -232,10 +252,10 @@ const handle = async e => {
       }, 100);
       return;
     }
+    // If it's an Anchor and it's the same origin
     if (target.tagName === "A" && target.origin === location.origin) {
-      prevLoc = target.pathName;
       e.preventDefault();
-      setPage(target, true);
+      setPage(target);
     }
   }
 };
@@ -244,7 +264,7 @@ const handle = async e => {
 document.addEventListener("click", handle);
 
 // handle history change
-
+// Dont push history onpopstate
 onpopstate = e => {
-  setPage(location, true, e.state?.scrollTop || 0, false);
+  setPage(location, false, true);
 };

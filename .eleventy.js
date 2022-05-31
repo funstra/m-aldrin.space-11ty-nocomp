@@ -94,9 +94,9 @@ module.exports = config => {
     config.addPassthroughCopy("src/js/");
     config.addPassthroughCopy("./assets/img");
   }
+  // config.addPassthroughCopy("./assets/img/favicon.svg")
   // config.addPassthroughCopy({ "./assets/vid": "assets/vid" });
   config.addPassthroughCopy("./assets/vid");
-  config.addPassthroughCopy("./assets/img/favicon.svg");
   config.addPassthroughCopy("./assets/touchfiles");
   config.addPassthroughCopy({ "./static/": "assets" });
   return {

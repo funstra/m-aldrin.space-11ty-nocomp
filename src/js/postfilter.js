@@ -11,7 +11,7 @@
       const cleanUp = () => {
         form.removeEventListener("change", handleChange);
       };
-      window.addEventListener("navigating:starting", cleanUp);
+      window.addEventListener("navigating:starting", cleanUp, { once: true });
       listening = true;
       const handleChange = e => {
         const filterBy = e.target.value;
@@ -31,9 +31,11 @@
       form?.addEventListener("change", handleChange);
     }
   };
-  window.addEventListener("navigating:finish", init, true);
-  if (!document.documentElement.classList.contains("navigating")) {
+  window.addEventListener("navigating:ending", init, { once: true });
+  if (
+    !document.documentElement.classList.contains("navigating") &&
+    location.pathname == "/work/"
+  ) {
     init();
   }
 }
-
