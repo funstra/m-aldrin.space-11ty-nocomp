@@ -1,4 +1,3 @@
-// import zip from "./zip.js";
 const zip = (...arrs) => {
   const _ = arrs.reduce((prev, curr) => {
     if (curr.length > prev.length) {
@@ -146,13 +145,7 @@ const lifeCycleEvents = {
   },
 };
 
-const observerer = new MutationObserver(() => (list, obs) => {
-  list.forEach(mutation => {
-    console.log(mutation.addedNodes[0]);
-  });
-});
-
-// sets the document
+// sets the page
 /**
  * @param {HTMLAnchorElement | Location} target
  * @param {boolean} push
@@ -173,59 +166,67 @@ const setPage = async ({ pathname, href }, push = true, scroll = false) => {
   // Set css custom props dependent on order and router:direction
   getRouterOrder(dest.elm, src.elm);
 
-  // What for changes on the body
-  // observerer.observe(document.body, {
-  //   childList: true,
-  // });
+  const observerer = new MutationObserver((list, obs) => {
+    list.forEach(mutation => {
+      // when node added to the body
+      if (mutation.addedNodes[0]) {
+        // add animation classes
+        src.elm.classList.add("slideOut");
+        dest.elm.classList.add("slideIn");
 
-  // Insert dest elm before src
-  src.elm.parentElement.insertBefore(dest.elm, src.elm.nextSibling);
+        // If we are scrolling, set to prev scrollTop
+        if (scroll) dest.elm.scrollTo({ top: prevScrollTop });
+        prevScrollTop = src.elm.scrollTop;
 
-  // add animation classes
-  src.elm.classList.add("slideOut");
-  dest.elm.classList.add("slideIn");
+        lifeCycleEvents.navigating("ending");
 
-  //
-  setTimeout(() => {
-    // wait for the document to be inserted before scroll
-
-    if (scroll) dest.elm.scrollTo({ top: prevScrollTop });
-    prevScrollTop = src.elm.scrollTop;
-    // dispatchEvent(new Event("navigating:finish"));
-    lifeCycleEvents.navigating("ending");
-
-    const pageTransitionDuration = parseFloat(
-      getComputedStyle(document.documentElement)
-        .getPropertyValue("--page-transition-duration")
-        .replace("ms", "")
-    );
-
-    lifeCycleEvents.transitioning("starting");
-    setTimeout(() => {
-      src.elm.remove();
-      setTimeout(() => {
-        document.documentElement.focus();
-
-        dest.elm.style.removeProperty("--in-dir");
-        src.elm.style.removeProperty("--out-dir");
-
-        dest.elm.classList.remove("slideIn");
-        document.documentElement.setAttribute("router:current-page", pathname);
-        document.documentElement.setAttribute(
-          "router:current-layout",
-          dest.elm.getAttribute("router:layout")
+        const pageTransitionDuration = parseFloat(
+          getComputedStyle(document.documentElement)
+            .getPropertyValue("--page-transition-duration")
+            .replace("ms", "")
         );
-        lifeCycleEvents.transitioning("ending");
-        cleanUpStyles.then(cb => cb());
-      }, pageTransitionDuration);
-    }, pageTransitionDuration);
 
-    document.querySelector("title").innerHTML = destinationDocument.title;
-    document
-      .querySelector("site-nav")
-      .setAttribute("current-route", dest.document);
-    document.querySelector("site-nav").setAttribute("state", "close");
-  }, 1);
+        lifeCycleEvents.transitioning("starting");
+
+        setTimeout(() => {
+          src.elm.remove();
+          setTimeout(() => {
+            document.documentElement.focus();
+
+            dest.elm.style.removeProperty("--in-dir");
+
+            dest.elm.classList.remove("slideIn");
+
+            document.documentElement.setAttribute(
+              "router:current-page",
+              pathname
+            );
+            document.documentElement.setAttribute(
+              "router:current-layout",
+              dest.elm.getAttribute("router:layout")
+            );
+
+            lifeCycleEvents.transitioning("ending");
+            cleanUpStyles.then(cb => cb());
+          }, pageTransitionDuration);
+        }, pageTransitionDuration);
+
+        document.querySelector("title").innerHTML = destinationDocument.title;
+        document
+          .querySelector("site-nav")
+          .setAttribute("current-route", dest.document);
+        document.querySelector("site-nav").setAttribute("state", "close");
+      }
+    });
+    obs.disconnect();
+  });
+
+  // What for changes on the body
+  observerer.observe(document.body, {
+    childList: true,
+  });
+
+  src.elm.parentElement.insertBefore(dest.elm, src.elm.nextSibling);
 };
 
 // handle click
