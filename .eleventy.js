@@ -96,6 +96,7 @@ module.exports = config => {
   }
   // config.addPassthroughCopy({ "./assets/vid": "assets/vid" });
   config.addPassthroughCopy("./assets/vid");
+  config.addPassthroughCopy("./assets/img/favicon.svg");
   config.addPassthroughCopy("./assets/touchfiles");
   config.addPassthroughCopy({ "./static/": "assets" });
   return {
