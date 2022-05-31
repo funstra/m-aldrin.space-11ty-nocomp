@@ -1,3 +1,14 @@
 [router\:page="/writing/"] {
   --m-width: 80rem;
+  .wrapper {
+    > ul {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      li{
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
 }

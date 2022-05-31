@@ -3,15 +3,14 @@ layout: base.njk
 order: 2
 ---
 
-<div class="cramp">
-    <ul>
-        {% for post in collections.post %}
-            {% set data = post.data %}
-            <li>
-                <a href="{{post.url}}">
-                    <span>{{ data.title }}</span>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+{% import "components/date.njk" as d %}
+<ul>
+  {% for post in collections.post %} {% set data = post.data %}
+  <li>
+    <a href="{{ post.url }}">
+      <span>{{ data.title }}</span>
+    </a>
+    {{ d.date(data.date) }}
+  </li>
+  {% endfor %}
+</ul>

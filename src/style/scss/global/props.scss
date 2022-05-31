@@ -42,8 +42,8 @@
 /* colors */
 :root {
   --hue: 15;
-  --hue-offset: 40;
-  --offset-mult: 3.75;
+  --hue-offset: 30;
+  --offset-mult: 1.75;
 
   // --base-light: 
 
@@ -56,14 +56,16 @@
     45%;
   }
   :root.dark {
-    --hue: 255;
+    --hue: 185;
+    --hue-offset: 60;
+    --offset-mult: 3.75;
     
-    --col-blk: calc(var(--hue)) 30% 80%;
-    --col-wht: calc(var(--hue)) 25% 25%;
+    --col-blk: calc(var(--hue)) 10% 75%;
+    --col-wht: calc(var(--hue)) 5% 15%;
 
-    --col-primary: var(--hue) 50% 45%;
-    --col-secondary: calc(var(--hue) + (var(--hue-offset))) 40% 60%;
-    --col-ternary: calc(var(--hue) + (var(--hue-offset) * var(--offset-mult))) 50%
+    --col-primary: var(--hue) 60% 45%;
+    --col-secondary: calc(var(--hue) + (var(--hue-offset))) 50% 60%;
+    --col-ternary: calc(var(--hue) + (var(--hue-offset) * var(--offset-mult))) 60%
       50%;
 
 
